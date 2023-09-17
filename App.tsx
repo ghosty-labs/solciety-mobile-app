@@ -1,13 +1,8 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import RootTabNavigator from './src/navigations/RootTabNavigator'
+import RootNavigation from './src/navigations/RootNavigation'
 
 function App(): JSX.Element {
-  return (
-    <NavigationContainer>
-      <RootTabNavigator />
-    </NavigationContainer>
-  )
+  return <RootNavigation />
 }
 
 export default App

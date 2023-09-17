@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useWindowDimensions } from 'react-native'
-import { IProfileTabs } from '../types/navigation'
 import { SceneMap, TabView } from 'react-native-tab-view'
-import ProfilePostScreen from './Profile/ProfilePost'
-import ProfileRepliesScreen from './Profile/ProfileReplies'
-import ProfileMediaScreen from './Profile/ProfileMedia'
-import ProfileLikeScreen from './Profile/ProfileLike'
+import { IProfileTabs } from '../../types/navigation'
+import ProfilePostScreen from '../profile/ProfilePost'
+import ProfileRepliesScreen from '../profile/ProfileReplies'
+import ProfileMediaScreen from '../profile/ProfileMedia'
+import ProfileLikeScreen from '../profile/ProfileLike'
 
 const renderScene = SceneMap<IProfileTabs>({
   posts: ProfilePostScreen,

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const ProfileLikeScreen = () => {
+const PostScreen = () => {
   return (
     <View>
-      <Text>tab profile like</Text>
+      <Text>Post Screen</Text>
     </View>
   )
 }
 
-export default ProfileLikeScreen
+export default PostScreen

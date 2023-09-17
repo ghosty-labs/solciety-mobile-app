@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const ProfileLikeScreen = () => {
+const ConnectWalletScreen = () => {
   return (
     <View>
-      <Text>tab profile like</Text>
+      <Text>Connect Wallet</Text>
     </View>
   )
 }
 
-export default ProfileLikeScreen
+export default ConnectWalletScreen

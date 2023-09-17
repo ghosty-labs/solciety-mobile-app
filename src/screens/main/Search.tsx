@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const ProfileLikeScreen = () => {
+const SearchScreen = () => {
   return (
     <View>
-      <Text>tab profile like</Text>
+      <Text>Search Screen</Text>
     </View>
   )
 }
 
-export default ProfileLikeScreen
+export default SearchScreen

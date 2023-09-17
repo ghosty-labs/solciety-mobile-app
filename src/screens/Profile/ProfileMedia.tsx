@@ -1,8 +1,12 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 
 const ProfileMediaScreen = () => {
-  return <Text>tab profile media</Text>
+  return (
+    <View>
+      <Text>tab profile media</Text>
+    </View>
+  )
 }
 
 export default ProfileMediaScreen
