@@ -5,3 +5,9 @@ export const convertLamportsToSOL = (lamports: number) => {
     (lamports || 0) / LAMPORTS_PER_SOL,
   )
 }
+
+export const toByteArray = (base64String: string) => {
+  const binaryString = Buffer.from(base64String, 'base64')
+
+  return new Uint8Array(binaryString)
+}

@@ -13,10 +13,13 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
 import { RPC_ENDPOINT } from '../constants/variables'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { toByteArray } from '../utils/solana'
 
 export type Account = Readonly<{
   address: Base64EncodedAddress
@@ -104,6 +107,31 @@ const AuthorizationProvider = (props: { children: React.ReactNode }) => {
   const [authorization, setAuthorization] = useState<Authorization | null>(null)
   const { children } = props
 
+  useEffect(() => {
+    if (authorization) return
+    ;(async () => {
+      const [cachedAuthToken, cachedBase64Address] = await Promise.all([
+        AsyncStorage.getItem('authToken'),
+        AsyncStorage.getItem('base64Address'),
+      ])
+
+      if (cachedAuthToken && cachedBase64Address) {
+        const pubKeyAsByteArray = toByteArray(cachedBase64Address)
+        const cachedAccount: Account = {
+          address: cachedBase64Address,
+          publicKey: new PublicKey(pubKeyAsByteArray),
+        }
+        const cachedCurrentAccount: Authorization = {
+          accounts: [cachedAccount],
+          authToken: cachedAuthToken,
+          selectedAccount: cachedAccount,
+        }
+
+        setAuthorization(cachedCurrentAccount)
+      }
+    })()
+  }, [authorization, setAuthorization])
+
   const handleAuthorizationResult = useCallback(
     async (
       authorizationResult: AuthorizationResult,
@@ -132,8 +160,16 @@ const AuthorizationProvider = (props: { children: React.ReactNode }) => {
             identity: APP_IDENTITY,
           }))
 
-      return (await handleAuthorizationResult(authorizationResult))
-        .selectedAccount
+      const authorizedAccount = await (
+        await handleAuthorizationResult(authorizationResult)
+      ).selectedAccount
+
+      if (authorizationResult) {
+        AsyncStorage.setItem('authToken', authorizationResult.auth_token)
+        AsyncStorage.setItem('base64Address', authorizedAccount.address)
+      }
+
+      return authorizedAccount
     },
     [authorization, handleAuthorizationResult],
   )
