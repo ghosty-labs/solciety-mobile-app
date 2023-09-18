@@ -12,9 +12,17 @@ const MainTab = createBottomTabNavigator<MainTabParamList>()
 const MainNavigation = () => {
   return (
     <MainTab.Navigator initialRouteName="Home">
-      <MainTab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <MainTab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <MainTab.Screen name="Search" component={SearchScreen} />
-      <MainTab.Screen name="Post" component={PostScreen} options={{ headerShown: false }} />
+      <MainTab.Screen
+        name="Post"
+        component={PostScreen}
+        options={{ headerShown: false }}
+      />
       <MainTab.Screen name="Activity" component={ActivityScreen} />
       <MainTab.Screen name="Profile" component={ProfileScreen} />
     </MainTab.Navigator>

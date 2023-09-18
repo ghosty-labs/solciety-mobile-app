@@ -11,7 +11,10 @@ const RootStack = createNativeStackNavigator<RootStackParamList>()
 const RootNavigation = () => {
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+      <RootStack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{ headerShown: false }}
+      >
         <RootStack.Screen name="Splash" component={SplashScreen} />
         <RootStack.Screen name="Auth" component={AuthNavigation} />
         <RootStack.Screen name="Main" component={MainNavigation} />
