@@ -6,6 +6,7 @@ import PostScreen from '../screens/main/Post'
 import ActivityScreen from '../screens/main/Activity'
 import ProfileScreen from '../screens/main/Profile'
 import { MainTabParamList } from '../types/navigation'
+import ProfileHeader from '../components/Profile/ProfileHeader'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -24,7 +25,13 @@ const MainNavigation = () => {
         options={{ headerShown: false }}
       />
       <MainTab.Screen name="Activity" component={ActivityScreen} />
-      <MainTab.Screen name="Profile" component={ProfileScreen} />
+      <MainTab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerTitle: () => <ProfileHeader />,
+        }}
+      />
     </MainTab.Navigator>
   )
 }
