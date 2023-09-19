@@ -5,6 +5,7 @@ import SplashScreen from '../screens/Splash'
 import MainNavigation from './MainNavigation'
 import AuthNavigation from './AuthNavigation'
 import { RootStackParamList } from '../types/navigation'
+import SettingNavigation from './SettingNavigation'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 
@@ -18,6 +19,7 @@ const RootNavigation = () => {
         <RootStack.Screen name="Splash" component={SplashScreen} />
         <RootStack.Screen name="Auth" component={AuthNavigation} />
         <RootStack.Screen name="Main" component={MainNavigation} />
+        <RootStack.Screen name="Setting" component={SettingNavigation} />
       </RootStack.Navigator>
     </NavigationContainer>
   )

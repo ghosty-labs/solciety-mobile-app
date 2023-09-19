@@ -1,7 +1,10 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+
 export type RootStackParamList = {
   Splash: undefined
   Auth: undefined
   Main: undefined
+  Setting: undefined
 }
 
 export type AuthStackParamList = {
@@ -15,6 +18,8 @@ export type MainTabParamList = {
   Activity: undefined
   Profile: { accountId: string }
 }
+
+export type StackProps = NativeStackScreenProps<RootStackParamList>
 
 export interface IProfileTabs {
   key: TProfileTabs
