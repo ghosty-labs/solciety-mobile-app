@@ -1,4 +1,5 @@
 import { styled } from 'nativewind'
-import { View } from 'react-native'
+import { TextInput, View } from 'react-native'
 
 export const StyledView = styled(View)
+export const StyledTextInput = styled(TextInput)
