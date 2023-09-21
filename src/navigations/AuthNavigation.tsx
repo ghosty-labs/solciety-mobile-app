@@ -8,7 +8,11 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>()
 const AuthNavigation = () => {
   return (
     <AuthStack.Navigator>
-      <AuthStack.Screen name="ConnectWallet" component={ConnectWalletScreen} />
+      <AuthStack.Screen
+        name="ConnectWallet"
+        component={ConnectWalletScreen}
+        options={{ headerShown: false }}
+      />
     </AuthStack.Navigator>
   )
 }

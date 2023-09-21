@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { Alert, Button, Text, View } from 'react-native'
+import { Alert } from 'react-native'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { transact } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/navigation'
+import { StyledImage, StyledView } from '../../constants/nativewind'
+import { Button } from '../../components/Common'
+import { IconSolana } from '../../components/Icons/Icon'
 
 type Props = NativeStackScreenProps<RootStackParamList>
 
@@ -36,14 +39,26 @@ const ConnectWalletScreen = ({ navigation }: Props) => {
   }
 
   return (
-    <View>
-      <Text>Auth Address</Text>
-      <Button
-        title="Connect Wallet"
-        disabled={isAuthorizing}
-        onPress={handleConnectWallet}
+    <StyledView className="h-full bg-zinc-900">
+      <StyledImage
+        className="w-full h-[83%] object-top"
+        source={require('../../assets/screen/connect/sample.png')}
       />
-    </View>
+      <Button
+        className="absolute inset-x-0 bottom-10 mx-4 py-4"
+        title="Connect with Wallet"
+        color="zinc"
+        textColor="zinc"
+        textSize="lg"
+        border={2}
+        borderColor="zinc"
+        radius="2xl"
+        iconSuffix={<IconSolana size={40} />}
+        onPress={handleConnectWallet}
+        isDisabled={isAuthorizing}
+        isLoading={isAuthorizing}
+      />
+    </StyledView>
   )
 }
 
