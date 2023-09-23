@@ -30,7 +30,14 @@ const RootNavigation = () => {
             animation: 'fade',
           }}
         />
-        <RootStack.Screen name="Main" component={MainNavigation} />
+        <RootStack.Screen
+          name="Main"
+          component={MainNavigation}
+          options={{
+            animationTypeForReplace: 'push',
+            animation: 'fade',
+          }}
+        />
         <RootStack.Screen name="Setting" component={SettingNavigation} />
       </RootStack.Navigator>
     </NavigationContainer>

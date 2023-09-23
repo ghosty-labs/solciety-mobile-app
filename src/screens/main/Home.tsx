@@ -1,16 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
 import { useConnection } from '../../providers/ConnectionProvider'
 import {
   Account,
   useAuthorization,
 } from '../../providers/AuthorizationProvider'
-import { convertLamportsToSOL } from '../../utils/solana'
+import { StyledView } from '../../constants/nativewind'
+import Post from '../../components/Post/Post'
+import { PostService } from '../../services/Post'
+import { IPost } from '../../types/post'
 
 const HomeScreen = () => {
+  const [posts, setPosts] = useState<IPost[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [balance, setBalance] = useState<number | null>(null)
+
   const { connection } = useConnection()
   const { selectedAccount } = useAuthorization()
+  const { getPosts } = PostService()
 
   const fetchAndUpdatedBalance = useCallback(
     async (account: Account) => {
@@ -26,12 +32,29 @@ const HomeScreen = () => {
     fetchAndUpdatedBalance(selectedAccount)
   }, [fetchAndUpdatedBalance, selectedAccount])
 
+  useEffect(() => {
+    fetchPosts()
+  }, [])
+
+  const fetchPosts = async () => {
+    try {
+      const res = await getPosts()
+
+      setPosts(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <View style={{ height: '100%', backgroundColor: 'khaki' }}>
-      <Text>Homepage</Text>
+    <StyledView className="pt-4 h-full bg-zinc-900">
+      {/* <Text>Homepage</Text>
       <Text>Address: {selectedAccount?.address}</Text>
-      <Text>Balance: {convertLamportsToSOL(balance as number)}</Text>
-    </View>
+      <Text>Balance: {convertLamportsToSOL(balance as number)}</Text> */}
+      {posts.map((post, index) => {
+        return <Post key={index} data={post} />
+      })}
+    </StyledView>
   )
 }
 

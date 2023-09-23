@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Text } from 'react-native'
-import { sendPost } from '../../program/api/sendPost'
+import { sendPost } from '../../program/api/post/sendPost'
 import { useSolcietyProgram } from '../../hooks/useSolcietyProgram'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { Idl, Program } from '@coral-xyz/anchor'
@@ -13,6 +13,7 @@ const PostScreen = () => {
   const [isSigning, setIsSigning] = useState<boolean>(false)
   const [tag, setTag] = useState<string>()
   const [content, setContent] = useState<string>()
+
   const { connection } = useConnection()
   const { selectedAccount, authorizeSession } = useAuthorization()
   const anchorWallet = useAnchorWallet({ authorizeSession, selectedAccount })

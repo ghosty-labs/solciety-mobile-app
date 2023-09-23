@@ -1,2 +1,6 @@
 export { default as IconSolana } from './IconSolana'
 export { default as IconSolanaText } from './IconSolanaText'
+export { default as IconEllipsis } from './IconEllipsis'
+export { default as IconHeart } from './IconHeart'
+export { default as IconComment } from './IconComment'
+export { default as IconShare } from './IconShare'
