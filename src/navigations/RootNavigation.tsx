@@ -14,10 +14,22 @@ const RootNavigation = () => {
     <NavigationContainer>
       <RootStack.Navigator
         initialRouteName="Splash"
-        screenOptions={{ headerShown: false }}
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: '#18181b',
+          },
+        }}
       >
         <RootStack.Screen name="Splash" component={SplashScreen} />
-        <RootStack.Screen name="Auth" component={AuthNavigation} />
+        <RootStack.Screen
+          name="Auth"
+          component={AuthNavigation}
+          options={{
+            animationTypeForReplace: 'push',
+            animation: 'fade',
+          }}
+        />
         <RootStack.Screen name="Main" component={MainNavigation} />
         <RootStack.Screen name="Setting" component={SettingNavigation} />
       </RootStack.Navigator>

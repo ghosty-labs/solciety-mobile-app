@@ -16,7 +16,9 @@ const MainNavigation = ({ navigation }: StackProps) => {
       <MainTab.Screen
         name="Home"
         component={HomeScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <MainTab.Screen name="Search" component={SearchScreen} />
       <MainTab.Screen
