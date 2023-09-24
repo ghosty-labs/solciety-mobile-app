@@ -5,12 +5,11 @@ import SearchScreen from '../screens/main/Search'
 import PostScreen from '../screens/main/Post'
 import NotificationScreen from '../screens/main/Notification'
 import ProfileScreen from '../screens/main/Profile'
-import { MainTabParamList, StackProps } from '../types/navigation'
-import ProfileHeader from '../components/Profile/ProfileHeader'
+import { MainTabParamList } from '../types/navigation'
 import {
   IconBell,
   IconHome,
-  IconPost,
+  IconPlus,
   IconSearch,
   IconUser,
 } from '../components/Icons/Icon'
@@ -18,7 +17,7 @@ import { StyledView } from '../constants/nativewind'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
-const MainNavigation = ({ navigation }: StackProps) => {
+const MainNavigation = () => {
   return (
     <MainTab.Navigator
       initialRouteName="Home"
@@ -67,8 +66,12 @@ const MainNavigation = ({ navigation }: StackProps) => {
         component={PostScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            return <IconPost size={25} color={focused ? 'white' : '#71717a'} />
+          tabBarIcon: () => {
+            return (
+              <StyledView className="p-2 rounded-full transition duration-300 bg-solana-green">
+                <IconPlus size={25} color="#18181b" />
+              </StyledView>
+            )
           },
         }}
       />
@@ -99,15 +102,11 @@ const MainNavigation = ({ navigation }: StackProps) => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          headerTitle: () => (
-            <ProfileHeader
-              navigation={navigation}
-              route={{ key: 'Setting', name: 'Setting' }}
-            />
-          ),
+          headerShown: false,
           tabBarIcon: ({ focused }) => {
             return <IconUser size={25} color={focused ? 'white' : '#71717a'} />
           },
+          headerStyle: { backgroundColor: '#18181b' },
         }}
       />
     </MainTab.Navigator>

@@ -3,11 +3,12 @@ export interface IPost {
   signature: string
   key: string
   user: string
-  alias: string
+  alias?: string
   tag: string
   content: string
-  comment: number
-  likes: number
+  comment?: number
+  likes?: number
   created_at: number
   updated_at: number
+  liked?: string[]
 }

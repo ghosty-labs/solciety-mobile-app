@@ -131,7 +131,11 @@ const Button = (props: ButtonProps) => {
       onPress={props.onPress}
       disabled={props.isDisabled}
     >
-      <StyledView className="flex flex-row justify-between items-center mx-4">
+      <StyledView
+        className={`flex flex-row ${
+          isIconPrefix ? 'justify-between' : 'justify-center'
+        } items-center mx-4`}
+      >
         {props.iconPrefix}
         {props.isLoading ? (
           <StyledView className="absolute inset-x-0">

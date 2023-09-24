@@ -4,6 +4,7 @@ import { ConnectionProvider } from './src/providers/ConnectionProvider'
 import { RPC_ENDPOINT } from './src/constants/variables'
 import { AuthorizationProvider } from './src/providers/AuthorizationProvider'
 import { clusterApiUrl } from '@solana/web3.js'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 function App(): JSX.Element {
   return (
@@ -12,7 +13,9 @@ function App(): JSX.Element {
       endpoint={clusterApiUrl(RPC_ENDPOINT)}
     >
       <AuthorizationProvider>
-        <RootNavigation />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <RootNavigation />
+        </GestureHandlerRootView>
       </AuthorizationProvider>
     </ConnectionProvider>
   )

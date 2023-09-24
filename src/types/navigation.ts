@@ -33,4 +33,4 @@ export interface IProfileTabs {
   title: string
 }
 
-type TProfileTabs = 'posts' | 'replies' | 'media' | 'likes'
+type TProfileTabs = 'posts' | 'replies' | 'collectibles' | 'likes'

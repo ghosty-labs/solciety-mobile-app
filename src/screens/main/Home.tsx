@@ -4,7 +4,11 @@ import {
   Account,
   useAuthorization,
 } from '../../providers/AuthorizationProvider'
-import { StyledView } from '../../constants/nativewind'
+import {
+  StyledSafeAreaView,
+  StyledScrollView,
+  StyledView,
+} from '../../constants/nativewind'
 import Post from '../../components/Post/Post'
 import { PostService } from '../../services/Post'
 import { IPost } from '../../types/post'
@@ -51,9 +55,13 @@ const HomeScreen = () => {
       {/* <Text>Homepage</Text>
       <Text>Address: {selectedAccount?.address}</Text>
       <Text>Balance: {convertLamportsToSOL(balance as number)}</Text> */}
-      {posts.map((post, index) => {
-        return <Post key={index} data={post} />
-      })}
+      <StyledSafeAreaView>
+        <StyledScrollView>
+          {posts.map((post, index) => {
+            return <Post key={index} data={post} />
+          })}
+        </StyledScrollView>
+      </StyledSafeAreaView>
     </StyledView>
   )
 }
