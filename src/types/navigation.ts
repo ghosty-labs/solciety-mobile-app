@@ -15,11 +15,18 @@ export type MainTabParamList = {
   Home: undefined
   Search: { accountId: string }
   Post: undefined
-  Notification: undefined
+  Notifications: undefined
   Profile: { accountId: string }
 }
 
 export type StackProps = NativeStackScreenProps<RootStackParamList>
+
+export interface INotificationTabs {
+  key: TNotificationTabs
+  title: string
+}
+
+type TNotificationTabs = 'all' | 'replies' | 'mention' | 'verified'
 
 export interface IProfileTabs {
   key: TProfileTabs

@@ -14,6 +14,7 @@ import {
   IconSearch,
   IconUser,
 } from '../components/Icons/Icon'
+import { StyledView } from '../constants/nativewind'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -37,9 +38,7 @@ const MainNavigation = ({ navigation }: StackProps) => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return (
-              <IconHome size={25} color={focused ? '#14F195' : '#71717a'} />
-            )
+            return <IconHome size={25} color={focused ? 'white' : '#71717a'} />
           },
         }}
       />
@@ -58,7 +57,7 @@ const MainNavigation = ({ navigation }: StackProps) => {
           headerShadowVisible: false,
           tabBarIcon: ({ focused }) => {
             return (
-              <IconSearch size={25} color={focused ? '#14F195' : '#71717a'} />
+              <IconSearch size={25} color={focused ? 'white' : '#71717a'} />
             )
           },
         }}
@@ -69,19 +68,29 @@ const MainNavigation = ({ navigation }: StackProps) => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return (
-              <IconPost size={25} color={focused ? '#14F195' : '#71717a'} />
-            )
+            return <IconPost size={25} color={focused ? 'white' : '#71717a'} />
           },
         }}
       />
       <MainTab.Screen
-        name="Notification"
+        name="Notifications"
         component={NotificationScreen}
         options={{
+          headerStyle: {
+            backgroundColor: '#18181b',
+          },
+          headerTitleStyle: {
+            color: 'white',
+            fontSize: 30,
+            fontWeight: '800',
+          },
+          headerShadowVisible: false,
           tabBarIcon: ({ focused }) => {
             return (
-              <IconBell size={25} color={focused ? '#14F195' : '#71717a'} />
+              <StyledView className="relative">
+                <IconBell size={25} color={focused ? 'white' : '#71717a'} />
+                <StyledView className="absolute right-0 w-3 h-3 rounded-full bg-red-500"></StyledView>
+              </StyledView>
             )
           },
         }}
@@ -97,9 +106,7 @@ const MainNavigation = ({ navigation }: StackProps) => {
             />
           ),
           tabBarIcon: ({ focused }) => {
-            return (
-              <IconUser size={25} color={focused ? '#14F195' : '#71717a'} />
-            )
+            return <IconUser size={25} color={focused ? 'white' : '#71717a'} />
           },
         }}
       />

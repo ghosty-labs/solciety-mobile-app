@@ -7,14 +7,10 @@ const SearchScreen = () => {
     <StyledView className="h-full px-4 bg-zinc-900">
       <Input />
       <StyledImage
-        className="mx-auto mt-20"
+        className="mx-auto mt-20 w-full h-80"
         source={require('../../assets/screen/search/sample-search.png')}
-        style={{
-          width: 228,
-          height: 228,
-        }}
       />
-      <StyledText className="text-center text-white text-lg font-semibold">
+      <StyledText className="text-center text-white text-3xl font-bold">
         Looking for something?
       </StyledText>
     </StyledView>
