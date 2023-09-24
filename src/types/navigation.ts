@@ -15,7 +15,7 @@ export type MainTabParamList = {
   Home: undefined
   Search: { accountId: string }
   Post: undefined
-  Activity: undefined
+  Notification: undefined
   Profile: { accountId: string }
 }
 

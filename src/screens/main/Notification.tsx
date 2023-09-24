@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const ActivityScreen = () => {
+const NotificationScreen = () => {
   return (
     <View style={{ height: '100%', backgroundColor: 'salmon' }}>
-      <Text>Activity Screen</Text>
+      <Text>Notification Screen</Text>
     </View>
   )
 }
 
-export default ActivityScreen
+export default NotificationScreen
