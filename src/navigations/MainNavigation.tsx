@@ -37,7 +37,9 @@ const MainNavigation = ({ navigation }: StackProps) => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <IconHome size={25} color={focused ? '#9945FF' : 'white'} />
+            return (
+              <IconHome size={25} color={focused ? '#14F195' : '#71717a'} />
+            )
           },
         }}
       />
@@ -45,9 +47,18 @@ const MainNavigation = ({ navigation }: StackProps) => {
         name="Search"
         component={SearchScreen}
         options={{
+          headerStyle: {
+            backgroundColor: '#18181b',
+          },
+          headerTitleStyle: {
+            color: 'white',
+            fontSize: 30,
+            fontWeight: '800',
+          },
+          headerShadowVisible: false,
           tabBarIcon: ({ focused }) => {
             return (
-              <IconSearch size={25} color={focused ? '#9945FF' : 'white'} />
+              <IconSearch size={25} color={focused ? '#14F195' : '#71717a'} />
             )
           },
         }}
@@ -58,7 +69,9 @@ const MainNavigation = ({ navigation }: StackProps) => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <IconPost size={25} color={focused ? '#9945FF' : 'white'} />
+            return (
+              <IconPost size={25} color={focused ? '#14F195' : '#71717a'} />
+            )
           },
         }}
       />
@@ -67,7 +80,9 @@ const MainNavigation = ({ navigation }: StackProps) => {
         component={NotificationScreen}
         options={{
           tabBarIcon: ({ focused }) => {
-            return <IconBell size={25} color={focused ? '#9945FF' : 'white'} />
+            return (
+              <IconBell size={25} color={focused ? '#14F195' : '#71717a'} />
+            )
           },
         }}
       />
@@ -82,7 +97,9 @@ const MainNavigation = ({ navigation }: StackProps) => {
             />
           ),
           tabBarIcon: ({ focused }) => {
-            return <IconUser size={25} color={focused ? '#9945FF' : 'white'} />
+            return (
+              <IconUser size={25} color={focused ? '#14F195' : '#71717a'} />
+            )
           },
         }}
       />
