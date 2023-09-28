@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { StyledView } from '../../constants/nativewind'
 import { IPost } from '../../types/post'
-import { PostService } from '../../services/Post'
 import Post from '../../components/Post/Post'
 import { HScrollView } from 'react-native-head-tab-view'
+import { PostService } from '../../services/Post'
 
 const ProfilePostScreen = () => {
   const [posts, setPosts] = useState<IPost[]>([])

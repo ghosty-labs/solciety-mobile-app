@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  StyledSafeAreaView,
   StyledScrollView,
   StyledText,
   StyledView,
@@ -19,7 +18,7 @@ interface NotificationItemProps {
 
 const NotificationItem = ({ data }: NotificationItemProps) => {
   return (
-    <StyledSafeAreaView className="mb-4 border-b border-zinc-800 pb-4">
+    <StyledView className="mb-4 border-b border-zinc-800 pb-4">
       <StyledScrollView className="px-4">
         <StyledView className="flex flex-row items-start my-1">
           <StyledView className="relative">
@@ -47,7 +46,7 @@ const NotificationItem = ({ data }: NotificationItemProps) => {
           </StyledView>
         </StyledView>
       </StyledScrollView>
-    </StyledSafeAreaView>
+    </StyledView>
   )
 }
 

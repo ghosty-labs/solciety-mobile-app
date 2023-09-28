@@ -1,7 +1,6 @@
 import { styled } from 'nativewind'
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
@@ -14,5 +13,4 @@ export const StyledText = styled(Text)
 export const StyledTextInput = styled(TextInput)
 export const StyledTouchableOpacity = styled(TouchableOpacity)
 export const StyledImage = styled(Image)
-export const StyledSafeAreaView = styled(SafeAreaView)
 export const StyledScrollView = styled(ScrollView)

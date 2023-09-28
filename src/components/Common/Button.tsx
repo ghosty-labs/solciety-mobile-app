@@ -145,7 +145,7 @@ const Button = (props: ButtonProps) => {
           <StyledText
             className={`${
               !isIconPrefix && 'absolute'
-            } ${textColor()} ${textSize()}`}
+            } ${textColor()} ${textSize()} font-semibold`}
           >
             {props.title}
           </StyledText>

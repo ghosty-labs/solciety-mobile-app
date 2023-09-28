@@ -29,3 +29,15 @@ export const prettyTruncate = (str = '', len = 8, type?: string) => {
 export const toMl = (secs: number) => {
   return parseInt(`${secs}000`)
 }
+
+export const mlToSec = (ml: number) => {
+  const parseToSec = ml.toString()
+  return parseInt(parseToSec.slice(0, -3))
+}
+
+export const generateRandomNumber = () => {
+  const min = 1000000000000
+  const max = 9999999999999
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min
+  return randomNumber
+}

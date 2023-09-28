@@ -44,6 +44,9 @@ const Post = ({ data }: PostProps) => {
             {data.content}
           </StyledText>
         </StyledView>
+        <StyledText className="text-base text-solana-green">
+          {data.tag !== '[untagged]' && `#${data.tag.replaceAll('-', ' #')}`}
+        </StyledText>
         <StyledView className="flex flex-row justify-between mt-2">
           <StyledView className="flex flex-row item-center">
             <IconComment size={20} color="#a1a1aa" />

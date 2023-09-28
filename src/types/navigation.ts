@@ -20,6 +20,7 @@ export type MainTabParamList = {
 }
 
 export type StackProps = NativeStackScreenProps<RootStackParamList>
+export type MainTabProps = NativeStackScreenProps<MainTabParamList>
 
 export interface INotificationTabs {
   key: TNotificationTabs

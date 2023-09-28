@@ -13,11 +13,14 @@ import {
   IconSearch,
   IconUser,
 } from '../components/Icons/Icon'
+import { useBottomDrawer } from '../providers/BottomDrawerProvider'
 import { StyledView } from '../constants/nativewind'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
 const MainNavigation = () => {
+  const setter = useBottomDrawer()
+
   return (
     <MainTab.Navigator
       initialRouteName="Home"
@@ -29,6 +32,7 @@ const MainNavigation = () => {
           paddingBottom: 10,
         },
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
       }}
     >
       <MainTab.Screen
@@ -66,6 +70,9 @@ const MainNavigation = () => {
         component={PostScreen}
         options={{
           headerShown: false,
+          headerStyle: {
+            backgroundColor: '#18181b',
+          },
           tabBarIcon: () => {
             return (
               <StyledView className="p-2 rounded-full transition duration-300 bg-solana-green">
@@ -74,6 +81,12 @@ const MainNavigation = () => {
             )
           },
         }}
+        listeners={() => ({
+          tabPress: (event) => {
+            event.preventDefault()
+            setter?.setShowDrawer('post')
+          },
+        })}
       />
       <MainTab.Screen
         name="Notifications"

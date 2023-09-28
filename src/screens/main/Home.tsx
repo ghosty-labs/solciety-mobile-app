@@ -1,67 +1,86 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useConnection } from '../../providers/ConnectionProvider'
-import {
-  Account,
-  useAuthorization,
-} from '../../providers/AuthorizationProvider'
-import {
-  StyledSafeAreaView,
-  StyledScrollView,
-  StyledView,
-} from '../../constants/nativewind'
+import { StyledView } from '../../constants/nativewind'
 import Post from '../../components/Post/Post'
+import { ActivityIndicator } from 'react-native-paper'
 import { PostService } from '../../services/Post'
+import { useStore } from '../../providers/ContextProvider'
+import { FlatList, RefreshControl } from 'react-native'
 import { IPost } from '../../types/post'
+import { useInfiniteQuery } from 'react-query'
+import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
+import { useRNPaper } from '../../providers/RNPaperProvider'
 
 const HomeScreen = () => {
-  const [posts, setPosts] = useState<IPost[]>([])
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [balance, setBalance] = useState<number | null>(null)
+  const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const { connection } = useConnection()
-  const { selectedAccount } = useAuthorization()
   const { getPosts } = PostService()
+  const store = useStore()
+  const paper = useRNPaper()
 
-  const fetchAndUpdatedBalance = useCallback(
-    async (account: Account) => {
-      const fetchedBalance = await connection.getBalance(account.publicKey)
-      setBalance(fetchedBalance)
-    },
-    [connection],
-  )
-
-  useEffect(() => {
-    if (!selectedAccount) return
-
-    fetchAndUpdatedBalance(selectedAccount)
-  }, [fetchAndUpdatedBalance, selectedAccount])
-
-  useEffect(() => {
-    fetchPosts()
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000)
   }, [])
 
-  const fetchPosts = async () => {
-    try {
-      const res = await getPosts()
+  useEffect(() => {
+    refetch()
+  }, [refreshing])
 
-      setPosts(res)
-    } catch (error) {
-      console.log(error)
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: ['all-posts'],
+      queryFn: ({ pageParam = 1 }) =>
+        getPosts({
+          __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
+          __limit: LIMIT_SIZE_GET_POSTS,
+        }),
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length === 0 ? undefined : allPages.length + 1,
+    })
+
+  useEffect(() => {
+    if (store?.newPost !== null) {
+      setTimeout(() => {
+        data?.pages[0].unshift(store?.newPost as IPost)
+        store?.setNewPost(null)
+        paper?.setShowPortal(null)
+      }, 4000)
     }
+  }, [store?.newPost])
+
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage()
+    }
+  }
+
+  const renderSpinner = () => {
+    return <ActivityIndicator animating={true} color="#3f3f46" />
+  }
+
+  const postExtractorKey = (_: IPost, index: number) => {
+    return index.toString()
+  }
+
+  const renderData = (post: IPost) => {
+    return <Post data={post} />
   }
 
   return (
     <StyledView className="pt-4 h-full bg-zinc-900">
-      {/* <Text>Homepage</Text>
-      <Text>Address: {selectedAccount?.address}</Text>
-      <Text>Balance: {convertLamportsToSOL(balance as number)}</Text> */}
-      <StyledSafeAreaView>
-        <StyledScrollView>
-          {posts.map((post, index) => {
-            return <Post key={index} data={post} />
-          })}
-        </StyledScrollView>
-      </StyledSafeAreaView>
+      <FlatList
+        data={data?.pages.map((page) => page).flat()}
+        keyExtractor={postExtractorKey}
+        renderItem={(e) => renderData(e.item)}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.3}
+        ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
     </StyledView>
   )
 }

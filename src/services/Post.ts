@@ -8,7 +8,7 @@ export const PostService = () => {
   })
 
   const getPosts = async (params?: object) => {
-    const res = await PostRequest.get<{ results: IPost[] }>('/posting', {
+    const res = await PostRequest.get<{ results: IPost[] }>(`/posting`, {
       params,
     })
 
