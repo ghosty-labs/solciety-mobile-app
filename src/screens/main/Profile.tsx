@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useWindowDimensions } from 'react-native'
-import { SceneMap, TabBar } from 'react-native-tab-view'
+import { TabBar } from 'react-native-tab-view'
 import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-header'
 import { IProfileTabs, StackProps } from '../../types/navigation'
 import ProfilePostScreen from '../profile/ProfilePost'
@@ -10,9 +10,11 @@ import ProfileMediaScreen from '../profile/ProfileMedia'
 import ProfileLikeScreen from '../profile/ProfileLike'
 import ProfileHeader from '../../components/Profile/ProfileHeader'
 import { StyledText, StyledView } from '../../constants/nativewind'
+import { ActivityIndicator } from 'react-native-paper'
 
 const ProfileScreen = ({ navigation }: StackProps) => {
   const [index, setIndex] = useState<number>(0)
+  const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const layout = useWindowDimensions()
   const [routes] = useState<IProfileTabs[]>([
@@ -34,16 +36,39 @@ const ProfileScreen = ({ navigation }: StackProps) => {
     },
   ])
 
-  const renderScene = SceneMap<IProfileTabs>({
-    posts: ProfilePostScreen,
-    replies: ProfileRepliesScreen,
-    collectibles: ProfileMediaScreen,
-    likes: ProfileLikeScreen,
-  })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderScene = (e: any) => {
+    const { route } = e
+
+    switch (route.key) {
+      case 'posts':
+        return <ProfilePostScreen isRefreshing={refreshing} />
+      case 'replies':
+        return <ProfileRepliesScreen />
+      case 'collectibles':
+        return <ProfileMediaScreen />
+      case 'likes':
+        return <ProfileLikeScreen />
+    }
+  }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000)
+  }, [])
 
   return (
     <StyledView className="h-full bg-zinc-900">
       <CollapsibleHeaderTabView
+        onStartRefresh={onRefresh}
+        isRefreshing={refreshing}
+        renderRefreshControl={() => (
+          <StyledView className="mx-auto mt-6">
+            <ActivityIndicator animating={true} color="white" />
+          </StyledView>
+        )}
         renderScrollHeader={() => (
           <ProfileHeader
             navigation={navigation}

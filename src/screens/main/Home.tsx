@@ -8,14 +8,12 @@ import { FlatList, RefreshControl } from 'react-native'
 import { IPost } from '../../types/post'
 import { useInfiniteQuery } from 'react-query'
 import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
-import { useRNPaper } from '../../providers/RNPaperProvider'
 
 const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const { getPosts } = PostService()
   const store = useStore()
-  const paper = useRNPaper()
 
   const onRefresh = useCallback(() => {
     setRefreshing(true)
@@ -44,8 +42,6 @@ const HomeScreen = () => {
     if (store?.newPost !== null) {
       setTimeout(() => {
         data?.pages[0].unshift(store?.newPost as IPost)
-        store?.setNewPost(null)
-        paper?.setShowPortal(null)
       }, 4000)
     }
   }, [store?.newPost])
