@@ -10,12 +10,13 @@ type Props = NativeStackScreenProps<RootStackParamList>
 const SplashScreen = ({ navigation }: Props) => {
   useEffect(() => {
     ;(async () => {
-      const cachedBase64Address = await Promise.resolve(
+      const [cachedBase64Address, cachedTokenUser] = await Promise.all([
         AsyncStorage.getItem('base64Address'),
-      )
+        AsyncStorage.getItem('token-user'),
+      ])
 
       setTimeout(() => {
-        if (cachedBase64Address) {
+        if (cachedBase64Address && cachedTokenUser) {
           navigation.replace('Main')
         } else {
           navigation.replace('Auth')

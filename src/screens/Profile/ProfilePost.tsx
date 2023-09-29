@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { IPost } from '../../types/post'
 import Post from '../../components/Post/Post'
 import { PostService } from '../../services/Post'
@@ -9,6 +9,9 @@ import { HFlatList } from 'react-native-head-tab-view'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { useStore } from '../../providers/ContextProvider'
 import { useRNPaper } from '../../providers/RNPaperProvider'
+import { StyledView } from '../../constants/nativewind'
+import { Button } from '../../components/Common'
+import { FlatList } from 'react-native'
 
 interface ProfilePostScreenProps {
   isRefreshing: boolean
@@ -19,6 +22,7 @@ const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
   const { getPosts } = PostService()
   const store = useStore()
   const paper = useRNPaper()
+  const listRef = useRef<FlatList>(null)
 
   useEffect(() => {
     if (isRefreshing) {
@@ -67,17 +71,36 @@ const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
     return <Post data={post} />
   }
 
+  const onPressTouch = () => {
+    listRef.current?.scrollToOffset({ offset: 0, animated: true })
+  }
+
   return (
-    <HFlatList
-      index={0}
-      keyExtractor={postExtractorKey}
-      data={data?.pages.map((page) => page).flat()}
-      renderItem={(e) => renderData(e.item)}
-      onEndReached={loadMore}
-      onEndReachedThreshold={0.3}
-      ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
-      style={{ marginTop: 16 }}
-    />
+    <>
+      <HFlatList
+        index={0}
+        ref={listRef}
+        keyExtractor={postExtractorKey}
+        data={data?.pages.map((page) => page).flat()}
+        renderItem={(e) => renderData(e.item)}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.3}
+        ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
+        style={{ marginTop: 16 }}
+      />
+      <StyledView className="absolute bottom-4 right-4">
+        <StyledView className="">
+          <Button
+            className="w-20 h-10 py-4"
+            title="scroll top"
+            textSize="xl"
+            textColor="sol-green"
+            color="white"
+            onPress={onPressTouch}
+          />
+        </StyledView>
+      </StyledView>
+    </>
   )
 }
 

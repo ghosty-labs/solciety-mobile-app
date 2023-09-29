@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { Alert } from 'react-native'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { transact } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../types/navigation'
+import { AuthStackParamList } from '../../types/navigation'
 import { StyledImage, StyledView } from '../../constants/nativewind'
 import { Button } from '../../components/Common'
 import { IconSolana } from '../../components/Icons/Icon'
+import { alertLog } from '../../utils/common'
 
-type Props = NativeStackScreenProps<RootStackParamList>
+type Props = NativeStackScreenProps<AuthStackParamList>
 
 const ConnectWalletScreen = ({ navigation }: Props) => {
   const [isAuthorizing, setIsAuthorizing] = useState<boolean>(false)
@@ -22,17 +22,12 @@ const ConnectWalletScreen = ({ navigation }: Props) => {
       await transact(async (wallet) => {
         await authorizeSession(wallet)
       })
-      navigation.replace('Main')
+      navigation.replace('SignMessageToken')
     } catch (error) {
-      setTimeout(async () => {
-        Alert.alert(
-          'Error during connect',
-          error instanceof Error ? error.message : (error as string),
-          [{ text: 'Ok', style: 'cancel' }],
-        )
-      }, 100)
-
-      console.log(error)
+      alertLog(
+        'Error during connect',
+        error instanceof Error ? error.message : (error as string),
+      )
     }
 
     setIsAuthorizing(false)
@@ -48,7 +43,7 @@ const ConnectWalletScreen = ({ navigation }: Props) => {
         className="absolute inset-x-0 bottom-10 mx-4 py-4"
         title="Connect with Wallet"
         color="zinc"
-        textColor="zinc"
+        textColor="white"
         textSize="lg"
         border={2}
         borderColor="zinc"

@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { TPortal } from '../types/paper'
 import PortalPosted from '../components/Paper/Portal/PortalPosted'
+import PortalNewpost from '../components/Paper/Portal/PortalNewPost'
 
 interface IRNPaperContext {
   showPortal: TPortal | null
@@ -34,6 +35,10 @@ export const RNPaperProvider = ({
       <RNPaperContext.Provider value={{ showPortal, setShowPortal, restProps }}>
         <PortalPosted
           isShow={showPortal === 'posted'}
+          onClose={dissmissPortal}
+        />
+        <PortalNewpost
+          isShow={showPortal === 'new-post'}
           onClose={dissmissPortal}
         />
         {children}

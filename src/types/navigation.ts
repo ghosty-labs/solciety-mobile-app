@@ -9,6 +9,7 @@ export type RootStackParamList = {
 
 export type AuthStackParamList = {
   ConnectWallet: undefined
+  SignMessageToken: undefined
 }
 
 export type MainTabParamList = {

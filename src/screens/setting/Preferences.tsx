@@ -11,8 +11,8 @@ const PreferencesScreen = ({ navigation }: StackProps) => {
   const handleDisconnet = () => {
     transact(async (wallet) => {
       await deauthorizeSession(wallet)
-      navigation.replace('Splash')
       AsyncStorage.clear()
+      navigation.replace('Splash')
     })
   }
 

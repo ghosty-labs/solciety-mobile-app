@@ -7,7 +7,7 @@ import {
 import { ActivityIndicator, StyleProp, ViewStyle } from 'react-native'
 
 type TColor = 'sol-green' | 'sol-purple' | 'zinc' | 'white' | 'black'
-type TSize = 'sm' | 'lg' | 'xl' | 'full'
+type TSize = 'sm' | 'lg' | 'xl' | '2xl'
 type TBorder = 0 | 2 | 4 | 8
 type TRadius = 'xs' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
 
@@ -69,8 +69,8 @@ const Button = (props: ButtonProps) => {
         return 'text-lg'
       case 'xl':
         return 'text-xl'
-      case 'full':
-        return 'text-full'
+      case '2xl':
+        return 'text-2xl'
     }
   }
 
