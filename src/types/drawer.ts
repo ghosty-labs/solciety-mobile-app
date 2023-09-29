@@ -1,1 +1,1 @@
-export type TBottomDrawer = 'post' | null
+export type TBottomDrawer = 'post' | 'reply' | null

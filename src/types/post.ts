@@ -11,6 +11,7 @@ export interface IPost {
   created_at: number
   updated_at: number
   liked?: string[]
+  total_comment: number
 }
 
 export interface IPostStatus {

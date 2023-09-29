@@ -22,6 +22,7 @@ const ProfileLikeScreen = () => {
       ],
       likes: 2,
       comment: 0,
+      total_comment: 0,
     },
   ]
 

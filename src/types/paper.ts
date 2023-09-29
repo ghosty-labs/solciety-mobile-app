@@ -1,1 +1,1 @@
-export type TPortal = 'posted' | 'new-post' | null
+export type TPortal = 'posted' | 'replied' | null

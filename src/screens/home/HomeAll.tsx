@@ -53,7 +53,7 @@ const HomeAllScreen = ({ isRefreshing }: HomeAllScreenProps) => {
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: [`profile-post-${selectedAccount?.publicKey}`],
+      queryKey: [`get-posts-home-all`],
       queryFn: ({ pageParam = 1 }) =>
         getPosts({
           __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,

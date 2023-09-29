@@ -33,11 +33,11 @@ interface PostDrawerProps {
 }
 
 const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
-  const bottomDrawerRef = useRef<BottomDrawerMethods>(null)
   const [isSigning, setIsSigning] = useState<boolean>(false)
   const [tags, setTags] = useState<string[]>([])
   const [content, setContent] = useState<string>('')
 
+  const bottomDrawerRef = useRef<BottomDrawerMethods>(null)
   const { width, height } = useWindowDimensions()
   const { connection } = useConnection()
   const { selectedAccount, authorizeSession } = useAuthorization()
@@ -84,6 +84,7 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
         likes: 0,
         created_at: mlToSec(new Date().getTime()),
         updated_at: mlToSec(new Date().getTime()),
+        total_comment: 0,
       })
       paper?.setShowPortal('posted')
     } catch (error) {

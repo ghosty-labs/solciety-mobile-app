@@ -1,22 +1,37 @@
 import React from 'react'
-import { StyledImage, StyledText, StyledView } from '../../constants/nativewind'
+import {
+  StyledImage,
+  StyledText,
+  StyledTouchableOpacity,
+  StyledView,
+} from '../../constants/nativewind'
 import Avatar from '../Common/Avatar'
 import { IconComment, IconEllipsis, IconHeart, IconShare } from '../Icons/Icon'
 import moment from 'moment'
 import { numberFormatter, prettyTruncate, toMl } from '../../utils/common'
 import { IPost } from '../../types/post'
+import { useBottomDrawer } from '../../providers/BottomDrawerProvider'
 
 interface PostProps {
   data: IPost
 }
 
 const Post = ({ data }: PostProps) => {
+  const setter = useBottomDrawer()
   const liked = data.liked?.filter(
     (address) => address === 'ANwvF5jduUnY7unZin42NxB5cz4ctFqEmcVt5nWekpFq',
   )
 
+  const onClickReply = () => {
+    setter?.setReplyData?.(data)
+    setter?.setShowDrawer('reply')
+  }
+
   return (
-    <StyledView className="flex flex-row items-start mb-4 border-b border-zinc-800 px-4 pb-4">
+    <StyledTouchableOpacity
+      className="flex flex-row items-start mb-4 border-b border-zinc-800 px-4 pb-4"
+      activeOpacity={1}
+    >
       <Avatar
         url={require('../../assets/screen/connect/sample.png')}
         size={48}
@@ -48,12 +63,16 @@ const Post = ({ data }: PostProps) => {
           {data.tag !== '[untagged]' && `#${data.tag.replaceAll('-', ' #')}`}
         </StyledText>
         <StyledView className="flex flex-row justify-between mt-2">
-          <StyledView className="flex flex-row item-center">
+          <StyledTouchableOpacity
+            className="flex flex-row item-center"
+            activeOpacity={0.9}
+            onPress={onClickReply}
+          >
             <IconComment size={20} color="#a1a1aa" />
             <StyledText className="font-semibold text-zinc-500 ml-1">
-              {numberFormatter(data?.comment || 0)}
+              {numberFormatter(data?.total_comment || 0)}
             </StyledText>
-          </StyledView>
+          </StyledTouchableOpacity>
           <StyledView className="flex flex-row item-center">
             <IconHeart
               size={20}
@@ -70,7 +89,7 @@ const Post = ({ data }: PostProps) => {
           <IconShare size={20} color="#a1a1aa" />
         </StyledView>
       </StyledView>
-    </StyledView>
+    </StyledTouchableOpacity>
   )
 }
 

@@ -11,7 +11,7 @@ interface PortalPostedProps {
 const PortalPosted = ({ isShow, onClose }: PortalPostedProps) => {
   const paper = useRNPaper()
 
-  const onDimissStackBar = () => {
+  const onDimissPortal = () => {
     paper?.setShowPortal(null)
     onClose()
   }
@@ -25,13 +25,13 @@ const PortalPosted = ({ isShow, onClose }: PortalPostedProps) => {
           backgroundColor: '#3f3f46',
         }}
         visible={isShow}
-        onDismiss={onDimissStackBar}
+        onDismiss={onDimissPortal}
         duration={4000}
         action={{
           label: 'Hide',
           labelStyle: { color: '#14F195' },
           onPress: () => {
-            onDimissStackBar()
+            onDimissPortal()
           },
         }}
       >
