@@ -1,19 +1,42 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { StyledView } from '../../constants/nativewind'
-import Post from '../../components/Post/Post'
+/* eslint-disable react/prop-types */
+import React, { useCallback, useState } from 'react'
+import { useWindowDimensions } from 'react-native'
+import { TabBar } from 'react-native-tab-view'
+import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-header'
+import { IHomeTabs } from '../../types/navigation'
+import { StyledText, StyledView } from '../../constants/nativewind'
 import { ActivityIndicator } from 'react-native-paper'
-import { PostService } from '../../services/Post'
-import { useStore } from '../../providers/ContextProvider'
-import { FlatList, RefreshControl } from 'react-native'
-import { IPost } from '../../types/post'
-import { useInfiniteQuery } from 'react-query'
-import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
+import HomeAllScreen from '../home/HomeAll'
+import HomeFollowingScreen from '../home/HomeFollowing'
+import HomeHeader from '../../components/Home/HomeHeader'
 
 const HomeScreen = () => {
+  const [index, setIndex] = useState<number>(0)
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const { getPosts } = PostService()
-  const store = useStore()
+  const layout = useWindowDimensions()
+  const [routes] = useState<IHomeTabs[]>([
+    {
+      key: 'all',
+      title: 'All',
+    },
+    {
+      key: 'following',
+      title: 'Following',
+    },
+  ])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderScene = (e: any) => {
+    const { route } = e
+
+    switch (route.key) {
+      case 'all':
+        return <HomeAllScreen isRefreshing={refreshing} />
+      case 'following':
+        return <HomeFollowingScreen />
+    }
+  }
 
   const onRefresh = useCallback(() => {
     setRefreshing(true)
@@ -22,60 +45,49 @@ const HomeScreen = () => {
     }, 1000)
   }, [])
 
-  useEffect(() => {
-    refetch()
-  }, [refreshing])
-
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
-    useInfiniteQuery({
-      queryKey: ['all-posts'],
-      queryFn: ({ pageParam = 1 }) =>
-        getPosts({
-          __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
-          __limit: LIMIT_SIZE_GET_POSTS,
-        }),
-      getNextPageParam: (lastPage, allPages) =>
-        lastPage.length === 0 ? undefined : allPages.length + 1,
-    })
-
-  useEffect(() => {
-    if (store?.newPost !== null) {
-      setTimeout(() => {
-        data?.pages[0].unshift(store?.newPost as IPost)
-      }, 4000)
-    }
-  }, [store?.newPost])
-
-  const loadMore = () => {
-    if (hasNextPage) {
-      fetchNextPage()
-    }
-  }
-
-  const renderSpinner = () => {
-    return <ActivityIndicator animating={true} color="#3f3f46" />
-  }
-
-  const postExtractorKey = (_: IPost, index: number) => {
-    return index.toString()
-  }
-
-  const renderData = (post: IPost) => {
-    return <Post data={post} />
-  }
-
   return (
-    <StyledView className="pt-4 h-full bg-zinc-900">
-      <FlatList
-        data={data?.pages.map((page) => page).flat()}
-        keyExtractor={postExtractorKey}
-        renderItem={(e) => renderData(e.item)}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.3}
-        ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+    <StyledView className="h-full bg-zinc-900">
+      <CollapsibleHeaderTabView
+        onStartRefresh={onRefresh}
+        isRefreshing={refreshing}
+        renderRefreshControl={() => (
+          <StyledView className="mx-auto mt-6">
+            <ActivityIndicator animating={true} color="white" />
+          </StyledView>
+        )}
+        renderScrollHeader={() => <HomeHeader />}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+        renderTabBar={(props) => (
+          <TabBar
+            {...props}
+            renderLabel={(props) => {
+              return (
+                <StyledText
+                  className={`font-semibold text-sm ${
+                    props.focused ? 'text-white' : 'text-zinc-500'
+                  }`}
+                >
+                  {props.route.title}
+                </StyledText>
+              )
+            }}
+            style={{ backgroundColor: '#18181b' }}
+            indicatorStyle={{
+              backgroundColor: '#14F195',
+              width: '15%',
+              height: 5,
+              borderRadius: 20,
+              marginLeft: 68,
+            }}
+            android_ripple={{
+              borderless: false,
+              color: undefined,
+            }}
+          />
+        )}
       />
     </StyledView>
   )

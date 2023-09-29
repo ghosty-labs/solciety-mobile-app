@@ -12,3 +12,7 @@ export interface IPost {
   updated_at: number
   liked?: string[]
 }
+
+export interface IPostStatus {
+  has_new_post: boolean
+}

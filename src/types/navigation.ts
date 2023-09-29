@@ -30,6 +30,13 @@ export interface INotificationTabs {
 
 type TNotificationTabs = 'all' | 'replies' | 'mention' | 'verified'
 
+export interface IHomeTabs {
+  key: THomeTabs
+  title: string
+}
+
+type THomeTabs = 'all' | 'following'
+
 export interface IProfileTabs {
   key: TProfileTabs
   title: string
