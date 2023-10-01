@@ -1,18 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { TabBar } from 'react-native-tab-view'
 import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-header'
 import { IHomeTabs } from '../../types/navigation'
 import { StyledText, StyledView } from '../../constants/nativewind'
-import { ActivityIndicator } from 'react-native-paper'
 import HomeAllScreen from '../home/HomeAll'
 import HomeFollowingScreen from '../home/HomeFollowing'
 import HomeHeader from '../../components/Home/HomeHeader'
 
 const HomeScreen = () => {
   const [index, setIndex] = useState<number>(0)
-  const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const layout = useWindowDimensions()
   const [routes] = useState<IHomeTabs[]>([
@@ -32,29 +30,15 @@ const HomeScreen = () => {
 
     switch (route.key) {
       case 'all':
-        return <HomeAllScreen isRefreshing={refreshing} />
+        return <HomeAllScreen />
       case 'following':
         return <HomeFollowingScreen />
     }
   }
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true)
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 1000)
-  }, [])
-
   return (
     <StyledView className="h-full bg-zinc-900">
       <CollapsibleHeaderTabView
-        onStartRefresh={onRefresh}
-        isRefreshing={refreshing}
-        renderRefreshControl={() => (
-          <StyledView className="mx-auto mt-6">
-            <ActivityIndicator animating={true} color="white" />
-          </StyledView>
-        )}
         renderScrollHeader={() => <HomeHeader />}
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -74,7 +58,11 @@ const HomeScreen = () => {
                 </StyledText>
               )
             }}
-            style={{ backgroundColor: '#18181b' }}
+            style={{
+              backgroundColor: '#18181b',
+              marginTop: -8,
+              paddingVertical: 4,
+            }}
             indicatorStyle={{
               backgroundColor: '#14F195',
               width: '15%',

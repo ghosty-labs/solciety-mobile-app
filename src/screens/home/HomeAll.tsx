@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { IPost } from '../../types/post'
 import Post from '../../components/Post/Post'
 import { PostService } from '../../services/Post'
@@ -18,25 +18,30 @@ import { FlatList } from 'react-native'
 import { IconArrowUp } from '../../components/Icons/Icon'
 import { PublicKey } from '@solana/web3.js'
 
-interface HomeAllScreenProps {
-  isRefreshing: boolean
-}
-
-const HomeAllScreen = ({ isRefreshing }: HomeAllScreenProps) => {
+const HomeAllScreen = () => {
+  const [refreshing, setRefreshing] = useState<boolean>(false)
   const [isNewPost, setIsNowPost] = useState<boolean>(false)
+
   const { selectedAccount } = useAuthorization()
   const { getPosts, getPostStatus, putPostStatus } = PostService()
   const store = useStore()
   const paper = useRNPaper()
   const listRef = useRef<FlatList>(null)
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000)
+  }, [])
+
   useEffect(() => {
-    if (isRefreshing) {
+    if (refreshing) {
       refetch()
       putPostStatus()
       setIsNowPost(false)
     }
-  }, [isRefreshing])
+  }, [refreshing])
 
   const { data: newPostStatus } = useQuery({
     queryKey: ['get-profile-status'],
@@ -88,7 +93,7 @@ const HomeAllScreen = ({ isRefreshing }: HomeAllScreenProps) => {
   }
 
   const renderData = (post: IPost) => {
-    return <Post data={post} />
+    return <Post type="post-all" data={post} />
   }
 
   const onClickNewPost = () => {
@@ -103,6 +108,13 @@ const HomeAllScreen = ({ isRefreshing }: HomeAllScreenProps) => {
       <HFlatList
         index={0}
         ref={listRef}
+        onStartRefresh={onRefresh}
+        isRefreshing={refreshing}
+        renderRefreshControl={() => (
+          <StyledView className="mx-auto mt-10">
+            <ActivityIndicator animating={true} color="white" />
+          </StyledView>
+        )}
         keyExtractor={postExtractorKey}
         data={data?.pages.map((page) => page).flat()}
         renderItem={(e) => renderData(e.item)}
@@ -111,17 +123,21 @@ const HomeAllScreen = ({ isRefreshing }: HomeAllScreenProps) => {
         ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
         style={{ marginTop: 16 }}
       />
-
       {isNewPost && (
-        <StyledView className="absolute top-14 w-full">
-          <StyledTouchableOpacity
-            className="flex flex-row items-center gap-x-1 mx-auto p-3 rounded-full bg-zinc-700 shadow-2xl"
-            activeOpacity={0.9}
-            onPress={onClickNewPost}
-          >
-            <IconArrowUp size={16} color="white" />
-            <StyledText className="text-white">New Post</StyledText>
-          </StyledTouchableOpacity>
+        <StyledView className="absolute top-12 w-full z-50 shadow-2xl">
+          <StyledView className="w-0.5 h-full mx-auto bg-solana-green" />
+          <StyledView className="mx-auto rounded-full bg-zinc-900">
+            <StyledTouchableOpacity
+              className="flex flex-row items-center gap-x-1 mx-auto p-3 rounded-full bg-solana-green shadow-2xl"
+              activeOpacity={0.8}
+              onPress={onClickNewPost}
+            >
+              <IconArrowUp size={16} color="black" />
+              <StyledText className="font-semibold text-black">
+                New Post
+              </StyledText>
+            </StyledTouchableOpacity>
+          </StyledView>
         </StyledView>
       )}
     </>

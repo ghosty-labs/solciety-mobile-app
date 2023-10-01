@@ -13,7 +13,7 @@ const IconArrowUp = ({ size, color }: IconArrowUpProps) => {
       height={size}
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={2}
       stroke="currentColor"
       color={color}
       //   xmlns="http://www.w3.org/2000/svg"

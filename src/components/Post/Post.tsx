@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   StyledImage,
   StyledText,
@@ -8,29 +8,52 @@ import {
 import Avatar from '../Common/Avatar'
 import { IconComment, IconEllipsis, IconHeart, IconShare } from '../Icons/Icon'
 import moment from 'moment'
-import { numberFormatter, prettyTruncate, toMl } from '../../utils/common'
-import { IPost } from '../../types/post'
-import { useBottomDrawer } from '../../providers/BottomDrawerProvider'
+import { numberFormatter, prettyTruncate } from '../../utils/common'
+import { IPost, TPostItem } from '../../types/post'
+import { RootStackParamList } from '../../types/navigation'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native'
+import { useStore } from '../../providers/ContextProvider'
 
 interface PostProps {
+  type: TPostItem
   data: IPost
 }
 
-const Post = ({ data }: PostProps) => {
-  const setter = useBottomDrawer()
+const Post = ({ type, data }: PostProps) => {
+  const [totalReply, setTotalReply] = useState<number>(0)
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'PostDetail'>>()
+  const store = useStore()
   const liked = data.liked?.filter(
     (address) => address === 'ANwvF5jduUnY7unZin42NxB5cz4ctFqEmcVt5nWekpFq',
   )
 
-  const onClickReply = () => {
-    setter?.setReplyData?.(data)
-    setter?.setShowDrawer('reply')
+  useEffect(() => {
+    if (store?.newReply !== null) {
+      setTimeout(() => {
+        setTotalReply(totalReply + 1)
+      }, 6000)
+    }
+  }, [store?.newReply])
+
+  const handleTotalReply = () => {
+    if (type === 'post-detail') {
+      return numberFormatter((data?.total_comment || 0) + totalReply)
+    }
+
+    return numberFormatter(data?.total_comment || 0)
   }
 
   return (
     <StyledTouchableOpacity
       className="flex flex-row items-start mb-4 border-b border-zinc-800 px-4 pb-4"
       activeOpacity={1}
+      onPress={(e) => {
+        e.stopPropagation()
+        navigation.navigate('PostDetail', { type, data })
+      }}
     >
       <Avatar
         url={require('../../assets/screen/connect/sample.png')}
@@ -49,7 +72,7 @@ const Post = ({ data }: PostProps) => {
           </StyledView>
           <StyledView className="flex flex-row items-center">
             <StyledText className="text-xs text-zinc-400 mr-4">
-              {moment(toMl(data.updated_at)).fromNow()}
+              {moment(data.created_at).fromNow()}
             </StyledText>
             <IconEllipsis size={20} color="#a1a1aa" />
           </StyledView>
@@ -63,16 +86,12 @@ const Post = ({ data }: PostProps) => {
           {data.tag !== '[untagged]' && `#${data.tag.replaceAll('-', ' #')}`}
         </StyledText>
         <StyledView className="flex flex-row justify-between mt-2">
-          <StyledTouchableOpacity
-            className="flex flex-row item-center"
-            activeOpacity={0.9}
-            onPress={onClickReply}
-          >
+          <StyledView className="flex flex-row item-center">
             <IconComment size={20} color="#a1a1aa" />
             <StyledText className="font-semibold text-zinc-500 ml-1">
-              {numberFormatter(data?.total_comment || 0)}
+              {handleTotalReply()}
             </StyledText>
-          </StyledTouchableOpacity>
+          </StyledView>
           <StyledView className="flex flex-row item-center">
             <IconHeart
               size={20}

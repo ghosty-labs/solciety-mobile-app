@@ -6,6 +6,8 @@ import MainNavigation from './MainNavigation'
 import AuthNavigation from './AuthNavigation'
 import { RootStackParamList } from '../types/navigation'
 import SettingNavigation from './SettingNavigation'
+import PostDetailScreen from '../screens/post/PostDetail'
+import HeaderBackPostDetail from '../components/Post/HeaderBackPostDetail'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 
@@ -37,6 +39,27 @@ const RootNavigation = () => {
             animationTypeForReplace: 'push',
             animation: 'fade',
           }}
+        />
+        <RootStack.Screen
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#18181b',
+            },
+            headerTitleStyle: {
+              color: 'white',
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: 'white',
+            headerLeft: () => {
+              return <HeaderBackPostDetail />
+            },
+            title: 'Post',
+            animationTypeForReplace: 'push',
+            animation: 'slide_from_right',
+          }}
+          name="PostDetail"
+          component={PostDetailScreen}
         />
         <RootStack.Screen name="Setting" component={SettingNavigation} />
       </RootStack.Navigator>

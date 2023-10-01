@@ -16,11 +16,7 @@ import { useSolcietyProgram } from '../../../hooks/useSolcietyProgram'
 import { sendPost } from '../../../program/api/post/sendPost'
 import { Idl, Program } from '@coral-xyz/anchor'
 import { PublicKey } from '@solana/web3.js'
-import {
-  generateRandomNumber,
-  mlToSec,
-  prettyTruncate,
-} from '../../../utils/common'
+import { generateRandomNumber, prettyTruncate } from '../../../utils/common'
 import TagInput from '../../Common/TagInput'
 import { Button } from '../../Common'
 import { CONTENT_MAX_LENGTH } from '../../../constants/variables'
@@ -78,12 +74,12 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
         key: generateRandomNumber().toString(),
         user: `${selectedAccount?.publicKey as PublicKey}`,
         alias: 'iqbalutomo',
-        tag: `${tags.join('-')}`,
+        tag: tags.length !== 0 ? `${tags.join('-')}` : '[untagged]',
         content: content,
         comment: 0,
         likes: 0,
-        created_at: mlToSec(new Date().getTime()),
-        updated_at: mlToSec(new Date().getTime()),
+        created_at: new Date().getTime(),
+        updated_at: new Date().getTime(),
         total_comment: 0,
       })
       paper?.setShowPortal('posted')

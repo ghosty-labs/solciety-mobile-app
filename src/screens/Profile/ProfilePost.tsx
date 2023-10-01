@@ -68,7 +68,7 @@ const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
   }
 
   const renderData = (post: IPost) => {
-    return <Post data={post} />
+    return <Post type="post-profile" data={post} />
   }
 
   const onPressTouch = () => {

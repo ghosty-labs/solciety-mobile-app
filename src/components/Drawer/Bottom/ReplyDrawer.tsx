@@ -14,7 +14,6 @@ import { IPost } from '../../../types/post'
 import {
   alertLog,
   generateRandomNumber,
-  mlToSec,
   prettyTruncate,
 } from '../../../utils/common'
 import { useAuthorization } from '../../../providers/AuthorizationProvider'
@@ -107,12 +106,14 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
         post: replyData?.key,
         parent: replyData?.key,
         content: reply,
-        created_at: mlToSec(new Date().getTime()),
-        updated_at: mlToSec(new Date().getTime()),
+        created_at: new Date().getTime(),
+        updated_at: new Date().getTime(),
       })
       paper?.setShowPortal('replied')
     } catch (error) {
-      alertLog('Error Message', error instanceof Error ? error.message : error)
+      const errMsg = error instanceof Error ? error.message : error
+      if (errMsg === null) return console.log(errMsg)
+      alertLog('Error Message', errMsg)
     } finally {
       setReply('')
       setIsSigning(false)

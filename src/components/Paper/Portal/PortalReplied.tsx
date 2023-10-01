@@ -21,7 +21,7 @@ const PortalReplied = ({ isShow, onClose }: PortalRepliedProps) => {
       <Snackbar
         style={{
           position: 'absolute',
-          bottom: 45,
+          bottom: 52,
           backgroundColor: '#3f3f46',
         }}
         visible={isShow}

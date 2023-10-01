@@ -17,3 +17,5 @@ export interface IPost {
 export interface IPostStatus {
   has_new_post: boolean
 }
+
+export type TPostItem = 'post' | 'post-all' | 'post-detail' | 'post-profile'

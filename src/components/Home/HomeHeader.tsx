@@ -1,10 +1,14 @@
 import React from 'react'
-import { StyledView } from '../../constants/nativewind'
+import { StyledText, StyledView } from '../../constants/nativewind'
 
 const HomeHeader = () => {
   return (
-    <StyledView className="w-full pt-0 px-4 mb-2">
-      <StyledView className="flex flex-row items-center justify-between"></StyledView>
+    <StyledView className="w-full pt-0 px-4 mb-2 bg-zinc-900">
+      <StyledView className="mx-auto">
+        <StyledText className="text-lg font-bold text-white">
+          Solciety
+        </StyledText>
+      </StyledView>
     </StyledView>
   )
 }

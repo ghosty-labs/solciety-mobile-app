@@ -1,10 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { IPost, TPostItem } from './post'
 
 export type RootStackParamList = {
   Splash: undefined
   Auth: undefined
   Main: undefined
   Setting: undefined
+  PostDetail: { type: TPostItem; data: IPost }
 }
 
 export type AuthStackParamList = {
