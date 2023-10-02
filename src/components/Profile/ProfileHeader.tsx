@@ -52,7 +52,7 @@ const ProfileHeader = ({ navigation }: StackProps) => {
           <StyledView className="flex flex-row justify-between gap-x-7 mt-4">
             <StyledView className="flex items-center">
               <StyledText className="text-white">3</StyledText>
-              <StyledText className="font-semibold text-white">NFTs</StyledText>
+              <StyledText className="font-semibold text-white">Post</StyledText>
             </StyledView>
             <StyledView className="flex items-center">
               <StyledText className="text-white">57</StyledText>

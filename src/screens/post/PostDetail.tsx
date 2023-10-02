@@ -8,7 +8,7 @@ import { RootStackParamList } from '../../types/navigation'
 import { RouteProp } from '@react-navigation/native'
 import Post from '../../components/Post/Post'
 import ReplyItem from '../../components/Reply/ReplyItem'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery, useQuery } from 'react-query'
 import { ReplyService } from '../../services/Reply'
 import Avatar from '../../components/Common/Avatar'
 import { prettyTruncate } from '../../utils/common'
@@ -19,6 +19,8 @@ import { LIMIT_SIZE_GET_COMMENT } from '../../constants/variables'
 import { FlatList } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { useRNPaper } from '../../providers/RNPaperProvider'
+import { PostService } from '../../services/Post'
+import { IPost } from '../../types/post'
 
 interface PostDetailScreenProps {
   // navigation: NativeStackNavigationProp<RootStackParamList, 'PostDetail'>
@@ -26,6 +28,7 @@ interface PostDetailScreenProps {
 }
 
 const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
+  const { getPosts } = PostService()
   const { getReplies } = ReplyService()
   const listRef = useRef<FlatList>(null)
   const setter = useBottomDrawer()
@@ -33,8 +36,13 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
   const store = useStore()
   const data = route.params.data
 
+  const { isFetching: isFetchingPost, data: postData } = useQuery({
+    queryKey: 'post-detail',
+    queryFn: () => getPosts({ key: data.key }),
+  })
+
   const {
-    isLoading,
+    isFetching: isFetchingReply,
     data: repliesData,
     hasNextPage,
     fetchNextPage,
@@ -95,28 +103,28 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
 
   return (
     <StyledView className="relative h-full">
-      <StyledView className="h-[92%]">
-        <FlatList
-          ref={listRef}
-          keyExtractor={replyExtractorKey}
-          data={
-            isLoading ? null : repliesData?.pages.map((page) => page).flat()
-          }
-          renderItem={(e) => renderData(e.item)}
-          onEndReached={loadMore}
-          onEndReachedThreshold={0.3}
-          ListHeaderComponent={<Post type="post-detail" data={data} />}
-          ListEmptyComponent={
-            isLoading ? (
-              <StyledView className="my-auto">
-                <ActivityIndicator animating={true} size={30} color="#3f3f46" />
-              </StyledView>
-            ) : null
-          }
-          ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
-          style={{ marginTop: 16, paddingTop: 10 }}
-        />
-      </StyledView>
+      {isFetchingPost && isFetchingReply ? (
+        <StyledView className="my-auto pt-10 pb-20">
+          <ActivityIndicator animating={true} size={30} color="#3f3f46" />
+        </StyledView>
+      ) : (
+        <StyledView className="h-[92%]">
+          <FlatList
+            ref={listRef}
+            keyExtractor={replyExtractorKey}
+            data={repliesData?.pages.map((page) => page).flat()}
+            renderItem={(e) => renderData(e.item)}
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.3}
+            ListHeaderComponent={
+              <Post type="post-detail" data={postData?.[0] as IPost} />
+            }
+            ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
+            style={{ marginTop: 16, paddingTop: 10 }}
+          />
+        </StyledView>
+      )}
+
       <StyledTouchableOpacity
         className="absolute bottom-0 w-full h-16 border-t border-zinc-800 bg-zinc-900"
         activeOpacity={0.8}

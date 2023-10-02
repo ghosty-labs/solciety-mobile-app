@@ -8,12 +8,13 @@ import {
 import Avatar from '../Common/Avatar'
 import { IconComment, IconEllipsis, IconHeart, IconShare } from '../Icons/Icon'
 import moment from 'moment'
-import { numberFormatter, prettyTruncate } from '../../utils/common'
+import { alertLog, numberFormatter, prettyTruncate } from '../../utils/common'
 import { IPost, TPostItem } from '../../types/post'
 import { RootStackParamList } from '../../types/navigation'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
 import { useStore } from '../../providers/ContextProvider'
+import { PostService } from '../../services/Post'
 
 interface PostProps {
   type: TPostItem
@@ -22,13 +23,23 @@ interface PostProps {
 
 const Post = ({ type, data }: PostProps) => {
   const [totalReply, setTotalReply] = useState<number>(0)
+  const [totalLikes, setTotalLikes] = useState<number>(0)
+  const [isLiked, setIsLiked] = useState<boolean>()
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'PostDetail'>>()
   const store = useStore()
-  const liked = data.liked?.filter(
-    (address) => address === 'ANwvF5jduUnY7unZin42NxB5cz4ctFqEmcVt5nWekpFq',
-  )
+  const { putLikePost, putUnlikePost } = PostService()
+
+  useEffect(() => {
+    setTotalLikes(data?.total_like || 0)
+
+    if (data?.likes) {
+      setIsLiked(true)
+    } else {
+      setIsLiked(false)
+    }
+  }, [data])
 
   useEffect(() => {
     if (store?.newReply !== null) {
@@ -44,6 +55,23 @@ const Post = ({ type, data }: PostProps) => {
     }
 
     return numberFormatter(data?.total_comment || 0)
+  }
+
+  const onPressLikePost = async () => {
+    try {
+      if (isLiked) {
+        await putUnlikePost({ post: data?.key })
+        setIsLiked(false)
+        setTotalLikes(totalLikes - 1)
+      } else {
+        await putLikePost({ post: data?.key })
+        setIsLiked(true)
+        setTotalLikes(totalLikes + 1)
+      }
+    } catch (error) {
+      const errMsg = error instanceof Error ? error.message : error
+      alertLog('Error Message', errMsg)
+    }
   }
 
   return (
@@ -63,7 +91,7 @@ const Post = ({ type, data }: PostProps) => {
         <StyledView className="flex flex-row justify-between items-center">
           <StyledView className="flex flex-row items-center gap-x-1">
             <StyledText className="text-base font-semibold text-white">
-              {prettyTruncate(data.user, 10, 'address')}
+              {prettyTruncate(data?.user, 10, 'address')}
             </StyledText>
             <StyledImage
               className="w-4 h-4 rounded-full object-cover"
@@ -72,18 +100,18 @@ const Post = ({ type, data }: PostProps) => {
           </StyledView>
           <StyledView className="flex flex-row items-center">
             <StyledText className="text-xs text-zinc-400 mr-4">
-              {moment(data.created_at).fromNow()}
+              {moment(data?.created_at).fromNow()}
             </StyledText>
             <IconEllipsis size={20} color="#a1a1aa" />
           </StyledView>
         </StyledView>
         <StyledView className="flex flex-row">
           <StyledText className="flex-1 text-base text-white">
-            {data.content}
+            {data?.content}
           </StyledText>
         </StyledView>
         <StyledText className="text-base text-solana-green">
-          {data.tag !== '[untagged]' && `#${data.tag.replaceAll('-', ' #')}`}
+          {data?.tag !== '[untagged]' && `#${data?.tag.replaceAll('-', ' #')}`}
         </StyledText>
         <StyledView className="flex flex-row justify-between mt-2">
           <StyledView className="flex flex-row item-center">
@@ -92,19 +120,20 @@ const Post = ({ type, data }: PostProps) => {
               {handleTotalReply()}
             </StyledText>
           </StyledView>
-          <StyledView className="flex flex-row item-center">
+          <StyledTouchableOpacity
+            className="flex flex-row item-center"
+            activeOpacity={0.8}
+            onPress={onPressLikePost}
+          >
             <IconHeart
               size={20}
-              color={
-                liked?.length === 0 || liked !== undefined
-                  ? '#ec4899'
-                  : '#a1a1aa'
-              }
+              color={isLiked ? '#be185d' : '#a1a1aa'}
+              fill={isLiked ? '#be185d' : 'none'}
             />
             <StyledText className="font-semibold text-zinc-500 ml-1">
-              {numberFormatter(data?.likes || 0)}
+              {totalLikes}
             </StyledText>
-          </StyledView>
+          </StyledTouchableOpacity>
           <IconShare size={20} color="#a1a1aa" />
         </StyledView>
       </StyledView>

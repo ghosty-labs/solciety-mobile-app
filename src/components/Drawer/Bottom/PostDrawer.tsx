@@ -80,6 +80,7 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
         likes: 0,
         created_at: new Date().getTime(),
         updated_at: new Date().getTime(),
+        total_like: 0,
         total_comment: 0,
       })
       paper?.setShowPortal('posted')

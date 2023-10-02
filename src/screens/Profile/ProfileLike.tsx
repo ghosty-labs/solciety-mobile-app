@@ -20,8 +20,8 @@ const ProfileLikeScreen = () => {
         'ANwvF5jduUnY7unZin42NxB5cz4ctFqEmcVt5nWekpFq',
         'AokJGyFmJjZ99qrPcvsLfa2u5xsK2yh9LBcH3H7xapo9',
       ],
-      likes: 2,
       comment: 0,
+      total_like: 0,
       total_comment: 0,
     },
   ]
@@ -30,7 +30,7 @@ const ProfileLikeScreen = () => {
     <HScrollView index={3}>
       <StyledView className="h-full pt-4 bg-zinc-900">
         {dataLiked.map((post, index) => {
-          return <Post key={index} data={post} />
+          return <Post key={index} type="post" data={post} />
         })}
       </StyledView>
     </HScrollView>

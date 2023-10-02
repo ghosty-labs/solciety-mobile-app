@@ -4,14 +4,15 @@ import { Svg, Path } from 'react-native-svg'
 interface IconHeartProps {
   size: number
   color: string
+  fill?: string
 }
 
-const IconHeart = ({ size, color }: IconHeartProps) => {
+const IconHeart = ({ size, color, fill = 'none' }: IconHeartProps) => {
   return (
     <Svg
       width={size}
       height={size}
-      fill="none"
+      fill={fill}
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
