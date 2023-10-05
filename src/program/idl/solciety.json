@@ -145,6 +145,58 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "followUser",
+      "accounts": [
+        {
+          "name": "follow",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "following",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "unfollowUser",
+      "accounts": [
+        {
+          "name": "follow",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "unfollowing",
+          "type": "publicKey"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -185,6 +237,32 @@
       }
     },
     {
+      "name": "Follow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "following",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "FollowState"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Post",
       "type": {
         "kind": "struct",
@@ -212,6 +290,36 @@
           {
             "name": "content",
             "type": "string"
+          },
+          {
+            "name": "image",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Unfollow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "unfollowing",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "FollowState"
+            }
           }
         ]
       }
@@ -228,6 +336,20 @@
           },
           {
             "name": "Deleted"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FollowState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Followed"
+          },
+          {
+            "name": "Unfollowed"
           }
         ]
       }

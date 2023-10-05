@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { TabBar } from 'react-native-tab-view'
 import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-header'
-import { IProfileTabs } from '../../types/navigation'
+import { HomeStackParamList, IProfileTabs } from '../../types/navigation'
 import ProfilePostScreen from '../profile/ProfilePost'
 import ProfileRepliesScreen from '../profile/ProfileReplies'
 import ProfileMediaScreen from '../profile/ProfileMedia'
@@ -11,16 +11,16 @@ import ProfileLikeScreen from '../profile/ProfileLike'
 import ProfileHeader from '../../components/Profile/ProfileHeader'
 import { StyledText, StyledView } from '../../constants/nativewind'
 import { ActivityIndicator } from 'react-native-paper'
-import { ProfileService } from '../../services/Profile'
+import { RouteProp, useRoute } from '@react-navigation/native'
 import { useQuery } from 'react-query'
-import { useAuthorization } from '../../providers/AuthorizationProvider'
+import { ProfileService } from '../../services/Profile'
 import { IProfile } from '../../types/profile'
 
-const ProfileScreen = () => {
+const ProfileDetailScreen = () => {
   const [index, setIndex] = useState<number>(0)
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const { selectedAccount } = useAuthorization()
+  const route = useRoute<RouteProp<HomeStackParamList, 'ProfileDetail'>>()
   const { getProfile } = ProfileService()
   const layout = useWindowDimensions()
   const [routes] = useState<IProfileTabs[]>([
@@ -43,10 +43,10 @@ const ProfileScreen = () => {
   ])
 
   const { data: dataProfile } = useQuery({
-    queryKey: 'get-currentuser-profile',
+    queryKey: 'get-user-profile',
     queryFn: () =>
       getProfile({
-        public_key: selectedAccount?.publicKey,
+        public_key: route.params.publickKey,
       }),
   })
 
@@ -123,4 +123,4 @@ const ProfileScreen = () => {
   )
 }
 
-export default ProfileScreen
+export default ProfileDetailScreen

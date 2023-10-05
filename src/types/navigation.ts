@@ -22,6 +22,14 @@ export type MainTabParamList = {
   Profile: { accountId: string }
 }
 
+// Stacks - Start
+export type HomeStackParamList = {
+  HomeTab: undefined
+  ProfileDetail: { publickKey: string }
+  PostDetail: { type: TPostItem; data: IPost }
+}
+// Stack - End
+
 export type StackProps = NativeStackScreenProps<RootStackParamList>
 export type MainTabProps = NativeStackScreenProps<MainTabParamList>
 

@@ -10,7 +10,7 @@ import { IconComment, IconEllipsis, IconHeart, IconShare } from '../Icons/Icon'
 import moment from 'moment'
 import { alertLog, numberFormatter, prettyTruncate } from '../../utils/common'
 import { IPost, TPostItem } from '../../types/post'
-import { RootStackParamList } from '../../types/navigation'
+import { HomeStackParamList } from '../../types/navigation'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
 import { useStore } from '../../providers/ContextProvider'
@@ -27,7 +27,7 @@ const Post = ({ type, data }: PostProps) => {
   const [isLiked, setIsLiked] = useState<boolean>()
 
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList, 'PostDetail'>>()
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>()
   const store = useStore()
   const { putLikePost, putUnlikePost } = PostService()
 
@@ -83,16 +83,30 @@ const Post = ({ type, data }: PostProps) => {
         navigation.navigate('PostDetail', { type, data })
       }}
     >
-      <Avatar
-        url={require('../../assets/screen/connect/sample.png')}
-        size={48}
-      />
+      <StyledTouchableOpacity
+        activeOpacity={1}
+        onPress={() =>
+          navigation.navigate('ProfileDetail', { publickKey: data.user })
+        }
+      >
+        <Avatar
+          url={require('../../assets/screen/connect/sample.png')}
+          size={48}
+        />
+      </StyledTouchableOpacity>
       <StyledView className="w-[87%] pl-2 -mt-1">
         <StyledView className="flex flex-row justify-between items-center">
           <StyledView className="flex flex-row items-center gap-x-1">
-            <StyledText className="text-base font-semibold text-white">
-              {prettyTruncate(data?.user, 10, 'address')}
-            </StyledText>
+            <StyledTouchableOpacity
+              activeOpacity={1}
+              onPress={() =>
+                navigation.navigate('ProfileDetail', { publickKey: data.user })
+              }
+            >
+              <StyledText className="text-base font-semibold text-white">
+                {prettyTruncate(data?.user, 10, 'address')}
+              </StyledText>
+            </StyledTouchableOpacity>
             <StyledImage
               className="w-4 h-4 rounded-full object-cover"
               source={require('../../assets/common/verify.png')}

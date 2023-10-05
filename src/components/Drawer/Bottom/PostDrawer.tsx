@@ -77,7 +77,7 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
         tag: tags.length !== 0 ? `${tags.join('-')}` : '[untagged]',
         content: content,
         comment: 0,
-        likes: 0,
+        likes: undefined,
         created_at: new Date().getTime(),
         updated_at: new Date().getTime(),
         total_like: 0,
@@ -135,9 +135,7 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
                   title="Post"
                   textColor="sol-green"
                   textSize="xl"
-                  onPress={() => {
-                    handleSendPost()
-                  }}
+                  onPress={handleSendPost}
                   isDisabled={content.split(' ').join('').length === 0}
                   isLoading={isSigning}
                 />

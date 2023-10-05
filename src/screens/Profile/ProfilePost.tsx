@@ -9,7 +9,7 @@ import { HFlatList } from 'react-native-head-tab-view'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { useStore } from '../../providers/ContextProvider'
 import { useRNPaper } from '../../providers/RNPaperProvider'
-import { StyledView } from '../../constants/nativewind'
+import { StyledText, StyledView } from '../../constants/nativewind'
 import { Button } from '../../components/Common'
 import { FlatList } from 'react-native'
 
@@ -75,6 +75,14 @@ const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
     listRef.current?.scrollToOffset({ offset: 0, animated: true })
   }
 
+  const renderEmpty = () => {
+    return (
+      <StyledText className="mx-auto mt-40 text-base text-zinc-500">
+        Nothing to see here yet.
+      </StyledText>
+    )
+  }
+
   return (
     <>
       <HFlatList
@@ -85,6 +93,7 @@ const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
         renderItem={(e) => renderData(e.item)}
         onEndReached={loadMore}
         onEndReachedThreshold={0.3}
+        ListEmptyComponent={() => data?.pages[0].length === 0 && renderEmpty()}
         ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
         style={{ marginTop: 16 }}
       />

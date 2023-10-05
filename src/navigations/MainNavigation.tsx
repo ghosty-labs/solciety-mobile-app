@@ -1,6 +1,5 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import HomeScreen from '../screens/main/Home'
 import SearchScreen from '../screens/main/Search'
 import PostScreen from '../screens/main/Post'
 import NotificationScreen from '../screens/main/Notification'
@@ -15,6 +14,7 @@ import {
 } from '../components/Icons/Icon'
 import { useBottomDrawer } from '../providers/BottomDrawerProvider'
 import { StyledView } from '../constants/nativewind'
+import HomeStackScreen from '../stacks/HomeStack'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -37,7 +37,7 @@ const MainNavigation = () => {
     >
       <MainTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {

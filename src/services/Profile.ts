@@ -9,11 +9,11 @@ export const ProfileService = () => {
   })
 
   const getProfile = async (params?: object) => {
-    const res = await ProfileRequest.get<{ data: IProfile }>(`/profile`, {
+    const res = await ProfileRequest.get<IProfile>(`/profile`, {
       params,
     })
 
-    return res.data.data
+    return res.data
   }
 
   const putProfile = async (data?: object, token?: string, type?: string) => {

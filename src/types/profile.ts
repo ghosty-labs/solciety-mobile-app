@@ -1,11 +1,13 @@
 export interface IProfile {
   _id: string
   public_key: string
-  __v: number
   alias: string | null
-  bio: string | null
-  created_at: number
-  has_new_post: boolean
   image: string
+  bio: string | null
+  total_follower: 0
+  total_following: 0
+  total_post: 0
+  has_new_post: boolean
+  created_at: number
   updated_at: number
 }
