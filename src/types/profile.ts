@@ -13,3 +13,5 @@ export interface IProfile {
   created_at: number
   updated_at: number
 }
+
+export type TProfileDetail = 'currentuser-profile' | 'user-profile'

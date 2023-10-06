@@ -21,6 +21,7 @@ import { Idl, Program } from '@coral-xyz/anchor'
 import { PublicKey } from '@solana/web3.js'
 import { unfollowUser } from '../../program/api/follow/unfollowUser'
 import { useRNPaper } from '../../providers/RNPaperProvider'
+import { useStore } from '../../providers/ContextProvider'
 
 interface ProfileHeaderProps {
   dataProfile: IProfile
@@ -31,6 +32,7 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
   const [isFollowed, setIsFollowed] = useState<boolean>(false)
   const [isSuccessCall, setIsSuccessCall] = useState<boolean>(false)
   const [totalFollowers, setTotalFollowers] = useState<number>(0)
+  const [totalPost, setTotalPost] = useState<number>(0)
 
   const { connection } = useConnection()
   const { selectedAccount, authorizeSession } = useAuthorization()
@@ -42,9 +44,12 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const paper = useRNPaper()
+  const store = useStore()
 
   useEffect(() => {
     setTotalFollowers(dataProfile?.total_follower)
+    setTotalPost(dataProfile?.total_post)
+
     if (dataProfile?.is_followed) return setIsFollowed(true)
 
     return setIsFollowed(false)
@@ -65,6 +70,14 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
       }, 4000)
     }
   }, [isSuccessCall])
+
+  useEffect(() => {
+    if (store?.newPost !== null) {
+      setTimeout(() => {
+        setTotalPost(totalPost + 1)
+      }, 4000)
+    }
+  }, [store?.newPost])
 
   const onPressFollow = async () => {
     setIsSigning(true)
@@ -177,7 +190,7 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
           <StyledView className="flex flex-row justify-between gap-x-7 mt-4">
             <StyledView className="flex items-center">
               <StyledText className="text-white">
-                {numberFormatter(dataProfile?.total_post as number)}
+                {numberFormatter(totalPost)}
               </StyledText>
               <StyledText className="font-semibold text-white">Post</StyledText>
             </StyledView>

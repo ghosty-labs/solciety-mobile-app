@@ -2,7 +2,6 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import SearchScreen from '../screens/main/Search'
 import PostScreen from '../screens/main/Post'
-import NotificationScreen from '../screens/main/Notification'
 import ProfileScreen from '../screens/main/Profile'
 import { MainTabParamList } from '../types/navigation'
 import {
@@ -15,6 +14,7 @@ import {
 import { useBottomDrawer } from '../providers/BottomDrawerProvider'
 import { StyledView } from '../constants/nativewind'
 import HomeStackScreen from '../stacks/HomeStack'
+import NotifAllScreen from '../screens/notification/NotifAllScreen'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -90,7 +90,7 @@ const MainNavigation = () => {
       />
       <MainTab.Screen
         name="Notifications"
-        component={NotificationScreen}
+        component={NotifAllScreen}
         options={{
           headerStyle: {
             backgroundColor: '#18181b',

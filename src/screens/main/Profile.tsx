@@ -65,7 +65,12 @@ const ProfileScreen = () => {
 
     switch (route.key) {
       case 'posts':
-        return <ProfilePostScreen isRefreshing={refreshing} />
+        return (
+          <ProfilePostScreen
+            isRefreshing={refreshing}
+            type="currentuser-profile"
+          />
+        )
       case 'replies':
         return <ProfileRepliesScreen />
       case 'collectibles':

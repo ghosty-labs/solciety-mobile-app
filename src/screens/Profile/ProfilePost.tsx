@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { IPost } from '../../types/post'
 import Post from '../../components/Post/Post'
 import { PostService } from '../../services/Post'
@@ -12,12 +12,15 @@ import { useRNPaper } from '../../providers/RNPaperProvider'
 import { StyledText, StyledView } from '../../constants/nativewind'
 import { Button } from '../../components/Common'
 import { FlatList } from 'react-native'
+import { TProfileDetail } from '../../types/profile'
+import { useFocusEffect } from '@react-navigation/native'
 
 interface ProfilePostScreenProps {
   isRefreshing: boolean
+  type: TProfileDetail
 }
 
-const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
+const ProfilePostScreen = ({ isRefreshing, type }: ProfilePostScreenProps) => {
   const { selectedAccount } = useAuthorization()
   const { getPosts } = PostService()
   const store = useStore()
@@ -30,6 +33,14 @@ const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
     }
   }, [isRefreshing])
 
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+
+      return () => null
+    }, []),
+  )
+
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
       queryKey: [`profile-post-${selectedAccount?.publicKey}`],
@@ -37,7 +48,8 @@ const ProfilePostScreen = ({ isRefreshing }: ProfilePostScreenProps) => {
         getPosts({
           __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
           __limit: LIMIT_SIZE_GET_POSTS,
-          user: selectedAccount?.publicKey,
+          user:
+            type === 'currentuser-profile' ? selectedAccount?.publicKey : null,
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,

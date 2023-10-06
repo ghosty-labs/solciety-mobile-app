@@ -8,7 +8,6 @@ import { ActivityIndicator } from 'react-native-paper'
 import { HFlatList } from 'react-native-head-tab-view'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { useStore } from '../../providers/ContextProvider'
-import { useRNPaper } from '../../providers/RNPaperProvider'
 import {
   StyledText,
   StyledTouchableOpacity,
@@ -25,7 +24,6 @@ const HomeAllScreen = () => {
   const { selectedAccount } = useAuthorization()
   const { getPosts, getPostStatus, putPostStatus } = PostService()
   const store = useStore()
-  const paper = useRNPaper()
   const listRef = useRef<FlatList>(null)
 
   const onRefresh = useCallback(() => {
@@ -72,8 +70,6 @@ const HomeAllScreen = () => {
     if (store?.newPost !== null) {
       setTimeout(() => {
         data?.pages[0].unshift(store?.newPost as IPost)
-        store?.setNewPost(null)
-        paper?.setShowPortal(null)
       }, 4000)
     }
   }, [store?.newPost])
