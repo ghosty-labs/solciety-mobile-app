@@ -15,6 +15,7 @@ import { ProfileService } from '../../services/Profile'
 import { useQuery } from 'react-query'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { IProfile } from '../../types/profile'
+import { useFocusEffect } from '@react-navigation/native'
 
 const ProfileScreen = () => {
   const [index, setIndex] = useState<number>(0)
@@ -42,7 +43,15 @@ const ProfileScreen = () => {
     },
   ])
 
-  const { data: dataProfile } = useQuery({
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+
+      return () => null
+    }, []),
+  )
+
+  const { data: dataProfile, refetch } = useQuery({
     queryKey: 'get-currentuser-profile',
     queryFn: () =>
       getProfile({

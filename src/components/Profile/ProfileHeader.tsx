@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   StyledImage,
   StyledText,
@@ -29,6 +29,8 @@ interface ProfileHeaderProps {
 const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
   const [isSigning, setIsSigning] = useState<boolean>(false)
   const [isFollowed, setIsFollowed] = useState<boolean>(false)
+  const [isSuccessCall, setIsSuccessCall] = useState<boolean>(false)
+  const [totalFollowers, setTotalFollowers] = useState<number>(0)
 
   const { connection } = useConnection()
   const { selectedAccount, authorizeSession } = useAuthorization()
@@ -40,6 +42,29 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const paper = useRNPaper()
+
+  useEffect(() => {
+    setTotalFollowers(dataProfile?.total_follower)
+    if (dataProfile?.is_followed) return setIsFollowed(true)
+
+    return setIsFollowed(false)
+  }, [dataProfile])
+
+  useEffect(() => {
+    if (isSuccessCall) {
+      setTimeout(() => {
+        if (isFollowed) {
+          setIsFollowed(false)
+          setTotalFollowers(totalFollowers - 1)
+        } else {
+          setIsFollowed(true)
+          setTotalFollowers(totalFollowers + 1)
+        }
+        paper?.setShowPortal(null)
+        setIsSuccessCall(false)
+      }, 4000)
+    }
+  }, [isSuccessCall])
 
   const onPressFollow = async () => {
     setIsSigning(true)
@@ -53,7 +78,7 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
 
       paper?.setTypeFollow?.('follow')
       paper?.setShowPortal('follow')
-      setIsFollowed(true)
+      setIsSuccessCall(true)
       console.log('signature: ', signature)
     } catch (error) {
       const errMsg = error instanceof Error ? error.message : error
@@ -77,7 +102,7 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
 
       paper?.setTypeFollow?.('unfollow')
       paper?.setShowPortal('follow')
-      setIsFollowed(false)
+      setIsSuccessCall(true)
       console.log('signature: ', signature)
     } catch (error) {
       const errMsg = error instanceof Error ? error.message : error
@@ -166,7 +191,7 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
             </StyledView>
             <StyledView className="flex items-center">
               <StyledText className="text-white">
-                {numberFormatter(dataProfile?.total_follower as number)}
+                {numberFormatter(totalFollowers)}
               </StyledText>
               <StyledText className="font-semibold text-white">
                 Followers
@@ -200,8 +225,8 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
             borderColor="zinc"
             radius="xl"
             onPress={onPressUnfollow}
-            isDisabled={isSigning}
-            isLoading={isSigning}
+            isDisabled={isSigning || isSuccessCall}
+            isLoading={isSigning || isSuccessCall}
           />
         ) : (
           <Button
@@ -214,8 +239,8 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
             borderColor="white"
             radius="xl"
             onPress={onPressFollow}
-            isDisabled={isSigning}
-            isLoading={isSigning}
+            isDisabled={isSigning || isSuccessCall}
+            isLoading={isSigning || isSuccessCall}
           />
         )}
       </StyledView>

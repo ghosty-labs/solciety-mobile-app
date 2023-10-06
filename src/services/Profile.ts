@@ -9,8 +9,13 @@ export const ProfileService = () => {
   })
 
   const getProfile = async (params?: object) => {
+    const tokenUser = await getTokenUser()
+
     const res = await ProfileRequest.get<IProfile>(`/profile`, {
       params,
+      headers: {
+        Authorization: tokenUser,
+      },
     })
 
     return res.data

@@ -8,6 +8,8 @@ export interface IProfile {
   total_following: 0
   total_post: 0
   has_new_post: boolean
+  has_notification: boolean
+  is_followed: boolean
   created_at: number
   updated_at: number
 }
