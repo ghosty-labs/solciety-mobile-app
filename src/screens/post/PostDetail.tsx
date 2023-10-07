@@ -35,10 +35,11 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
   const paper = useRNPaper()
   const store = useStore()
   const data = route.params.data
+  const postKey = route.params.postKey
 
   const { isFetching: isFetchingPost, data: postData } = useQuery({
     queryKey: 'post-detail',
-    queryFn: () => getPosts({ key: data.key }),
+    queryFn: () => getPosts({ key: data?.key || postKey }),
   })
 
   const {
@@ -51,7 +52,7 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
     queryKey: [`get-comment`],
     queryFn: ({ pageParam = 1 }) =>
       getReplies({
-        post: data.key,
+        post: data?.key || postKey,
         __skip: (pageParam - 1) * LIMIT_SIZE_GET_COMMENT,
         __limit: LIMIT_SIZE_GET_COMMENT,
       }),
@@ -84,7 +85,7 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
   }
 
   const renderData = (reply: IReply) => {
-    return <ReplyItem data={reply} />
+    return <ReplyItem key={reply._id} data={reply} />
   }
 
   const accountPost = () => {
@@ -96,7 +97,7 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
 
   const onClickReply = () => {
     if (store?.newReply === null) {
-      setter?.setReplyData?.(data)
+      setter?.setReplyData?.(data as IPost)
       setter?.setShowDrawer('reply')
     }
   }

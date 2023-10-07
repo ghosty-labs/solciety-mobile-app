@@ -6,7 +6,7 @@ export type RootStackParamList = {
   Auth: undefined
   Main: undefined
   Setting: undefined
-  PostDetail: { type: TPostItem; data: IPost }
+  PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
 }
 
 export type AuthStackParamList = {
@@ -25,8 +25,14 @@ export type MainTabParamList = {
 // Stacks - Start
 export type HomeStackParamList = {
   HomeTab: undefined
-  ProfileDetail: { publickKey: string }
-  PostDetail: { type: TPostItem; data: IPost }
+  ProfileDetail: { publicKey: string }
+  PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
+}
+
+export type NotifStackParamList = {
+  NotifTab: undefined
+  ProfileDetail: { publicKey: string }
+  PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
 }
 // Stack - End
 
@@ -38,7 +44,7 @@ export interface INotificationTabs {
   title: string
 }
 
-type TNotificationTabs = 'all' | 'replies' | 'mention' | 'verified'
+type TNotificationTabs = 'all' | 'replies' | 'likes' | 'follow'
 
 export interface IHomeTabs {
   key: THomeTabs

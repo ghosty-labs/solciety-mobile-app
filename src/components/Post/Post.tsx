@@ -86,7 +86,7 @@ const Post = ({ type, data }: PostProps) => {
       <StyledTouchableOpacity
         activeOpacity={1}
         onPress={() =>
-          navigation.navigate('ProfileDetail', { publickKey: data.user })
+          navigation.navigate('ProfileDetail', { publicKey: data.user })
         }
       >
         <Avatar
@@ -100,7 +100,7 @@ const Post = ({ type, data }: PostProps) => {
             <StyledTouchableOpacity
               activeOpacity={1}
               onPress={() =>
-                navigation.navigate('ProfileDetail', { publickKey: data.user })
+                navigation.navigate('ProfileDetail', { publicKey: data.user })
               }
             >
               <StyledText className="text-base font-semibold text-white">

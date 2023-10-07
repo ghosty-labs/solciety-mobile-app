@@ -16,6 +16,7 @@ import {
 import { FlatList } from 'react-native'
 import { IconArrowUp } from '../../components/Icons/Icon'
 import { PublicKey } from '@solana/web3.js'
+import { useFocusEffect } from '@react-navigation/native'
 
 const HomeAllScreen = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
@@ -53,6 +54,14 @@ const HomeAllScreen = () => {
       setIsNowPost(true)
     }
   }, [newPostStatus?.has_new_post])
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+
+      return () => null
+    }, []),
+  )
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import SearchScreen from '../screens/main/Search'
 import PostScreen from '../screens/main/Post'
@@ -14,12 +14,34 @@ import {
 import { useBottomDrawer } from '../providers/BottomDrawerProvider'
 import { StyledView } from '../constants/nativewind'
 import HomeStackScreen from '../stacks/HomeStack'
-import NotifAllScreen from '../screens/notification/NotifAllScreen'
+import { NotificationService } from '../services/Notification'
+import { useQuery } from 'react-query'
+import { useAuthorization } from '../providers/AuthorizationProvider'
+import { useStore } from '../providers/ContextProvider'
+import NotifStackScreen from '../stacks/NotifStack'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
 const MainNavigation = () => {
+  const { selectedAccount } = useAuthorization()
+  const { getNotificationStatus } = NotificationService()
   const setter = useBottomDrawer()
+  const store = useStore()
+
+  const { data: notificationStatus } = useQuery({
+    queryKey: 'get-notif-status',
+    queryFn: () =>
+      getNotificationStatus({
+        public_key: selectedAccount?.publicKey,
+      }),
+    refetchInterval: 2000,
+  })
+
+  useEffect(() => {
+    if (notificationStatus) {
+      store?.setNewNotif(true)
+    }
+  }, [notificationStatus])
 
   return (
     <MainTab.Navigator
@@ -90,11 +112,12 @@ const MainNavigation = () => {
       />
       <MainTab.Screen
         name="Notifications"
-        component={NotifAllScreen}
+        component={NotifStackScreen}
         options={{
           headerStyle: {
             backgroundColor: '#18181b',
           },
+          headerShown: false,
           headerTitleStyle: {
             color: 'white',
             fontSize: 30,
@@ -105,7 +128,9 @@ const MainNavigation = () => {
             return (
               <StyledView className="relative">
                 <IconBell size={25} color={focused ? 'white' : '#71717a'} />
-                <StyledView className="absolute right-0 w-3 h-3 rounded-full bg-red-500"></StyledView>
+                {notificationStatus && (
+                  <StyledView className="absolute right-0 w-3 h-3 rounded-full bg-red-500"></StyledView>
+                )}
               </StyledView>
             )
           },

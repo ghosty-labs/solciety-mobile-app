@@ -1,36 +1,32 @@
 import React from 'react'
 import { StyledView } from '../../constants/nativewind'
-import { IconAt, IconHeart, IconReply, IconUser } from '../Icons/Icon'
+import { IconHeart, IconReply, IconUser } from '../Icons/Icon'
 import { INotificationItem } from '../../types/notification'
 
 interface NotificationStatusProps {
-  data: INotificationItem
+  notifData: INotificationItem
 }
 
-const NotificationStatus = ({ data }: NotificationStatusProps) => {
+const NotificationStatus = ({ notifData }: NotificationStatusProps) => {
   const iconStatus = () => {
-    switch (data.notification_status) {
-      case 'followed':
-        return <IconUser size={12} color="white" />
-      case 'replied':
+    switch (notifData.type) {
+      case 'COMMENT':
         return <IconReply size={12} color="white" />
-      case 'mentioned':
-        return <IconAt size={12} color="white" />
-      case 'liked':
+      case 'LIKE':
         return <IconHeart size={12} color="white" />
+      case 'FOLLOW':
+        return <IconUser size={12} color="white" />
     }
   }
 
   const colorStatus = () => {
-    switch (data.notification_status) {
-      case 'followed':
-        return 'bg-purple-700'
-      case 'replied':
+    switch (notifData.type) {
+      case 'COMMENT':
         return 'bg-blue-500'
-      case 'mentioned':
-        return 'bg-green-600'
-      case 'liked':
+      case 'LIKE':
         return 'bg-pink-500'
+      case 'FOLLOW':
+        return 'bg-purple-700'
     }
   }
 

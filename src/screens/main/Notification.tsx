@@ -1,23 +1,38 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyledText, StyledView } from '../../constants/nativewind'
-import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
+import { TabBar } from 'react-native-tab-view'
 import { useWindowDimensions } from 'react-native'
 import { INotificationTabs } from '../../types/navigation'
 import NotifAllScreen from '../notification/NotifAllScreen'
 import NotifReplyScreen from '../notification/NotifReplyScreen'
-import NotifMentionScreen from '../notification/NotifMentionScreen'
-import NotifVerifiedScreen from '../notification/NotifVerifiedScreen'
-
-const renderScene = SceneMap<INotificationTabs>({
-  all: NotifAllScreen,
-  replies: NotifReplyScreen,
-  mention: NotifMentionScreen,
-  verified: NotifVerifiedScreen,
-})
+import NotifLikeScreen from '../notification/NotifLikeScreen'
+import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-header'
+import NotificationHeader from '../notification/NotificationHeader'
+import { useFocusEffect } from '@react-navigation/native'
+import { NotificationService } from '../../services/Notification'
+import NotifFollowScreen from '../notification/NotificationFollowScreen'
 
 const NotificationScreen = () => {
   const [index, setIndex] = useState<number>(0)
+
+  const { putNotificationStatus } = NotificationService()
+
+  useFocusEffect(
+    useCallback(() => {
+      const putNotifStatus = async () => {
+        try {
+          await putNotificationStatus()
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      putNotifStatus()
+
+      return () => null
+    }, []),
+  )
 
   const layout = useWindowDimensions()
   const [routes] = useState<INotificationTabs[]>([
@@ -30,31 +45,46 @@ const NotificationScreen = () => {
       title: 'Replies',
     },
     {
-      key: 'mention',
-      title: 'Mentions',
+      key: 'likes',
+      title: 'Likes',
     },
     {
-      key: 'verified',
-      title: 'Verified',
+      key: 'follow',
+      title: 'Follow',
     },
   ])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderScene = (e: any) => {
+    const { route } = e
+
+    switch (route.key) {
+      case 'all':
+        return <NotifAllScreen />
+      case 'replies':
+        return <NotifReplyScreen />
+      case 'likes':
+        return <NotifLikeScreen />
+      case 'follow':
+        return <NotifFollowScreen />
+    }
+  }
+
   return (
     <StyledView className="h-full bg-zinc-900">
-      <TabView
-        style={{ width: '100%' }}
+      <CollapsibleHeaderTabView
+        renderScrollHeader={() => <NotificationHeader />}
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
-        tabBarPosition="top"
         renderTabBar={(props) => (
           <TabBar
             {...props}
             renderLabel={(props) => {
               return (
                 <StyledText
-                  className={`font-semibold text-base ${
+                  className={`font-semibold text-sm ${
                     props.focused ? 'text-white' : 'text-zinc-500'
                   }`}
                 >
@@ -62,7 +92,11 @@ const NotificationScreen = () => {
                 </StyledText>
               )
             }}
-            style={{ backgroundColor: '#18181b' }}
+            style={{
+              backgroundColor: '#18181b',
+              marginTop: -8,
+              paddingVertical: 4,
+            }}
             indicatorStyle={{
               backgroundColor: '#14F195',
               width: '15%',

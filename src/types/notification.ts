@@ -1,18 +1,14 @@
 export interface INotificationItem {
   _id: string
-  signature: string
+  type: TNotificationStatus
   key: string
   user: string
-  alias?: string
-  tag: string
-  content: string
-  comment?: number
-  likes?: number
+  from: string
+  icon: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any
   created_at: number
   updated_at: number
-  notification_status: TNotificationStatus
-  reply_message?: string
-  mention_message?: string
 }
 
-type TNotificationStatus = 'followed' | 'mentioned' | 'replied' | 'liked'
+type TNotificationStatus = 'COMMENT' | 'LIKE' | 'FOLLOW'

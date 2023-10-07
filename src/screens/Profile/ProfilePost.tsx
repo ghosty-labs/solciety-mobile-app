@@ -6,22 +6,22 @@ import { useInfiniteQuery } from 'react-query'
 import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
 import { ActivityIndicator } from 'react-native-paper'
 import { HFlatList } from 'react-native-head-tab-view'
-import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { useStore } from '../../providers/ContextProvider'
 import { useRNPaper } from '../../providers/RNPaperProvider'
 import { StyledText, StyledView } from '../../constants/nativewind'
 import { Button } from '../../components/Common'
 import { FlatList } from 'react-native'
-import { TProfileDetail } from '../../types/profile'
 import { useFocusEffect } from '@react-navigation/native'
 
 interface ProfilePostScreenProps {
   isRefreshing: boolean
-  type: TProfileDetail
+  userKey: string
 }
 
-const ProfilePostScreen = ({ isRefreshing, type }: ProfilePostScreenProps) => {
-  const { selectedAccount } = useAuthorization()
+const ProfilePostScreen = ({
+  isRefreshing,
+  userKey,
+}: ProfilePostScreenProps) => {
   const { getPosts } = PostService()
   const store = useStore()
   const paper = useRNPaper()
@@ -43,13 +43,12 @@ const ProfilePostScreen = ({ isRefreshing, type }: ProfilePostScreenProps) => {
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: [`profile-post-${selectedAccount?.publicKey}`],
+      queryKey: [`profile-post-${userKey}`],
       queryFn: ({ pageParam = 1 }) =>
         getPosts({
           __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
           __limit: LIMIT_SIZE_GET_POSTS,
-          user:
-            type === 'currentuser-profile' ? selectedAccount?.publicKey : null,
+          user: userKey,
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,

@@ -11,7 +11,7 @@ import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { useStore } from '../../providers/ContextProvider'
 
-const NotifReplyScreen = () => {
+const NotifFollowScreen = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const { getNotification } = NotificationService()
@@ -44,12 +44,12 @@ const NotifReplyScreen = () => {
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: [`get-notif-reply`],
+      queryKey: [`get-notif-follow`],
       queryFn: ({ pageParam = 1 }) =>
         getNotification({
           __skip: (pageParam - 1) * LIMIT_SIZE_GET_NOTIFICATION,
           __limit: LIMIT_SIZE_GET_NOTIFICATION,
-          type: 'COMMENT',
+          type: 'FOLLOW',
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,
@@ -105,4 +105,4 @@ const NotifReplyScreen = () => {
   )
 }
 
-export default NotifReplyScreen
+export default NotifFollowScreen

@@ -20,7 +20,7 @@ const ProfileDetailScreen = () => {
   const [index, setIndex] = useState<number>(0)
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const route = useRoute<RouteProp<HomeStackParamList, 'ProfileDetail'>>()
+  const _route = useRoute<RouteProp<HomeStackParamList, 'ProfileDetail'>>()
   const { getProfile } = ProfileService()
   const layout = useWindowDimensions()
   const [routes] = useState<IProfileTabs[]>([
@@ -46,7 +46,7 @@ const ProfileDetailScreen = () => {
     queryKey: 'get-user-profile',
     queryFn: () =>
       getProfile({
-        public_key: route.params.publickKey,
+        public_key: _route.params.publicKey,
       }),
   })
 
@@ -57,7 +57,10 @@ const ProfileDetailScreen = () => {
     switch (route.key) {
       case 'posts':
         return (
-          <ProfilePostScreen isRefreshing={refreshing} type="user-profile" />
+          <ProfilePostScreen
+            isRefreshing={refreshing}
+            userKey={_route.params.publicKey}
+          />
         )
       case 'replies':
         return <ProfileRepliesScreen />

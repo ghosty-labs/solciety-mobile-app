@@ -68,7 +68,7 @@ const ProfileScreen = () => {
         return (
           <ProfilePostScreen
             isRefreshing={refreshing}
-            type="currentuser-profile"
+            userKey={selectedAccount?.publicKey.toString() as string}
           />
         )
       case 'replies':
