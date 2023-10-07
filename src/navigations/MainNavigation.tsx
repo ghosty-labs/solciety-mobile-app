@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import SearchScreen from '../screens/main/Search'
 import PostScreen from '../screens/main/Post'
-import ProfileScreen from '../screens/main/Profile'
 import { MainTabParamList } from '../types/navigation'
 import {
   IconBell,
@@ -19,6 +18,7 @@ import { useQuery } from 'react-query'
 import { useAuthorization } from '../providers/AuthorizationProvider'
 import { useStore } from '../providers/ContextProvider'
 import NotifStackScreen from '../stacks/NotifStack'
+import ProfileStackScreen from '../stacks/ProfileStack'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -138,7 +138,7 @@ const MainNavigation = () => {
       />
       <MainTab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {

@@ -26,10 +26,10 @@ const Post = ({ type, data }: PostProps) => {
   const [totalLikes, setTotalLikes] = useState<number>(0)
   const [isLiked, setIsLiked] = useState<boolean>()
 
+  const { putLikePost, putUnlikePost } = PostService()
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>()
   const store = useStore()
-  const { putLikePost, putUnlikePost } = PostService()
 
   useEffect(() => {
     setTotalLikes(data?.total_like || 0)

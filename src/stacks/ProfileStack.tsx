@@ -1,15 +1,15 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { NotifStackParamList } from '../types/navigation'
-import NotificationScreen from '../screens/main/Notification'
+import { ProfileStackParamList } from '../types/navigation'
 import ProfileDetailScreen from '../screens/user/ProfileDetail'
+import ProfileScreen from '../screens/main/Profile'
 
-const NotifStack = createNativeStackNavigator<NotifStackParamList>()
+const ProfileStack = createNativeStackNavigator<ProfileStackParamList>()
 
-const NotifStackScreen = () => {
+const ProfileStackScreen = () => {
   return (
-    <NotifStack.Navigator
-      initialRouteName="NotifTab"
+    <ProfileStack.Navigator
+      initialRouteName="ProfileTab"
       screenOptions={{
         headerShown: false,
         contentStyle: {
@@ -17,8 +17,8 @@ const NotifStackScreen = () => {
         },
       }}
     >
-      <NotifStack.Screen name="NotifTab" component={NotificationScreen} />
-      <NotifStack.Screen
+      <ProfileStack.Screen name="ProfileTab" component={ProfileScreen} />
+      <ProfileStack.Screen
         name="ProfileDetail"
         options={{
           headerShown: false,
@@ -27,8 +27,8 @@ const NotifStackScreen = () => {
         }}
         component={ProfileDetailScreen}
       />
-    </NotifStack.Navigator>
+    </ProfileStack.Navigator>
   )
 }
 
-export default NotifStackScreen
+export default ProfileStackScreen

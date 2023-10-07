@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { IPost } from '../../types/post'
 import Post from '../../components/Post/Post'
 import { PostService } from '../../services/Post'
@@ -12,26 +12,29 @@ import { StyledText, StyledView } from '../../constants/nativewind'
 import { Button } from '../../components/Common'
 import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
+import { useAuthorization } from '../../providers/AuthorizationProvider'
 
-interface ProfilePostScreenProps {
-  isRefreshing: boolean
-  userKey: string
-}
+const ProfilePostScreen = () => {
+  const [refreshing, setRefreshing] = useState<boolean>(false)
 
-const ProfilePostScreen = ({
-  isRefreshing,
-  userKey,
-}: ProfilePostScreenProps) => {
+  const { selectedAccount } = useAuthorization()
   const { getPosts } = PostService()
   const store = useStore()
   const paper = useRNPaper()
   const listRef = useRef<FlatList>(null)
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000)
+  }, [])
+
   useEffect(() => {
-    if (isRefreshing) {
+    if (refreshing) {
       refetch()
     }
-  }, [isRefreshing])
+  }, [refreshing])
 
   useFocusEffect(
     useCallback(() => {
@@ -43,12 +46,12 @@ const ProfilePostScreen = ({
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: [`profile-post-${userKey}`],
+      queryKey: [`profile-post`],
       queryFn: ({ pageParam = 1 }) =>
         getPosts({
           __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
           __limit: LIMIT_SIZE_GET_POSTS,
-          user: userKey,
+          user: selectedAccount?.publicKey,
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,
@@ -99,6 +102,13 @@ const ProfilePostScreen = ({
       <HFlatList
         index={0}
         ref={listRef}
+        onStartRefresh={onRefresh}
+        isRefreshing={refreshing}
+        renderRefreshControl={() => (
+          <StyledView className="mx-auto mt-10">
+            <ActivityIndicator animating={true} color="white" />
+          </StyledView>
+        )}
         keyExtractor={postExtractorKey}
         data={data?.pages.map((page) => page).flat()}
         renderItem={(e) => renderData(e.item)}

@@ -34,6 +34,12 @@ export type NotifStackParamList = {
   ProfileDetail: { publicKey: string }
   PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
 }
+
+export type ProfileStackParamList = {
+  ProfileTab: undefined
+  ProfileDetail: { publicKey: string }
+  PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
+}
 // Stack - End
 
 export type StackProps = NativeStackScreenProps<RootStackParamList>

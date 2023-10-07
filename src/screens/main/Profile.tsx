@@ -10,7 +10,6 @@ import ProfileMediaScreen from '../profile/ProfileMedia'
 import ProfileLikeScreen from '../profile/ProfileLike'
 import ProfileHeader from '../../components/Profile/ProfileHeader'
 import { StyledText, StyledView } from '../../constants/nativewind'
-import { ActivityIndicator } from 'react-native-paper'
 import { ProfileService } from '../../services/Profile'
 import { useQuery } from 'react-query'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
@@ -19,7 +18,6 @@ import { useFocusEffect } from '@react-navigation/native'
 
 const ProfileScreen = () => {
   const [index, setIndex] = useState<number>(0)
-  const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const { selectedAccount } = useAuthorization()
   const { getProfile } = ProfileService()
@@ -65,12 +63,7 @@ const ProfileScreen = () => {
 
     switch (route.key) {
       case 'posts':
-        return (
-          <ProfilePostScreen
-            isRefreshing={refreshing}
-            userKey={selectedAccount?.publicKey.toString() as string}
-          />
-        )
+        return <ProfilePostScreen />
       case 'replies':
         return <ProfileRepliesScreen />
       case 'collectibles':
@@ -80,23 +73,9 @@ const ProfileScreen = () => {
     }
   }
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true)
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 1000)
-  }, [])
-
   return (
     <StyledView className="h-full bg-zinc-900">
       <CollapsibleHeaderTabView
-        onStartRefresh={onRefresh}
-        isRefreshing={refreshing}
-        renderRefreshControl={() => (
-          <StyledView className="mx-auto mt-6">
-            <ActivityIndicator animating={true} color="white" />
-          </StyledView>
-        )}
         renderScrollHeader={() => (
           <ProfileHeader dataProfile={dataProfile as IProfile} />
         )}
