@@ -1,39 +1,105 @@
-import React from 'react'
-import { StyledView } from '../../constants/nativewind'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useInfiniteQuery } from 'react-query'
+import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
+import { ActivityIndicator } from 'react-native-paper'
+import { HFlatList } from 'react-native-head-tab-view'
+import { StyledText, StyledView } from '../../constants/nativewind'
+import { FlatList } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
+import { useAuthorization } from '../../providers/AuthorizationProvider'
+import { LikeService } from '../../services/Like'
 import { IPost } from '../../types/post'
-import Post from '../../components/Post/Post'
-import { HScrollView } from 'react-native-head-tab-view'
+import LikeItem from '../../components/Like/LikeItem'
 
 const ProfileLikeScreen = () => {
-  const dataLiked: IPost[] = [
-    {
-      _id: '650f5cc01030b547a33fe304',
-      signature:
-        '2Ut8n1G4Hxrk6QuvpvMPdbt4sb1pC3bzPp237JDMye3U46ARckVKkifU3eVMP698bB56hN2Jrb6reGJ4KWDiQ8ct',
-      key: '3DeFmmbAXxzGGiVH1XEui1iHfPZ3pgdR9C5k1DnzFp3N',
-      user: 'AokJGyFmJjZ99qrPcvsLfa2u5xsK2yh9LBcH3H7xapo9',
-      tag: 'hyperdrive',
-      content: 'LFG!',
-      created_at: 1695505587,
-      updated_at: 1695505587,
-      liked: [
-        'ANwvF5jduUnY7unZin42NxB5cz4ctFqEmcVt5nWekpFq',
-        'AokJGyFmJjZ99qrPcvsLfa2u5xsK2yh9LBcH3H7xapo9',
-      ],
-      comment: 0,
-      total_like: 0,
-      total_comment: 0,
-    },
-  ]
+  const [refreshing, setRefreshing] = useState<boolean>(false)
+
+  const { selectedAccount } = useAuthorization()
+  const { getLikes } = LikeService()
+  const listRef = useRef<FlatList>(null)
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000)
+  }, [])
+
+  useEffect(() => {
+    if (refreshing) {
+      refetch()
+    }
+  }, [refreshing])
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+
+      return () => null
+    }, []),
+  )
+
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: `profile-likes`,
+      queryFn: ({ pageParam = 1 }) =>
+        getLikes({
+          __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
+          __limit: LIMIT_SIZE_GET_POSTS,
+          user: selectedAccount?.publicKey,
+        }),
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length === 0 ? undefined : allPages.length + 1,
+    })
+
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage()
+    }
+  }
+
+  const renderSpinner = () => {
+    return <ActivityIndicator animating={true} color="#3f3f46" />
+  }
+
+  const postExtractorKey = (_: IPost, index: number) => {
+    return index.toString()
+  }
+
+  const renderData = (like: IPost) => {
+    return <LikeItem type="post-detail" likeData={like} />
+  }
+
+  const renderEmpty = () => {
+    return (
+      <StyledText className="mx-auto mt-40 text-base text-zinc-500">
+        Nothing to see here yet.
+      </StyledText>
+    )
+  }
 
   return (
-    <HScrollView index={3}>
-      <StyledView className="h-full pt-4 bg-zinc-900">
-        {dataLiked.map((post, index) => {
-          return <Post key={index} type="post" data={post} />
-        })}
-      </StyledView>
-    </HScrollView>
+    <>
+      <HFlatList
+        index={3}
+        ref={listRef}
+        onStartRefresh={onRefresh}
+        isRefreshing={refreshing}
+        renderRefreshControl={() => (
+          <StyledView className="mx-auto mt-10">
+            <ActivityIndicator animating={true} color="white" />
+          </StyledView>
+        )}
+        keyExtractor={postExtractorKey}
+        data={data?.pages.map((page) => page).flat()}
+        renderItem={(e) => renderData(e.item)}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.3}
+        ListEmptyComponent={() => data?.pages[0].length === 0 && renderEmpty()}
+        ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
+        style={{ marginTop: 16 }}
+      />
+    </>
   )
 }
 

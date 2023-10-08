@@ -13,12 +13,26 @@ export interface IPost {
   liked?: string[]
   total_like: number
   total_comment: number
+  post_data: IPostData
+  // likes
+  post: string
 }
 
 interface ICurrentUserLiked {
-  user: 'ANwvF5jduUnY7unZin42NxB5cz4ctFqEmcVt5nWekpFq'
-  post: '6Aws4KtnhAG1CFRZSRJh19sKNKXY6gpRY3FJBVw7S41R'
-  created_at: 1696239553482
+  user: string
+  post: string
+  created_at: number
+}
+
+interface IPostData {
+  content: string
+  tag: string
+  user: string
+  created_at: number
+  user_image: string
+  user_alias: string | null
+  total_like: number
+  total_comment: number
 }
 
 export interface IPostStatus {
