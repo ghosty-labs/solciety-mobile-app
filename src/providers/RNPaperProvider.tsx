@@ -5,7 +5,7 @@ import React, {
   useContext,
   useState,
 } from 'react'
-import { TPortal } from '../types/paper'
+import { TModal, TPortal } from '../types/paper'
 import PortalPosted from '../components/Paper/Portal/PortalPosted'
 import PortalReplied from '../components/Paper/Portal/PortalReplied'
 import PortalFollow from '../components/Paper/Portal/PortalFollow'
@@ -14,6 +14,8 @@ import { TFollow } from '../types/follow'
 interface IRNPaperContext {
   showPortal: TPortal | null
   setShowPortal: Dispatch<SetStateAction<TPortal | null>>
+  showModal: TModal | null
+  setShowModal: Dispatch<SetStateAction<TModal | null>>
   setTypeFollow?: Dispatch<SetStateAction<TFollow | undefined>>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   restProps?: any
@@ -30,6 +32,8 @@ export const RNPaperProvider = ({
   restProps?: any
 }) => {
   const [showPortal, setShowPortal] = useState<TPortal | null>(null)
+  const [showModal, setShowModal] = useState<TModal | null>(null)
+
   const [typeFollow, setTypeFollow] = useState<TFollow | undefined>(undefined)
 
   const dissmissPortal = () => setShowPortal(null)
@@ -37,7 +41,14 @@ export const RNPaperProvider = ({
   return (
     <>
       <RNPaperContext.Provider
-        value={{ showPortal, setShowPortal, setTypeFollow, restProps }}
+        value={{
+          showPortal,
+          setShowPortal,
+          showModal,
+          setShowModal,
+          setTypeFollow,
+          restProps,
+        }}
       >
         <PortalPosted
           isShow={showPortal === 'posted'}

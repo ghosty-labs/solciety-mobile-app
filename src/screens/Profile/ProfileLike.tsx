@@ -6,15 +6,17 @@ import { HFlatList } from 'react-native-head-tab-view'
 import { StyledText, StyledView } from '../../constants/nativewind'
 import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { LikeService } from '../../services/Like'
 import { IPost } from '../../types/post'
 import LikeItem from '../../components/Like/LikeItem'
 
-const ProfileLikeScreen = () => {
+interface ProfileLikeScreenProps {
+  userKey: string
+}
+
+const ProfileLikeScreen = ({ userKey }: ProfileLikeScreenProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const { selectedAccount } = useAuthorization()
   const { getLikes } = LikeService()
   const listRef = useRef<FlatList>(null)
 
@@ -36,7 +38,7 @@ const ProfileLikeScreen = () => {
       refetch()
 
       return () => null
-    }, []),
+    }, [userKey]),
   )
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
@@ -46,7 +48,7 @@ const ProfileLikeScreen = () => {
         getLikes({
           __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
           __limit: LIMIT_SIZE_GET_POSTS,
-          user: selectedAccount?.publicKey,
+          user: userKey,
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,

@@ -145,8 +145,8 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
             {prettyTruncate(dataProfile?.public_key, 12, 'address')}
           </StyledText>
           <StyledImage
-            className="w-4 h-4 rounded-full object-cover"
-            source={require('../../assets/common/verify.png')}
+            className="w-5 h-5 rounded-full object-cover"
+            source={require('../../assets/badges/ghosty/verified.png')}
           />
         </StyledView>
         {selectedAccount?.publicKey.toString() === dataProfile?.public_key && (

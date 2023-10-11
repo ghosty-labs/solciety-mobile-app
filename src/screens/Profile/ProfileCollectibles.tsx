@@ -1,23 +1,25 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
-import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
+import { LIMIT_SIZE_GET_COLLECTIBLE } from '../../constants/variables'
 import { ActivityIndicator } from 'react-native-paper'
 import { HFlatList } from 'react-native-head-tab-view'
 import { StyledText, StyledView } from '../../constants/nativewind'
 import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-import { ReplyService } from '../../services/Reply'
-import { IReply } from '../../types/reply'
-import ProfileRepliesItem from '../../components/Reply/ProfileRepliesItem'
+import { NftService } from '../../services/Nft'
+import { ICollectible } from '../../types/nft'
+import CollectibleItem from '../../components/Collectible/CollectibleItem'
 
-interface ProfileRepliesScreenProps {
+interface ProfileCollectiblesScreenProps {
   userKey: string
 }
 
-const ProfileRepliesScreen = ({ userKey }: ProfileRepliesScreenProps) => {
+const ProfileCollectiblesScreen = ({
+  userKey,
+}: ProfileCollectiblesScreenProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const { getReplies } = ReplyService()
+  const { getNfts } = NftService()
   const listRef = useRef<FlatList>(null)
 
   const onRefresh = useCallback(() => {
@@ -43,12 +45,11 @@ const ProfileRepliesScreen = ({ userKey }: ProfileRepliesScreenProps) => {
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: [`profile-replies`],
+      queryKey: [`profile-collectibles`],
       queryFn: ({ pageParam = 1 }) =>
-        getReplies({
-          __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
-          __limit: LIMIT_SIZE_GET_POSTS,
-          __lookup_post: true,
+        getNfts({
+          __skip: (pageParam - 1) * LIMIT_SIZE_GET_COLLECTIBLE,
+          __limit: LIMIT_SIZE_GET_COLLECTIBLE,
           user: userKey,
         }),
       getNextPageParam: (lastPage, allPages) =>
@@ -65,12 +66,12 @@ const ProfileRepliesScreen = ({ userKey }: ProfileRepliesScreenProps) => {
     return <ActivityIndicator animating={true} color="#3f3f46" />
   }
 
-  const postExtractorKey = (_: IReply, index: number) => {
+  const postExtractorKey = (_: ICollectible, index: number) => {
     return index.toString()
   }
 
-  const renderData = (reply: IReply) => {
-    return <ProfileRepliesItem repliesData={reply} />
+  const renderData = (item: ICollectible) => {
+    return <CollectibleItem nft={item} />
   }
 
   const renderEmpty = () => {
@@ -84,7 +85,7 @@ const ProfileRepliesScreen = ({ userKey }: ProfileRepliesScreenProps) => {
   return (
     <>
       <HFlatList
-        index={1}
+        index={2}
         ref={listRef}
         onStartRefresh={onRefresh}
         isRefreshing={refreshing}
@@ -98,6 +99,8 @@ const ProfileRepliesScreen = ({ userKey }: ProfileRepliesScreenProps) => {
         renderItem={(e) => renderData(e.item)}
         onEndReached={loadMore}
         onEndReachedThreshold={0.3}
+        numColumns={2}
+        horizontal={false}
         ListEmptyComponent={() => data?.pages[0].length === 0 && renderEmpty()}
         ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
         style={{ marginTop: 16 }}
@@ -106,4 +109,4 @@ const ProfileRepliesScreen = ({ userKey }: ProfileRepliesScreenProps) => {
   )
 }
 
-export default ProfileRepliesScreen
+export default ProfileCollectiblesScreen

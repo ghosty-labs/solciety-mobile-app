@@ -6,7 +6,6 @@ import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-head
 import { HomeStackParamList, IProfileTabs } from '../../types/navigation'
 import ProfilePostScreen from '../profile/ProfilePost'
 import ProfileRepliesScreen from '../profile/ProfileReplies'
-import ProfileMediaScreen from '../profile/ProfileMedia'
 import ProfileLikeScreen from '../profile/ProfileLike'
 import ProfileHeader from '../../components/Profile/ProfileHeader'
 import { StyledText, StyledView } from '../../constants/nativewind'
@@ -15,6 +14,7 @@ import { RouteProp, useRoute } from '@react-navigation/native'
 import { useQuery } from 'react-query'
 import { ProfileService } from '../../services/Profile'
 import { IProfile } from '../../types/profile'
+import ProfileCollectiblesScreen from '../profile/ProfileCollectibles'
 
 const ProfileDetailScreen = () => {
   const [index, setIndex] = useState<number>(0)
@@ -56,18 +56,13 @@ const ProfileDetailScreen = () => {
 
     switch (route.key) {
       case 'posts':
-        return (
-          <ProfilePostScreen
-            isRefreshing={refreshing}
-            userKey={_route.params.publicKey}
-          />
-        )
+        return <ProfilePostScreen userKey={_route.params.publicKey} />
       case 'replies':
-        return <ProfileRepliesScreen />
+        return <ProfileRepliesScreen userKey={_route.params.publicKey} />
       case 'collectibles':
-        return <ProfileMediaScreen />
+        return <ProfileCollectiblesScreen userKey={_route.params.publicKey} />
       case 'likes':
-        return <ProfileLikeScreen />
+        return <ProfileLikeScreen userKey={_route.params.publicKey} />
     }
   }
 

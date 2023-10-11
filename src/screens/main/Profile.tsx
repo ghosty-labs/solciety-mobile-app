@@ -6,7 +6,7 @@ import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-head
 import { IProfileTabs } from '../../types/navigation'
 import ProfilePostScreen from '../profile/ProfilePost'
 import ProfileRepliesScreen from '../profile/ProfileReplies'
-import ProfileMediaScreen from '../profile/ProfileMedia'
+import ProfileCollectiblesScreen from '../profile/ProfileCollectibles'
 import ProfileLikeScreen from '../profile/ProfileLike'
 import ProfileHeader from '../../components/Profile/ProfileHeader'
 import { StyledText, StyledView } from '../../constants/nativewind'
@@ -63,13 +63,29 @@ const ProfileScreen = () => {
 
     switch (route.key) {
       case 'posts':
-        return <ProfilePostScreen />
+        return (
+          <ProfilePostScreen
+            userKey={selectedAccount?.publicKey.toString() as string}
+          />
+        )
       case 'replies':
-        return <ProfileRepliesScreen />
+        return (
+          <ProfileRepliesScreen
+            userKey={selectedAccount?.publicKey.toString() as string}
+          />
+        )
       case 'collectibles':
-        return <ProfileMediaScreen />
+        return (
+          <ProfileCollectiblesScreen
+            userKey={selectedAccount?.publicKey.toString() as string}
+          />
+        )
       case 'likes':
-        return <ProfileLikeScreen />
+        return (
+          <ProfileLikeScreen
+            userKey={selectedAccount?.publicKey.toString() as string}
+          />
+        )
     }
   }
 

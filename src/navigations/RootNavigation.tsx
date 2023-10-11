@@ -8,6 +8,8 @@ import { RootStackParamList } from '../types/navigation'
 import SettingNavigation from './SettingNavigation'
 import PostDetailScreen from '../screens/post/PostDetail'
 import HeaderBackPostDetail from '../components/Post/HeaderBackPostDetail'
+import MintNFTScreen from '../screens/mint/MintNFT'
+import HeaderMintNFT from '../components/Mint/HeaderMintNFT'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 
@@ -41,6 +43,8 @@ const RootNavigation = () => {
           }}
         />
         <RootStack.Screen
+          name="PostDetail"
+          component={PostDetailScreen}
           options={{
             headerShown: true,
             headerStyle: {
@@ -58,8 +62,27 @@ const RootNavigation = () => {
             animationTypeForReplace: 'push',
             animation: 'slide_from_right',
           }}
-          name="PostDetail"
-          component={PostDetailScreen}
+        />
+        <RootStack.Screen
+          name="MintNFT"
+          component={MintNFTScreen}
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#18181b',
+            },
+            headerTitleStyle: {
+              color: 'white',
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: 'white',
+            headerLeft: () => {
+              return <HeaderMintNFT />
+            },
+            title: 'Get Verified',
+            animationTypeForReplace: 'push',
+            animation: 'slide_from_right',
+          }}
         />
         <RootStack.Screen name="Setting" component={SettingNavigation} />
       </RootStack.Navigator>

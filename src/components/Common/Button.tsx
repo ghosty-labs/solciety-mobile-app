@@ -6,7 +6,7 @@ import {
 } from '../../constants/nativewind'
 import { ActivityIndicator, StyleProp, ViewStyle } from 'react-native'
 
-type TColor = 'sol-green' | 'sol-purple' | 'zinc' | 'white' | 'black'
+type TColor = 'sol-green' | 'sol-purple' | 'zinc' | 'white' | 'black' | 'red'
 type TSize = 'sm' | 'lg' | 'xl' | '2xl'
 type TBorder = 0 | 2 | 4 | 8
 type TRadius = 'xs' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
@@ -58,6 +58,8 @@ const Button = (props: ButtonProps) => {
         return 'text-white'
       case 'zinc':
         return 'text-zinc-500'
+      case 'red':
+        return 'text-red-500'
     }
   }
 
@@ -99,6 +101,8 @@ const Button = (props: ButtonProps) => {
         return 'border-white'
       case 'zinc':
         return 'border-zinc-700'
+      case 'red':
+        return 'border-red-500'
     }
   }
 

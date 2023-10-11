@@ -12,12 +12,14 @@ import { StyledText, StyledView } from '../../constants/nativewind'
 import { Button } from '../../components/Common'
 import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-import { useAuthorization } from '../../providers/AuthorizationProvider'
 
-const ProfilePostScreen = () => {
+interface ProfilePostScreenProps {
+  userKey: string
+}
+
+const ProfilePostScreen = ({ userKey }: ProfilePostScreenProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const { selectedAccount } = useAuthorization()
   const { getPosts } = PostService()
   const store = useStore()
   const paper = useRNPaper()
@@ -44,6 +46,10 @@ const ProfilePostScreen = () => {
     }, []),
   )
 
+  useEffect(() => {
+    refetch()
+  }, [userKey])
+
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
       queryKey: [`profile-post`],
@@ -51,7 +57,7 @@ const ProfilePostScreen = () => {
         getPosts({
           __skip: (pageParam - 1) * LIMIT_SIZE_GET_POSTS,
           __limit: LIMIT_SIZE_GET_POSTS,
-          user: selectedAccount?.publicKey,
+          user: userKey,
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,

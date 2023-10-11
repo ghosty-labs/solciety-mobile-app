@@ -1,12 +1,25 @@
 import React from 'react'
-import { Button, Text, View } from 'react-native'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { transact } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
-import { StackProps } from '../../types/navigation'
+import { RootStackParamList } from '../../types/navigation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StyledView } from '../../constants/nativewind'
+import { Button } from '../../components/Common'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native'
+import { ProfileService } from '../../services/Profile'
+import { useQuery } from 'react-query'
 
-const PreferencesScreen = ({ navigation }: StackProps) => {
-  const { deauthorizeSession } = useAuthorization()
+const PreferencesScreen = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+  const { deauthorizeSession, selectedAccount } = useAuthorization()
+  const { getProfile } = ProfileService()
+
+  const { data } = useQuery({
+    queryKey: 'get-profile-preferances',
+    queryFn: () => getProfile({ public_key: selectedAccount?.publicKey }),
+  })
 
   const handleDisconnet = () => {
     transact(async (wallet) => {
@@ -17,10 +30,31 @@ const PreferencesScreen = ({ navigation }: StackProps) => {
   }
 
   return (
-    <View>
-      <Text>Setting Page</Text>
-      <Button title="Logout" onPress={handleDisconnet} />
-    </View>
+    <StyledView className="mx-4 mt-4">
+      {!data?.is_verified && (
+        <Button
+          className="py-5 mt-2 mb-4"
+          title="Get Verified"
+          color="white"
+          textColor="black"
+          textSize="lg"
+          border={2}
+          borderColor="white"
+          radius="xl"
+          onPress={() => navigation.navigate('MintNFT')}
+        />
+      )}
+      <Button
+        className="py-5 mt-2"
+        title="Logout"
+        textColor="red"
+        textSize="lg"
+        border={2}
+        borderColor="red"
+        radius="xl"
+        onPress={handleDisconnet}
+      />
+    </StyledView>
   )
 }
 

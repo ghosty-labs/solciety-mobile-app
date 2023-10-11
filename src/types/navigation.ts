@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Main: undefined
   Setting: undefined
   PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
+  MintNFT: undefined
 }
 
 export type AuthStackParamList = {

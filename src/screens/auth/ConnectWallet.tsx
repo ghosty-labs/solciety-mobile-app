@@ -22,7 +22,7 @@ const ConnectWalletScreen = ({ navigation }: Props) => {
       await transact(async (wallet) => {
         await authorizeSession(wallet)
       })
-      navigation.replace('SignMessageToken')
+      navigation.navigate('SignMessageToken')
     } catch (error) {
       alertLog(
         'Error during connect',
