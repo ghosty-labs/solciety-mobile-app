@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import SearchScreen from '../screens/main/Search'
 import PostScreen from '../screens/main/Post'
 import { MainTabParamList } from '../types/navigation'
 import {
@@ -19,6 +18,7 @@ import { useAuthorization } from '../providers/AuthorizationProvider'
 import { useStore } from '../providers/ContextProvider'
 import NotifStackScreen from '../stacks/NotifStack'
 import ProfileStackScreen from '../stacks/ProfileStack'
+import SearchStackScreen from '../stacks/SearchStack'
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
@@ -69,7 +69,7 @@ const MainNavigation = () => {
       />
       <MainTab.Screen
         name="Search"
-        component={SearchScreen}
+        component={SearchStackScreen}
         options={{
           headerStyle: {
             backgroundColor: '#18181b',

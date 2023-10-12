@@ -167,12 +167,9 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
           {dataProfile?.image && (
             <StyledImage
               className="w-28 h-28 rounded-full object-cover"
-              source={
-                //   {
-                //   uri: dataProfile?.image,
-                // }
-                require('../../assets/screen/connect/ghosty-solciety.png')
-              }
+              source={{
+                uri: dataProfile?.image,
+              }}
             />
           )}
         </StyledView>

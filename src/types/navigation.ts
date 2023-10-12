@@ -30,6 +30,13 @@ export type HomeStackParamList = {
   PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
 }
 
+export type SearchStackParamList = {
+  SearchTab: undefined
+  SearchResults: { search: string }
+  ProfileDetail: { publicKey: string }
+  PostDetail: { type: TPostItem; data: IPost | null; postKey?: string }
+}
+
 export type NotifStackParamList = {
   NotifTab: undefined
   ProfileDetail: { publicKey: string }
@@ -59,6 +66,13 @@ export interface IHomeTabs {
 }
 
 type THomeTabs = 'all' | 'following'
+
+export interface ISearchTabs {
+  key: TSearchTabs
+  title: string
+}
+
+type TSearchTabs = 'post'
 
 export interface IProfileTabs {
   key: TProfileTabs
