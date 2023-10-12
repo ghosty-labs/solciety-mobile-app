@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { TabBar } from 'react-native-tab-view'
 import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-header'
@@ -15,6 +15,7 @@ import { useQuery } from 'react-query'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { IProfile } from '../../types/profile'
 import { useFocusEffect } from '@react-navigation/native'
+import { useStore } from '../../providers/ContextProvider'
 
 const ProfileScreen = () => {
   const [index, setIndex] = useState<number>(0)
@@ -22,6 +23,7 @@ const ProfileScreen = () => {
   const { selectedAccount } = useAuthorization()
   const { getProfile } = ProfileService()
   const layout = useWindowDimensions()
+  const store = useStore()
   const [routes] = useState<IProfileTabs[]>([
     {
       key: 'posts',
@@ -48,6 +50,13 @@ const ProfileScreen = () => {
       return () => null
     }, []),
   )
+
+  useEffect(() => {
+    if (store?.isProfileUpdated) {
+      refetch()
+      store.setIsProfileUpdated(null)
+    }
+  }, [store?.isProfileUpdated])
 
   const { data: dataProfile, refetch } = useQuery({
     queryKey: 'get-currentuser-profile',

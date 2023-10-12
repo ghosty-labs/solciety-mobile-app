@@ -22,6 +22,7 @@ import { PublicKey } from '@solana/web3.js'
 import { unfollowUser } from '../../program/api/follow/unfollowUser'
 import { useRNPaper } from '../../providers/RNPaperProvider'
 import { useStore } from '../../providers/ContextProvider'
+import { useBottomDrawer } from '../../providers/BottomDrawerProvider'
 
 interface ProfileHeaderProps {
   dataProfile: IProfile
@@ -45,6 +46,7 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const paper = useRNPaper()
   const store = useStore()
+  const setter = useBottomDrawer()
 
   useEffect(() => {
     setTotalFollowers(dataProfile?.total_follower)
@@ -165,9 +167,12 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
           {dataProfile?.image && (
             <StyledImage
               className="w-28 h-28 rounded-full object-cover"
-              source={{
-                uri: dataProfile?.image,
-              }}
+              source={
+                //   {
+                //   uri: dataProfile?.image,
+                // }
+                require('../../assets/screen/connect/ghosty-solciety.png')
+              }
             />
           )}
         </StyledView>
@@ -175,17 +180,21 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
           <StyledView className="flex flex-row items-center gap-x-2">
             {dataProfile?.alias ? (
               <StyledView>
-                <StyledText className="text-xl font-semibold text-white">
-                  {dataProfile.alias}
-                </StyledText>
-                <StyledText className="px-2 border border-zinc-500 text-zinc-500 rounded-md">
-                  alias
+                <StyledText className="text-lg font-semibold text-white">
+                  {dataProfile?.alias}
                 </StyledText>
               </StyledView>
             ) : (
-              <StyledText className="px-3 py-1 border border-zinc-300 text-zinc-300 rounded-md">
-                Set Alias
-              </StyledText>
+              <StyledTouchableOpacity
+                activeOpacity={0.8}
+                className="px-3 py-1 border border-zinc-300 text-zinc-300 rounded-md"
+                onPress={() => {
+                  setter?.setShowDrawer('edit-profile')
+                  setter?.setEditProfileData?.(dataProfile)
+                }}
+              >
+                <StyledText className="text-zinc-400">Set Alias</StyledText>
+              </StyledTouchableOpacity>
             )}
           </StyledView>
           <StyledView className="flex flex-row justify-between gap-x-7 mt-4">
@@ -227,7 +236,10 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
             border={2}
             borderColor="zinc"
             radius="xl"
-            onPress={() => null}
+            onPress={() => {
+              setter?.setShowDrawer('edit-profile')
+              setter?.setEditProfileData?.(dataProfile)
+            }}
           />
         ) : isFollowed ? (
           <Button
