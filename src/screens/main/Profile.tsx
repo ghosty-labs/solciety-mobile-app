@@ -16,6 +16,7 @@ import { useAuthorization } from '../../providers/AuthorizationProvider'
 import { IProfile } from '../../types/profile'
 import { useFocusEffect } from '@react-navigation/native'
 import { useStore } from '../../providers/ContextProvider'
+import { AxiosError } from 'axios'
 
 const ProfileScreen = () => {
   const [index, setIndex] = useState<number>(0)
@@ -64,6 +65,10 @@ const ProfileScreen = () => {
       getProfile({
         public_key: selectedAccount?.publicKey,
       }),
+    onError: (error) => {
+      const err = error as AxiosError
+      console.log('err get-currentuser-profile:::> ', err)
+    },
   })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

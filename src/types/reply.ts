@@ -11,6 +11,7 @@ export interface IReply {
   post_data: IPostData
   image: string
   alias: string | null
+  is_verified: boolean
 }
 
 export interface IPostData {

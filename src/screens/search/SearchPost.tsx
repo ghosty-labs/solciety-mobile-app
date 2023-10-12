@@ -95,6 +95,14 @@ const SearchPostScreen = () => {
     listRef.current?.scrollToOffset({ offset: 0, animated: true })
   }
 
+  const renderEmpty = () => {
+    return (
+      <StyledText className="mx-auto mt-40 text-base text-zinc-500">
+        The data you are looking for does not exist.
+      </StyledText>
+    )
+  }
+
   return (
     <>
       <HFlatList
@@ -112,6 +120,7 @@ const SearchPostScreen = () => {
         renderItem={(e) => renderData(e.item)}
         onEndReached={loadMore}
         onEndReachedThreshold={0.3}
+        ListEmptyComponent={() => data?.pages[0].length === 0 && renderEmpty()}
         ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
         style={{ marginTop: 16 }}
       />

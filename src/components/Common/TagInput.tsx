@@ -26,11 +26,14 @@ const TagInput = ({ setTopics }: TagInputProps) => {
     }
 
     setInputValue(
-      e.replace(/\s/g, '').replace(
-        // eslint-disable-next-line no-useless-escape
-        /[&/\\#,+()$~%.'":*?<>{}\[\]\!\-`^@_|•√π÷×¶∆£¢€¥°=©®™✓]/g,
-        '',
-      ),
+      e
+        .replace(/\s/g, '')
+        .replace(
+          // eslint-disable-next-line no-useless-escape
+          /[&/\\#,+()$~%.'":*?<>{}\[\]\!\-`^@_|•√π÷×¶∆£¢€¥°=©®™✓;]/g,
+          '',
+        )
+        .toLowerCase(),
     )
     setIsMaxLength(false)
   }

@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ProfileService } from '../../services/Profile'
 import nacl from 'tweetnacl'
 import { useQuery } from 'react-query'
+import { AxiosError } from 'axios'
 
 type Props = NativeStackScreenProps<RootStackParamList>
 
@@ -32,8 +33,12 @@ const SignMessageTokenScreen = ({ navigation }: Props) => {
   }
 
   const { data: dataProfile } = useQuery({
-    queryKey: ['get-profile'],
+    queryKey: ['get-profile-signin'],
     queryFn: fetchProfile,
+    onError: (error) => {
+      const err = error as AxiosError
+      console.log('err get-profile-signin:::> ', err)
+    },
   })
 
   const signMessage = useCallback(
@@ -104,6 +109,8 @@ const SignMessageTokenScreen = ({ navigation }: Props) => {
         navigation.replace('Main')
       }
     } catch (error) {
+      const err = error as AxiosError
+      console.log('err put-profile-signin:::::', err.response?.data)
       alertLog('Message Error', error)
     }
 

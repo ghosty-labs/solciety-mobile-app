@@ -22,6 +22,9 @@ import { Button } from '../../Common'
 import { CONTENT_MAX_LENGTH } from '../../../constants/variables'
 import { useStore } from '../../../providers/ContextProvider'
 import { useRNPaper } from '../../../providers/RNPaperProvider'
+import { ProfileService } from '../../../services/Profile'
+import { useQuery } from 'react-query'
+import { AxiosError } from 'axios'
 
 interface PostDrawerProps {
   isShow: boolean
@@ -36,6 +39,7 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
   const bottomDrawerRef = useRef<BottomDrawerMethods>(null)
   const { width, height } = useWindowDimensions()
   const { connection } = useConnection()
+  const { getProfile } = ProfileService()
   const { selectedAccount, authorizeSession } = useAuthorization()
   const anchorWallet = useAnchorWallet({ authorizeSession, selectedAccount })
   const { solcietyProgram } = useSolcietyProgram({
@@ -45,13 +49,23 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
   const store = useStore()
   const paper = useRNPaper()
 
-  const isHaveAlias = true
-
   useEffect(() => {
     if (isShow) {
       bottomDrawerRef.current?.open()
     }
   }, [isShow])
+
+  const { data: profileData } = useQuery({
+    queryKey: `get-profile-post-drawer`,
+    queryFn: () =>
+      getProfile({
+        public_key: selectedAccount?.publicKey,
+      }),
+    onError: (error) => {
+      const err = error as AxiosError
+      console.log('err get-profile-post-drawer:::> ', err.response?.data)
+    },
+  })
 
   const handleSendPost = async () => {
     setIsSigning(true)
@@ -68,12 +82,14 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
       bottomDrawerRef.current?.close()
       onClose()
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       store?.setNewPost({
         _id: generateRandomNumber().toString(),
         signature: generateRandomNumber().toString(),
         key: generateRandomNumber().toString(),
         user: `${selectedAccount?.publicKey as PublicKey}`,
-        alias: 'iqbalutomo',
+        alias: profileData?.alias as string,
         tag: tags.length !== 0 ? `${tags.join('-')}` : '[untagged]',
         content: content,
         comment: 0,
@@ -82,6 +98,7 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
         updated_at: new Date().getTime(),
         total_like: 0,
         total_comment: 0,
+        image: profileData?.image as string,
       })
       paper?.setShowPortal('posted')
     } catch (error) {
@@ -106,19 +123,20 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
     >
       <StyledView className="mt-2 h-full bg-zinc-900">
         <StyledView className="flex flex-row mx-4 border-b border-dashed border-zinc-700">
-          <StyledImage
-            className="w-12 h-12 rounded-full mr-4"
-            source={require('../../../assets/screen/notification/sample-verified.png')}
-          />
+          {profileData?.image && (
+            <StyledImage
+              className="w-12 h-12 rounded-full mr-4"
+              source={{
+                uri: profileData?.image,
+              }}
+            />
+          )}
           <StyledView>
             <StyledView className="flex flex-row justify-between items-center">
-              {isHaveAlias ? (
+              {profileData?.alias ? (
                 <StyledView className="flex flex-row items-center gap-x-2">
                   <StyledText className="text-base font-semibold text-white">
-                    iqbalutomo
-                  </StyledText>
-                  <StyledText className="px-2 text-xs border border-zinc-500 text-zinc-500 rounded-md">
-                    alias
+                    {profileData?.alias || profileData?.public_key}
                   </StyledText>
                 </StyledView>
               ) : (

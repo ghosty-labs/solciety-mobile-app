@@ -12,7 +12,14 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { RNPaperProvider } from './src/providers/RNPaperProvider'
 
 function App(): JSX.Element {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 0,
+        cacheTime: 0,
+      },
+    },
+  })
 
   return (
     <ConnectionProvider

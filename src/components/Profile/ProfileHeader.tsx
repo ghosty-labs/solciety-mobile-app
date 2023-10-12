@@ -153,7 +153,20 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
           )}
         </StyledView>
         {selectedAccount?.publicKey.toString() === dataProfile?.public_key && (
-          <StyledView>
+          <StyledView className="flex flex-row gap-x-4">
+            {!dataProfile?.is_verified && (
+              <StyledTouchableOpacity
+                activeOpacity={0.8}
+                className="flex flex-row items-center gap-x-1 p-1 rounded-lg bg-zinc-800"
+                onPress={() => navigation.navigate('MintNFT')}
+              >
+                <StyledText className="text-white">Get Verified</StyledText>
+                <StyledImage
+                  className="w-5 h-5 rounded-full object-cover"
+                  source={require('../../assets/badges/ghosty/verified.png')}
+                />
+              </StyledTouchableOpacity>
+            )}
             <StyledTouchableOpacity
               onPress={() => navigation.navigate('Setting')}
             >
@@ -176,22 +189,31 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
         <StyledView>
           <StyledView className="flex flex-row items-center gap-x-2">
             {dataProfile?.alias ? (
-              <StyledView>
-                <StyledText className="text-lg font-semibold text-white">
+              <StyledView className="flex flex-row items-center">
+                <StyledText className="text-lg font-semibold text-white mr-0.5">
                   {dataProfile?.alias}
                 </StyledText>
+                {dataProfile?.is_verified && (
+                  <StyledImage
+                    className="w-4 h-4 rounded-full object-cover"
+                    source={require('../../assets/badges/ghosty/verified.png')}
+                  />
+                )}
               </StyledView>
             ) : (
-              <StyledTouchableOpacity
-                activeOpacity={0.8}
-                className="px-3 py-1 border border-zinc-300 text-zinc-300 rounded-md"
-                onPress={() => {
-                  setter?.setShowDrawer('edit-profile')
-                  setter?.setEditProfileData?.(dataProfile)
-                }}
-              >
-                <StyledText className="text-zinc-400">Set Alias</StyledText>
-              </StyledTouchableOpacity>
+              selectedAccount?.publicKey.toString() ===
+                dataProfile?.public_key && (
+                <StyledTouchableOpacity
+                  activeOpacity={0.8}
+                  className="px-3 py-1 border border-zinc-300 text-zinc-300 rounded-md"
+                  onPress={() => {
+                    setter?.setShowDrawer('edit-profile')
+                    setter?.setEditProfileData?.(dataProfile)
+                  }}
+                >
+                  <StyledText className="text-zinc-400">Set Alias</StyledText>
+                </StyledTouchableOpacity>
+              )
             )}
           </StyledView>
           <StyledView className="flex flex-row justify-between gap-x-7 mt-4">

@@ -7,19 +7,11 @@ import { StyledView } from '../../constants/nativewind'
 import { Button } from '../../components/Common'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
-import { ProfileService } from '../../services/Profile'
-import { useQuery } from 'react-query'
 
 const PreferencesScreen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
-  const { deauthorizeSession, selectedAccount } = useAuthorization()
-  const { getProfile } = ProfileService()
-
-  const { data } = useQuery({
-    queryKey: 'get-profile-preferances',
-    queryFn: () => getProfile({ public_key: selectedAccount?.publicKey }),
-  })
+  const { deauthorizeSession } = useAuthorization()
 
   const handleDisconnet = () => {
     transact(async (wallet) => {
@@ -31,19 +23,6 @@ const PreferencesScreen = () => {
 
   return (
     <StyledView className="mx-4 mt-4">
-      {!data?.is_verified && (
-        <Button
-          className="py-5 mt-2 mb-4"
-          title="Get Verified"
-          color="white"
-          textColor="black"
-          textSize="lg"
-          border={2}
-          borderColor="white"
-          radius="xl"
-          onPress={() => navigation.navigate('MintNFT')}
-        />
-      )}
       <Button
         className="py-5 mt-2"
         title="Logout"

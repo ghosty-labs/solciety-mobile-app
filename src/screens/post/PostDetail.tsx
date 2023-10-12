@@ -21,6 +21,8 @@ import { ActivityIndicator } from 'react-native-paper'
 import { useRNPaper } from '../../providers/RNPaperProvider'
 import { PostService } from '../../services/Post'
 import { IPost } from '../../types/post'
+import { useAuthorization } from '../../providers/AuthorizationProvider'
+import { ProfileService } from '../../services/Profile'
 
 interface PostDetailScreenProps {
   // navigation: NativeStackNavigationProp<RootStackParamList, 'PostDetail'>
@@ -28,14 +30,24 @@ interface PostDetailScreenProps {
 }
 
 const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
+  const { selectedAccount } = useAuthorization()
   const { getPosts } = PostService()
   const { getReplies } = ReplyService()
+  const { getProfile } = ProfileService()
   const listRef = useRef<FlatList>(null)
   const setter = useBottomDrawer()
   const paper = useRNPaper()
   const store = useStore()
   const data = route.params.data
   const postKey = route.params.postKey
+
+  const { data: profileData } = useQuery({
+    queryKey: `get-profile-post-detail`,
+    queryFn: () =>
+      getProfile({
+        public_key: selectedAccount?.publicKey,
+      }),
+  })
 
   const { isFetching: isFetchingPost, data: postData } = useQuery({
     queryKey: 'post-detail',
@@ -55,6 +67,7 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
         post: data?.key || postKey,
         __skip: (pageParam - 1) * LIMIT_SIZE_GET_COMMENT,
         __limit: LIMIT_SIZE_GET_COMMENT,
+        __lookup_post: true,
       }),
     getNextPageParam: (lastPage, allPages) =>
       lastPage.length === 0 ? undefined : allPages.length + 1,
@@ -133,10 +146,10 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
       >
         <StyledView className="w-full mt-2 px-4">
           <StyledView className="flex flex-row items-center px-2 py-2.5 rounded-full bg-zinc-800">
-            {data?.image && (
+            {profileData?.image && (
               <Avatar
                 url={{
-                  uri: data.image,
+                  uri: profileData?.image,
                 }}
                 size={30}
               />

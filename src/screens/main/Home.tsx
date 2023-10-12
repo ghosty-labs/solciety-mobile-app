@@ -68,7 +68,7 @@ const HomeScreen = () => {
               width: '15%',
               height: 5,
               borderRadius: 20,
-              marginLeft: 68,
+              marginLeft: 72,
             }}
             android_ripple={{
               borderless: false,

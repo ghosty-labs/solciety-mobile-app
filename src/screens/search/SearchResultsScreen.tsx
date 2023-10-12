@@ -58,10 +58,10 @@ const SearchResultsScreen = () => {
             }}
             indicatorStyle={{
               backgroundColor: '#14F195',
-              width: '15%',
+              width: '10%',
               height: 5,
               borderRadius: 20,
-              marginLeft: 167,
+              marginLeft: 184,
             }}
             android_ripple={{
               borderless: false,

@@ -14,7 +14,8 @@ export interface IPost {
   liked?: string[]
   total_like: number
   total_comment: number
-  post_data: IPostData
+  post_data?: IPostData
+  is_verified: boolean
   // likes
   post: string
 }
@@ -27,6 +28,7 @@ interface ICurrentUserLiked {
 
 interface IPostData {
   content: string
+  key: string
   tag: string
   user: string
   created_at: number

@@ -54,11 +54,14 @@ const EditProfileDrawer = ({
     }
 
     setAlias(
-      e.replace(/\s/g, '').replace(
-        // eslint-disable-next-line no-useless-escape
-        /[&/\\#,+()$~%.'":*?<>{}\[\]\!\-`^@|•√π÷×¶∆£¢€¥°=©®™✓]/g,
-        '',
-      ),
+      e
+        .replace(/\s/g, '')
+        .replace(
+          // eslint-disable-next-line no-useless-escape
+          /[&/\\#,+()$~%.'":*?<>{}\[\]\!\-`^@|•√π÷×¶∆£¢€¥°=©®™✓;]/g,
+          '',
+        )
+        .toLowerCase(),
     )
     setIsMaxLength(false)
   }
@@ -73,7 +76,7 @@ const EditProfileDrawer = ({
         })
       } else {
         await putProfile({
-          alias: alias.toLowerCase() + '.sol',
+          alias: alias + '.sol',
           bio: bio,
         })
       }
@@ -108,10 +111,9 @@ const EditProfileDrawer = ({
           {profileData?.image && (
             <StyledImage
               className="w-12 h-12 rounded-full mr-4"
-              // source={{
-              //   uri: profileData.image,
-              // }}
-              source={require('../../../assets/screen/notification/sample-verified.png')}
+              source={{
+                uri: profileData.image,
+              }}
             />
           )}
           <StyledView className="flex flex-row justify-between items-center w-72">
@@ -124,6 +126,12 @@ const EditProfileDrawer = ({
                 <StyledText className="text-base font-semibold text-white ml-1">
                   {prettyTruncate(profileData?.public_key, 16, 'address')}
                 </StyledText>
+                {profileData?.is_verified && (
+                  <StyledImage
+                    className="w-4 h-4 rounded-full object-cover ml-0.5"
+                    source={require('../../../assets/badges/ghosty/verified.png')}
+                  />
+                )}
               </StyledView>
             </StyledView>
             <StyledView className="flex flex-row items-center w-12 h-4">
@@ -152,7 +160,7 @@ const EditProfileDrawer = ({
               maxLength={isMaxLength ? 0 : ALIAS_MAX_LENGTH}
               onSubmitEditing={() => null}
             />
-            <StyledText className="pr-2 text-lg text-white">.SOL</StyledText>
+            <StyledText className="pr-2 text-lg text-white">.sol</StyledText>
           </StyledView>
         </StyledView>
         <StyledView className="mt-4 mx-4">

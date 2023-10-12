@@ -27,6 +27,9 @@ import { useRNPaper } from '../../../providers/RNPaperProvider'
 import { sendReply } from '../../../program/api/reply/sendReply'
 import { Idl, Program } from '@coral-xyz/anchor'
 import { PublicKey } from '@solana/web3.js'
+import { ProfileService } from '../../../services/Profile'
+import { useQuery } from 'react-query'
+import { AxiosError } from 'axios'
 
 interface ReplyDrawerProps {
   isShow: boolean
@@ -42,6 +45,7 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
   const bottomDrawerRef = useRef<BottomDrawerMethods>(null)
   const { width, height } = useWindowDimensions()
   const { connection } = useConnection()
+  const { getProfile } = ProfileService()
   const { selectedAccount, authorizeSession } = useAuthorization()
   const anchorWallet = useAnchorWallet({ authorizeSession, selectedAccount })
   const { solcietyProgram } = useSolcietyProgram({
@@ -78,6 +82,10 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
     setReply('')
   }, [isShow])
 
+  useEffect(() => {
+    refetch()
+  }, [replyData])
+
   const handleClose = () => {
     onClose()
     setReply('')
@@ -98,6 +106,8 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
       bottomDrawerRef.current?.close()
       onClose()
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       store?.setNewReply({
         _id: generateRandomNumber().toString(),
         signature: generateRandomNumber().toString(),
@@ -108,6 +118,9 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
         content: reply,
         created_at: new Date().getTime(),
         updated_at: new Date().getTime(),
+        is_verified: profileData?.is_verified as boolean,
+        image: profileData?.image as string,
+        alias: profileData?.alias as string,
       })
       paper?.setShowPortal('replied')
     } catch (error) {
@@ -119,6 +132,18 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
       setIsSigning(false)
     }
   }
+
+  const { data: profileData, refetch } = useQuery({
+    queryKey: `get-profile-reply-drawer`,
+    queryFn: () =>
+      getProfile({
+        public_key: selectedAccount?.publicKey,
+      }),
+    onError: (error) => {
+      const err = error as AxiosError
+      console.log('err get-posts-home-all:::> ', err)
+    },
+  })
 
   return (
     <BottomDrawer
@@ -135,19 +160,20 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
         <StyledScrollView>
           <StyledView className="flex flex-row mx-4">
             <StyledView className="absolute top-2 left-6 w-0.5 h-full bg-solana-green" />
-            <StyledImage
-              className="w-12 h-12 rounded-full mr-4"
-              source={require('../../../assets/screen/notification/sample-verified.png')}
-            />
+            {replyData?.image && (
+              <StyledImage
+                className="w-12 h-12 rounded-full mr-4"
+                source={{
+                  uri: replyData.image,
+                }}
+              />
+            )}
             <StyledView className="flex flex-1 mb-4">
               <StyledView className="flex flex-row">
                 {replyData?.alias ? (
                   <StyledView className="flex flex-row items-center gap-x-2">
                     <StyledText className="text-base font-semibold text-white">
                       {replyData?.alias}
-                    </StyledText>
-                    <StyledText className="px-2 text-xs border border-zinc-500 text-zinc-500 rounded-md">
-                      alias
                     </StyledText>
                   </StyledView>
                 ) : (
@@ -168,19 +194,20 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
             </StyledView>
           </StyledView>
           <StyledView className="flex flex-row mx-4">
-            <StyledImage
-              className="w-12 h-12 rounded-full mr-4"
-              source={require('../../../assets/screen/notification/sample-verified.png')}
-            />
+            {profileData?.image && (
+              <StyledImage
+                className="w-12 h-12 rounded-full mr-4"
+                source={{
+                  uri: profileData.image,
+                }}
+              />
+            )}
             <StyledView>
               <StyledView className="flex flex-row justify-between items-center">
-                {replyData?.alias ? (
+                {profileData?.alias ? (
                   <StyledView className="flex flex-row items-center gap-x-2">
                     <StyledText className="text-base font-semibold text-white">
-                      {replyData?.alias}
-                    </StyledText>
-                    <StyledText className="px-2 text-xs border border-zinc-500 text-zinc-500 rounded-md">
-                      alias
+                      {profileData.alias}
                     </StyledText>
                   </StyledView>
                 ) : (

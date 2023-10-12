@@ -8,7 +8,8 @@ import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { LikeService } from '../../services/Like'
 import { IPost } from '../../types/post'
-import LikeItem from '../../components/Like/LikeItem'
+import Post from '../../components/Post/Post'
+import { AxiosError } from 'axios'
 
 interface ProfileLikeScreenProps {
   userKey: string
@@ -52,6 +53,10 @@ const ProfileLikeScreen = ({ userKey }: ProfileLikeScreenProps) => {
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,
+      onError: (error) => {
+        const err = error as AxiosError
+        console.log('profile-likes::> ', err.response?.data)
+      },
     })
 
   const loadMore = () => {
@@ -69,7 +74,7 @@ const ProfileLikeScreen = ({ userKey }: ProfileLikeScreenProps) => {
   }
 
   const renderData = (like: IPost) => {
-    return <LikeItem type="post-detail" likeData={like} />
+    return <Post type="post-detail" data={like} />
   }
 
   const renderEmpty = () => {

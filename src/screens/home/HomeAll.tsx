@@ -17,6 +17,7 @@ import { FlatList } from 'react-native'
 import { IconArrowUp } from '../../components/Icons/Icon'
 import { PublicKey } from '@solana/web3.js'
 import { useFocusEffect } from '@react-navigation/native'
+import { AxiosError } from 'axios'
 
 const HomeAllScreen = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
@@ -47,6 +48,10 @@ const HomeAllScreen = () => {
     queryFn: () =>
       getPostStatus({ public_key: selectedAccount?.publicKey as PublicKey }),
     refetchInterval: 10000,
+    onError: (error) => {
+      const err = error as AxiosError
+      console.log('err get-profile-status:::> ', err.response?.data)
+    },
   })
 
   useEffect(() => {
@@ -73,6 +78,10 @@ const HomeAllScreen = () => {
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,
+      onError: (error) => {
+        const err = error as AxiosError
+        console.log('err get-posts-home-all:::> ', err)
+      },
     })
 
   useEffect(() => {
@@ -129,7 +138,7 @@ const HomeAllScreen = () => {
         style={{ marginTop: 16 }}
       />
       {isNewPost && (
-        <StyledView className="absolute top-12 w-full z-50 shadow-2xl">
+        <StyledView className="absolute top-14 w-full z-50 shadow-2xl">
           <StyledView className="w-0.5 h-full mx-auto bg-solana-green" />
           <StyledView className="mx-auto rounded-full bg-zinc-900">
             <StyledTouchableOpacity

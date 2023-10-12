@@ -10,6 +10,7 @@ import { HFlatList } from 'react-native-head-tab-view'
 import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { useStore } from '../../providers/ContextProvider'
+import { AxiosError } from 'axios'
 
 const NotifAllScreen = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
@@ -64,6 +65,10 @@ const NotifAllScreen = () => {
         }),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,
+      onError: (error) => {
+        const err = error as AxiosError
+        console.log('err get-notif-all::> ', err.response?.data)
+      },
     })
 
   const loadMore = () => {

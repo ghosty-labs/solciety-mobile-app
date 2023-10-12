@@ -15,6 +15,7 @@ import { useQuery } from 'react-query'
 import { ProfileService } from '../../services/Profile'
 import { IProfile } from '../../types/profile'
 import ProfileCollectiblesScreen from '../profile/ProfileCollectibles'
+import { AxiosError } from 'axios'
 
 const ProfileDetailScreen = () => {
   const [index, setIndex] = useState<number>(0)
@@ -48,6 +49,10 @@ const ProfileDetailScreen = () => {
       getProfile({
         public_key: _route.params.publicKey,
       }),
+    onError: (error) => {
+      const err = error as AxiosError
+      console.log('err get-user-profile:::> ', err)
+    },
   })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

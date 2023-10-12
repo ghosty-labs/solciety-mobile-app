@@ -6,7 +6,7 @@ import {
   StyledView,
 } from '../../constants/nativewind'
 import Avatar from '../Common/Avatar'
-import { IconComment, IconEllipsis, IconHeart, IconShare } from '../Icons/Icon'
+import { IconComment, IconHeart, IconShare } from '../Icons/Icon'
 import moment from 'moment'
 import { alertLog, numberFormatter, prettyTruncate } from '../../utils/common'
 import { IPost, TPostItem } from '../../types/post'
@@ -89,7 +89,7 @@ const Post = ({ type, data }: PostProps) => {
           navigation.navigate('ProfileDetail', { publicKey: data?.user })
         }
       >
-        {data.image && (
+        {data?.image && (
           <Avatar
             url={{
               uri: data.image,
@@ -108,19 +108,25 @@ const Post = ({ type, data }: PostProps) => {
               }
             >
               <StyledText className="text-base font-semibold text-white">
-                {prettyTruncate(data?.user, 10, 'address')}
+                {prettyTruncate(
+                  data?.alias ? data.alias : data?.user,
+                  10,
+                  'address',
+                )}
               </StyledText>
             </StyledTouchableOpacity>
-            <StyledImage
-              className="w-4 h-4 rounded-full object-cover"
-              source={require('../../assets/common/verify.png')}
-            />
+            {data?.is_verified && (
+              <StyledImage
+                className="w-4 h-4 rounded-full object-cover"
+                source={require('../../assets/badges/ghosty/verified.png')}
+              />
+            )}
           </StyledView>
           <StyledView className="flex flex-row items-center">
             <StyledText className="text-xs text-zinc-400 mr-4">
               {moment(data?.created_at).fromNow()}
             </StyledText>
-            <IconEllipsis size={20} color="#a1a1aa" />
+            {/* <IconEllipsis size={20} color="#a1a1aa" /> */}
           </StyledView>
         </StyledView>
         <StyledView className="flex flex-row">
@@ -129,7 +135,7 @@ const Post = ({ type, data }: PostProps) => {
           </StyledText>
         </StyledView>
         <StyledText className="text-base text-solana-green">
-          {data?.tag !== '[untagged]' && `#${data?.tag.replaceAll('-', ' #')}`}
+          {data?.tag !== '[untagged]' && `#${data?.tag?.replaceAll('-', ' #')}`}
         </StyledText>
         <StyledView className="flex flex-row justify-between mt-2">
           <StyledView className="flex flex-row item-center">

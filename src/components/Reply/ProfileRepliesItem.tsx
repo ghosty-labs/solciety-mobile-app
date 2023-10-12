@@ -10,7 +10,7 @@ import { IReply } from '../../types/reply'
 import { HomeStackParamList } from '../../types/navigation'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
-import { IconEllipsis } from '../Icons/Icon'
+// import { IconEllipsis } from '../Icons/Icon'
 import moment from 'moment'
 import Avatar from '../Common/Avatar'
 
@@ -56,7 +56,7 @@ const ProfileRepliesItem = ({ repliesData }: ProfileRepliesItemProps) => {
             <StyledText className="text-xs text-zinc-400 mr-4">
               {moment(repliesData.created_at).fromNow()}
             </StyledText>
-            <IconEllipsis size={20} color="#a1a1aa" />
+            {/* <IconEllipsis size={20} color="#a1a1aa" /> */}
           </StyledView>
         </StyledView>
         <StyledText className="text-sm text-zinc-400 my-1">
