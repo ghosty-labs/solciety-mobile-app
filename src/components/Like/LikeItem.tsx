@@ -94,7 +94,9 @@ const LikeItem = ({ type, likeData }: LikeItemProps) => {
         }
       >
         <Avatar
-          url={require('../../assets/screen/connect/sample.png')}
+          url={{
+            uri: likeData.post_data.user_image,
+          }}
           size={48}
         />
       </StyledTouchableOpacity>

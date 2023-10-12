@@ -4,6 +4,7 @@ export interface IPost {
   key: string
   user: string
   alias?: string
+  image: string
   tag: string
   content: string
   comment?: number

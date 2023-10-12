@@ -37,7 +37,7 @@ const ConnectWalletScreen = ({ navigation }: Props) => {
     <StyledView className="h-full bg-zinc-900">
       <StyledImage
         className="w-full h-[83%] object-top"
-        source={require('../../assets/screen/connect/sample.png')}
+        source={require('../../assets/screen/connect/ghosty-solciety-bw.png')}
       />
       <Button
         className="absolute inset-x-0 bottom-10 mx-4 py-4"

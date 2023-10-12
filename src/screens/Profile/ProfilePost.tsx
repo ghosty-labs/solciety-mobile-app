@@ -9,7 +9,6 @@ import { HFlatList } from 'react-native-head-tab-view'
 import { useStore } from '../../providers/ContextProvider'
 import { useRNPaper } from '../../providers/RNPaperProvider'
 import { StyledText, StyledView } from '../../constants/nativewind'
-import { Button } from '../../components/Common'
 import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 
@@ -91,10 +90,6 @@ const ProfilePostScreen = ({ userKey }: ProfilePostScreenProps) => {
     return <Post type="post-profile" data={post} />
   }
 
-  const onPressTouch = () => {
-    listRef.current?.scrollToOffset({ offset: 0, animated: true })
-  }
-
   const renderEmpty = () => {
     return (
       <StyledText className="mx-auto mt-40 text-base text-zinc-500">
@@ -124,18 +119,6 @@ const ProfilePostScreen = ({ userKey }: ProfilePostScreenProps) => {
         ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
         style={{ marginTop: 16 }}
       />
-      <StyledView className="absolute bottom-4 right-4">
-        <StyledView className="">
-          <Button
-            className="w-20 h-10 py-4"
-            title="scroll top"
-            textSize="xl"
-            textColor="sol-green"
-            color="white"
-            onPress={onPressTouch}
-          />
-        </StyledView>
-      </StyledView>
     </>
   )
 }

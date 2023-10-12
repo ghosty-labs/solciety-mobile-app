@@ -140,14 +140,15 @@ const ProfileHeader = ({ dataProfile }: ProfileHeaderProps) => {
               <IconChevronLeft size={20} color="white" />
             </StyledTouchableOpacity>
           )}
-
           <StyledText className="text-xl font-bold text-white">
             {prettyTruncate(dataProfile?.public_key, 12, 'address')}
           </StyledText>
-          <StyledImage
-            className="w-5 h-5 rounded-full object-cover"
-            source={require('../../assets/badges/ghosty/verified.png')}
-          />
+          {dataProfile?.is_verified && (
+            <StyledImage
+              className="w-5 h-5 rounded-full object-cover"
+              source={require('../../assets/badges/ghosty/verified.png')}
+            />
+          )}
         </StyledView>
         {selectedAccount?.publicKey.toString() === dataProfile?.public_key && (
           <StyledView>

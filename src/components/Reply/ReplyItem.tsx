@@ -13,10 +13,14 @@ interface ReplyItemProps {
 const ReplyItem = ({ data }: ReplyItemProps) => {
   return (
     <StyledView className="flex flex-row items-start mb-4 border-b border-zinc-800 px-6 pb-4">
-      <Avatar
-        url={require('../../assets/screen/connect/sample.png')}
-        size={40}
-      />
+      {data.image && (
+        <Avatar
+          url={{
+            uri: data.image,
+          }}
+          size={40}
+        />
+      )}
       <StyledView className="w-[90%] pl-2 -mt-1">
         <StyledView className="flex flex-row justify-between items-center">
           <StyledView className="flex flex-row items-center gap-x-1">

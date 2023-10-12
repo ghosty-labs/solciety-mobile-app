@@ -2,8 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { RootStackParamList } from '../types/navigation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { IconSolanaText } from '../components/Icons/Icon'
-import { StyledView } from '../constants/nativewind'
+import { StyledImage, StyledView } from '../constants/nativewind'
 
 type Props = NativeStackScreenProps<RootStackParamList>
 
@@ -27,7 +26,10 @@ const SplashScreen = ({ navigation }: Props) => {
 
   return (
     <StyledView className="m-auto">
-      <IconSolanaText size={200} />
+      <StyledImage
+        className="w-52 h-40"
+        source={require('../assets/logo/solciety.png')}
+      />
     </StyledView>
   )
 }

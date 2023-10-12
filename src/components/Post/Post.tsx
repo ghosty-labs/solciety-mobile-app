@@ -89,10 +89,14 @@ const Post = ({ type, data }: PostProps) => {
           navigation.navigate('ProfileDetail', { publicKey: data?.user })
         }
       >
-        <Avatar
-          url={require('../../assets/screen/connect/sample.png')}
-          size={48}
-        />
+        {data.image && (
+          <Avatar
+            url={{
+              uri: data.image,
+            }}
+            size={48}
+          />
+        )}
       </StyledTouchableOpacity>
       <StyledView className="w-[87%] pl-2 -mt-1">
         <StyledView className="flex flex-row justify-between items-center">

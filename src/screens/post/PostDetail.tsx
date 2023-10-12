@@ -133,10 +133,14 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
       >
         <StyledView className="w-full mt-2 px-4">
           <StyledView className="flex flex-row items-center px-2 py-2.5 rounded-full bg-zinc-800">
-            <Avatar
-              url={require('../../assets/screen/connect/sample.png')}
-              size={30}
-            />
+            {data?.image && (
+              <Avatar
+                url={{
+                  uri: data.image,
+                }}
+                size={30}
+              />
+            )}
             <StyledText className="ml-2 text-zinc-500">
               Reply to {prettyTruncate(accountPost(), 18, 'address')}
             </StyledText>
