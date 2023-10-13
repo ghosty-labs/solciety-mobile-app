@@ -17,7 +17,7 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { RPC_ENDPOINT } from '../constants/variables'
+import { APP_ENV } from '../constants/variables'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { toByteArray } from '../utils/solana'
 
@@ -156,7 +156,7 @@ const AuthorizationProvider = (props: { children: React.ReactNode }) => {
             identity: APP_IDENTITY,
           })
         : wallet.authorize({
-            cluster: RPC_ENDPOINT,
+            cluster: APP_ENV,
             identity: APP_IDENTITY,
           }))
 

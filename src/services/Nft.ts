@@ -1,11 +1,11 @@
-import { SOLCIETY_API_URL } from '@env'
 import axios from 'axios'
 import { getTokenUser } from '../utils/common'
 import { ICollectible, IPostNFT } from '../types/nft'
+import { BASE_URL } from '../constants/variables'
 
 export const NftService = () => {
   const NftRequest = axios.create({
-    baseURL: SOLCIETY_API_URL,
+    baseURL: BASE_URL,
   })
 
   const getNfts = async (params?: object) => {

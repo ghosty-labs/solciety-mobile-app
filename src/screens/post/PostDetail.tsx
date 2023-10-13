@@ -102,10 +102,10 @@ const PostDetailScreen = ({ route }: PostDetailScreenProps) => {
   }
 
   const accountPost = () => {
-    if (data?.alias) {
-      return data.alias
+    if (profileData?.alias) {
+      return profileData.alias
     }
-    return data?.user
+    return profileData?.public_key
   }
 
   const onClickReply = () => {

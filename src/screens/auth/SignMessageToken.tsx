@@ -12,13 +12,13 @@ import uuid from 'react-native-uuid'
 import { alertLog, signWallet } from '../../utils/common'
 import { PublicKey } from '@solana/web3.js'
 import { toBase64 } from 'js-base64'
-import { APP_ENV } from '@env'
 import { bs58 } from '@coral-xyz/anchor/dist/cjs/utils/bytes'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ProfileService } from '../../services/Profile'
 import nacl from 'tweetnacl'
 import { useQuery } from 'react-query'
 import { AxiosError } from 'axios'
+import { APP_ENV } from '../../constants/variables'
 
 type Props = NativeStackScreenProps<RootStackParamList>
 

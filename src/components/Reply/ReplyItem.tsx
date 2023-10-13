@@ -12,7 +12,7 @@ import { prettyTruncate } from '../../utils/common'
 import { IReply } from '../../types/reply'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { NotifStackParamList } from '../../types/navigation'
+import { MainTabParamList } from '../../types/navigation'
 
 interface ReplyItemProps {
   data: IReply
@@ -20,7 +20,7 @@ interface ReplyItemProps {
 
 const ReplyItem = ({ data }: ReplyItemProps) => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<NotifStackParamList>>()
+    useNavigation<NativeStackNavigationProp<MainTabParamList>>()
   return (
     <StyledView className="flex flex-row items-start mb-4 border-b border-zinc-800 px-6 pb-4">
       {data.image && (
@@ -59,7 +59,7 @@ const ReplyItem = ({ data }: ReplyItemProps) => {
             )}
           </StyledView>
           <StyledView className="flex flex-row items-center">
-            <StyledText className="text-xs text-zinc-400 mr-4">
+            <StyledText className="text-xs text-zinc-400">
               {moment(data.created_at).fromNow()}
             </StyledText>
             {/* <IconEllipsis size={20} color="#a1a1aa" /> */}

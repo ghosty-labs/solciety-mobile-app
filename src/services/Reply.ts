@@ -1,10 +1,10 @@
-import { SOLCIETY_API_URL } from '@env'
 import axios from 'axios'
 import { IReply } from '../types/reply'
+import { BASE_URL } from '../constants/variables'
 
 export const ReplyService = () => {
   const ReplyRequest = axios.create({
-    baseURL: SOLCIETY_API_URL,
+    baseURL: BASE_URL,
   })
 
   const getReplies = async (params?: object) => {

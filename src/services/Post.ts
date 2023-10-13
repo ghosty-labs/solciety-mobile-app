@@ -1,11 +1,11 @@
-import { SOLCIETY_API_URL } from '@env'
 import axios from 'axios'
 import { IPost } from '../types/post'
 import { getTokenUser } from '../utils/common'
+import { BASE_URL } from '../constants/variables'
 
 export const PostService = () => {
   const PostRequest = axios.create({
-    baseURL: SOLCIETY_API_URL,
+    baseURL: BASE_URL,
   })
 
   const getPosts = async (params?: object) => {

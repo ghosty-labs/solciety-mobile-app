@@ -18,6 +18,9 @@ const SearchHeader = () => {
 
   return (
     <StyledView className="w-full px-4 mb-2 bg-zinc-900">
+      <StyledText className="text-3xl font-bold text-white my-2">
+        Search
+      </StyledText>
       <StyledTouchableOpacity
         activeOpacity={0.9}
         className="flex flex-row items-center px-2 rounded-lg bg-zinc-800"

@@ -43,7 +43,7 @@ const SearchResultsScreen = () => {
             renderLabel={(props) => {
               return (
                 <StyledText
-                  className={`font-semibold text-sm ${
+                  className={`font-semibold text-base ${
                     props.focused ? 'text-white' : 'text-zinc-500'
                   }`}
                 >
@@ -57,7 +57,7 @@ const SearchResultsScreen = () => {
               paddingVertical: 4,
             }}
             indicatorStyle={{
-              backgroundColor: '#14F195',
+              backgroundColor: '#18181b',
               width: '10%',
               height: 5,
               borderRadius: 20,

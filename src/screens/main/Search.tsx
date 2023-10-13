@@ -23,6 +23,9 @@ const SearchScreen = () => {
 
   return (
     <StyledView className="h-full px-4 bg-zinc-900">
+      <StyledText className="text-3xl font-bold text-white my-2">
+        Search
+      </StyledText>
       <StyledView className="flex flex-row items-center px-2 rounded-lg bg-zinc-800">
         <IconSearch size={30} color="white" />
         <StyledTextInput

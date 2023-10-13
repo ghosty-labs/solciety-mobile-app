@@ -1,7 +1,7 @@
-import { APP_ENV } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { PublicKey } from '@solana/web3.js'
 import { Alert } from 'react-native'
+import { APP_ENV } from '../constants/variables'
 
 export const numberFormatter = (num: number) => {
   if (num >= 1000000000) {

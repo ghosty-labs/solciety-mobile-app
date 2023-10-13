@@ -123,7 +123,7 @@ const Post = ({ type, data }: PostProps) => {
             )}
           </StyledView>
           <StyledView className="flex flex-row items-center">
-            <StyledText className="text-xs text-zinc-400 mr-4">
+            <StyledText className="text-xs text-zinc-400">
               {moment(data?.created_at).fromNow()}
             </StyledText>
             {/* <IconEllipsis size={20} color="#a1a1aa" /> */}

@@ -1,11 +1,11 @@
-import { SOLCIETY_API_URL } from '@env'
 import axios from 'axios'
 import { IProfile } from '../types/profile'
 import { getTokenUser } from '../utils/common'
+import { BASE_URL } from '../constants/variables'
 
 export const ProfileService = () => {
   const ProfileRequest = axios.create({
-    baseURL: SOLCIETY_API_URL,
+    baseURL: BASE_URL,
   })
 
   const getProfile = async (params?: object) => {

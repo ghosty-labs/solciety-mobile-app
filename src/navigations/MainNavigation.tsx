@@ -71,6 +71,7 @@ const MainNavigation = () => {
         name="Search"
         component={SearchStackScreen}
         options={{
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#18181b',
           },

@@ -169,7 +169,7 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
               />
             )}
             <StyledView className="flex flex-1 mb-4">
-              <StyledView className="flex flex-row">
+              <StyledView className="flex flex-row items-center">
                 {replyData?.alias ? (
                   <StyledView className="flex flex-row items-center gap-x-2">
                     <StyledText className="text-base font-semibold text-white">
@@ -180,6 +180,12 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
                   <StyledText className="text-base font-semibold text-white">
                     {prettyTruncate(replyData?.user, 18, 'address')}
                   </StyledText>
+                )}
+                {replyData?.is_verified && (
+                  <StyledImage
+                    className="w-4 h-4 rounded-full object-cover ml-1"
+                    source={require('../../../assets/badges/ghosty/verified.png')}
+                  />
                 )}
               </StyledView>
               <StyledView className="flex flex-row">
@@ -203,7 +209,7 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
               />
             )}
             <StyledView>
-              <StyledView className="flex flex-row justify-between items-center">
+              <StyledView className="flex flex-row items-center">
                 {profileData?.alias ? (
                   <StyledView className="flex flex-row items-center gap-x-2">
                     <StyledText className="text-base font-semibold text-white">
@@ -218,6 +224,12 @@ const ReplyDrawer = ({ isShow, onClose, replyData }: ReplyDrawerProps) => {
                       'address',
                     )}
                   </StyledText>
+                )}
+                {profileData?.is_verified && (
+                  <StyledImage
+                    className="w-4 h-4 rounded-full object-cover ml-1"
+                    source={require('../../../assets/badges/ghosty/verified.png')}
+                  />
                 )}
               </StyledView>
               <StyledView

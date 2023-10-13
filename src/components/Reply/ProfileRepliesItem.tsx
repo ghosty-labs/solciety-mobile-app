@@ -49,7 +49,7 @@ const ProfileRepliesItem = ({ repliesData }: ProfileRepliesItemProps) => {
             </StyledText>
             <StyledImage
               className="w-4 h-4 rounded-full object-cover"
-              source={require('../../assets/common/verify.png')}
+              source={require('../../assets/badges/ghosty/verified.png')}
             />
           </StyledView>
           <StyledView className="flex flex-row items-center">

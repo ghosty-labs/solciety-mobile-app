@@ -4,7 +4,6 @@ import { Button } from '../../components/Common'
 import useMetaplex from '../../hooks/useMetaplex'
 import { useConnection } from '../../providers/ConnectionProvider'
 import { useAuthorization } from '../../providers/AuthorizationProvider'
-import { CANDY_MACHINE_ID } from '@env'
 import { Keypair, PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 import nacl from 'tweetnacl'
 import { ProgressBar } from 'react-native-paper'
@@ -14,6 +13,7 @@ import {
   SendAndConfirmTransactionResponse,
 } from '@metaplex-foundation/js'
 import ModalSuccessMinted from '../../components/Paper/Modal/ModalSuccessMinted'
+import { CANDY_MACHINE_ID } from '../../constants/variables'
 
 const MintNFTScreen = () => {
   const [totalSupply, setTotalSupply] = useState<number>(0)
@@ -63,9 +63,9 @@ const MintNFTScreen = () => {
       const payer = Keypair.generate()
       const toAccount = Keypair.generate().publicKey
 
-      const candyMachine = await metaplex
-        .candyMachines()
-        .findByAddress({ address: new PublicKey(CANDY_MACHINE_ID) })
+      const candyMachine = await metaplex.candyMachines().findByAddress({
+        address: new PublicKey(CANDY_MACHINE_ID),
+      })
 
       const { nft, response } = await metaplex.candyMachines().mint(
         {

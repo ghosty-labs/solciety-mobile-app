@@ -137,21 +137,29 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
           )}
           <StyledView>
             <StyledView className="flex flex-row justify-between items-center">
-              {profileData?.alias ? (
-                <StyledView className="flex flex-row items-center gap-x-2">
+              <StyledView className="flex flex-row items-center">
+                {profileData?.alias ? (
+                  <StyledView className="flex flex-row items-center gap-x-2">
+                    <StyledText className="text-base font-semibold text-white">
+                      {profileData?.alias || profileData?.public_key}
+                    </StyledText>
+                  </StyledView>
+                ) : (
                   <StyledText className="text-base font-semibold text-white">
-                    {profileData?.alias || profileData?.public_key}
+                    {prettyTruncate(
+                      selectedAccount?.publicKey.toBase58(),
+                      18,
+                      'address',
+                    )}
                   </StyledText>
-                </StyledView>
-              ) : (
-                <StyledText className="text-base font-semibold text-white">
-                  {prettyTruncate(
-                    selectedAccount?.publicKey.toBase58(),
-                    18,
-                    'address',
-                  )}
-                </StyledText>
-              )}
+                )}
+                {profileData?.is_verified && (
+                  <StyledImage
+                    className="w-4 h-4 rounded-full object-cover ml-1"
+                    source={require('../../../assets/badges/ghosty/verified.png')}
+                  />
+                )}
+              </StyledView>
               <StyledView className="flex flex-row items-center w-12 h-4">
                 <Button
                   title="Post"

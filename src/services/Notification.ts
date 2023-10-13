@@ -1,11 +1,11 @@
-import { SOLCIETY_API_URL } from '@env'
 import axios from 'axios'
 import { getTokenUser } from '../utils/common'
 import { INotificationItem } from '../types/notification'
+import { BASE_URL } from '../constants/variables'
 
 export const NotificationService = () => {
   const NotificationRequest = axios.create({
-    baseURL: SOLCIETY_API_URL,
+    baseURL: BASE_URL,
   })
 
   const getNotification = async (params?: object) => {

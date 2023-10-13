@@ -21,6 +21,7 @@ export type MainTabParamList = {
   Post: undefined
   Notifications: undefined
   Profile: { accountId: string }
+  ProfileDetail: { publicKey: string }
 }
 
 // Stacks - Start
