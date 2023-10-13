@@ -99,7 +99,6 @@ const SignMessageTokenScreen = ({ navigation }: Props) => {
 
         await putProfile(
           {
-            alias: dataProfile?.alias || null,
             bio: dataProfile?.bio || '',
           },
           token,
