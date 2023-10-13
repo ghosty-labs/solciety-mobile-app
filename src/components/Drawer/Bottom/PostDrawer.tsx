@@ -55,7 +55,11 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
     }
   }, [isShow])
 
-  const { data: profileData } = useQuery({
+  useEffect(() => {
+    refetch()
+  }, [isShow])
+
+  const { data: profileData, refetch } = useQuery({
     queryKey: `get-profile-post-drawer`,
     queryFn: () =>
       getProfile({

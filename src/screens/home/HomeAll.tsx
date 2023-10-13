@@ -138,7 +138,7 @@ const HomeAllScreen = () => {
         style={{ marginTop: 16 }}
       />
       {isNewPost && (
-        <StyledView className="absolute top-14 w-full z-50 shadow-2xl">
+        <StyledView className="absolute top-[54px] w-full z-50 shadow-2xl">
           <StyledView className="w-0.5 h-full mx-auto bg-solana-green" />
           <StyledView className="mx-auto rounded-full bg-zinc-900">
             <StyledTouchableOpacity

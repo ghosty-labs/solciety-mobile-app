@@ -110,7 +110,7 @@ const Post = ({ type, data }: PostProps) => {
               <StyledText className="text-base font-semibold text-white">
                 {prettyTruncate(
                   data?.alias ? data.alias : data?.user,
-                  10,
+                  14,
                   'address',
                 )}
               </StyledText>
