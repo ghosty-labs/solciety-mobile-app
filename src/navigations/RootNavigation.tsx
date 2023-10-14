@@ -81,10 +81,18 @@ const RootNavigation = () => {
             },
             title: 'Get Verified',
             animationTypeForReplace: 'push',
+            animation: 'slide_from_bottom',
+            animationDuration: 100,
+          }}
+        />
+        <RootStack.Screen
+          name="Setting"
+          component={SettingNavigation}
+          options={{
+            animationTypeForReplace: 'push',
             animation: 'slide_from_right',
           }}
         />
-        <RootStack.Screen name="Setting" component={SettingNavigation} />
       </RootStack.Navigator>
     </NavigationContainer>
   )

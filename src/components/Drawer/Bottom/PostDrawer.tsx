@@ -177,7 +177,7 @@ const PostDrawer = ({ isShow, onClose }: PostDrawerProps) => {
               }}
             >
               <StyledTextInput
-                className="flex -mt-2 -ml-1 text-base text-white"
+                className="flex -ml-1 text-base text-white"
                 placeholderTextColor="#71717a"
                 placeholder="Start a Post..."
                 multiline={true}

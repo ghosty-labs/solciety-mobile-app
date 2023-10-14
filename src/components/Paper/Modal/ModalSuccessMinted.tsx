@@ -90,7 +90,7 @@ const ModalSuccessMinted = ({
                 return (
                   <StyledView
                     key={index}
-                    className="p-2 border border-white rounded-lg"
+                    className="m-1 p-2 border border-white rounded-lg"
                   >
                     <StyledText className="font-bold text-zinc-500">
                       {trait.trait_type}
@@ -172,7 +172,7 @@ const ModalSuccessMinted = ({
                 })
               }
             >
-              <StyledText className="underline underline-offset-4 text-base font-bold text-center text-solana-green">
+              <StyledText className="-mt-2 underline underline-offset-4 text-base font-bold text-center text-solana-green">
                 Go to Profile
               </StyledText>
             </StyledTouchableOpacity>

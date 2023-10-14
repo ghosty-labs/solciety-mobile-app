@@ -17,6 +17,8 @@ interface IContext {
   setNewNotif: Dispatch<SetStateAction<boolean | null>>
   isProfileUpdated: boolean | null
   setIsProfileUpdated: Dispatch<SetStateAction<boolean | null>>
+  isMinting: boolean | null
+  setIsMinting: Dispatch<SetStateAction<boolean | null>>
 }
 
 const Context = createContext<IContext | null>(null)
@@ -26,6 +28,7 @@ export const ContextProvider = ({ children }: { children: JSX.Element }) => {
   const [newReply, setNewReply] = useState<IReply | null>(null)
   const [newNotif, setNewNotif] = useState<boolean | null>(null)
   const [isProfileUpdated, setIsProfileUpdated] = useState<boolean | null>(null)
+  const [isMinting, setIsMinting] = useState<boolean | null>(null)
 
   return (
     <>
@@ -39,6 +42,8 @@ export const ContextProvider = ({ children }: { children: JSX.Element }) => {
           setNewNotif,
           isProfileUpdated,
           setIsProfileUpdated,
+          isMinting,
+          setIsMinting,
         }}
       >
         {children}

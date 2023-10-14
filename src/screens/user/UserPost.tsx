@@ -6,8 +6,6 @@ import { useInfiniteQuery } from 'react-query'
 import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
 import { ActivityIndicator } from 'react-native-paper'
 import { HFlatList } from 'react-native-head-tab-view'
-import { useStore } from '../../providers/ContextProvider'
-import { useRNPaper } from '../../providers/RNPaperProvider'
 import { StyledText, StyledView } from '../../constants/nativewind'
 import { FlatList } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
@@ -20,8 +18,6 @@ const UserPostScreen = ({ userKey }: UserPostScreenProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const { getPosts } = PostService()
-  const store = useStore()
-  const paper = useRNPaper()
   const listRef = useRef<FlatList>(null)
 
   const onRefresh = useCallback(() => {
@@ -61,16 +57,6 @@ const UserPostScreen = ({ userKey }: UserPostScreenProps) => {
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,
     })
-
-  useEffect(() => {
-    if (store?.newPost !== null) {
-      setTimeout(() => {
-        data?.pages[0].unshift(store?.newPost as IPost)
-        store?.setNewPost(null)
-        paper?.setShowPortal(null)
-      }, 4000)
-    }
-  }, [store?.newPost])
 
   const loadMore = () => {
     if (hasNextPage) {

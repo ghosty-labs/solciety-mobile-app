@@ -132,7 +132,7 @@ const MintNFTScreen = () => {
       <StyledImage
         className="mx-auto w-[356px] h-[356px] rounded-xl"
         source={{
-          uri: 'https://fj3uwwysh7fryrpwnvidi7nid4pgl3j7jo64j7pklcc6imrqmota.arweave.net/KndLWxI_yxxF9m1QNH2oHx5l7T9LvcT96liF5DIwY6Y?ext=png',
+          uri: 'https://bafybeifuthz7yrxfapyh2mvch4r5enuhcxhlw6bdscjvix7jb3l7usee6i.ipfs.nftstorage.link/',
         }}
       />
       <StyledView className="mt-4 mx-1">
@@ -159,12 +159,12 @@ const MintNFTScreen = () => {
           <StyledText className="text-lg text-white mr-2">Price</StyledText>
           <IconSolana size={18} />
           <StyledText className="text-lg text-white font-bold ml-2">
-            0.5
+            0.1
           </StyledText>
         </StyledView>
       </StyledView>
       <Button
-        className="absolute bottom-2 py-7 mt-2 mb-4"
+        className="absolute bottom-1 py-7 mt-2 mb-4"
         title="Mint NFT"
         color="sol-green"
         textColor="black"

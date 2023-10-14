@@ -13,4 +13,4 @@ export const LIMIT_SIZE_GET_COMMENT = 10
 export const LIMIT_SIZE_GET_NOTIFICATION = 10
 export const LIMIT_SIZE_GET_COLLECTIBLE = 10
 
-export const CANDY_MACHINE_ID = 'HhYpUYjen5d3Kedw92Hag69nNnVCQ6XUCweVekrewGtN'
+export const CANDY_MACHINE_ID = 'ENLrpVRt39uUrijN5LwB95t2iCfQX6gn4pv94MiPTZyM'

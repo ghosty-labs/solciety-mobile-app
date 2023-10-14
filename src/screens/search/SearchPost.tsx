@@ -6,7 +6,6 @@ import { useInfiniteQuery } from 'react-query'
 import { LIMIT_SIZE_GET_POSTS } from '../../constants/variables'
 import { ActivityIndicator } from 'react-native-paper'
 import { HFlatList } from 'react-native-head-tab-view'
-import { useStore } from '../../providers/ContextProvider'
 import {
   StyledText,
   StyledTouchableOpacity,
@@ -23,7 +22,6 @@ const SearchPostScreen = () => {
 
   const { getPosts, putPostStatus } = PostService()
   const route = useRoute<RouteProp<SearchStackParamList, 'SearchResults'>>()
-  const store = useStore()
   const listRef = useRef<FlatList>(null)
 
   const onRefresh = useCallback(() => {
@@ -61,14 +59,6 @@ const SearchPostScreen = () => {
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length === 0 ? undefined : allPages.length + 1,
     })
-
-  useEffect(() => {
-    if (store?.newPost !== null) {
-      setTimeout(() => {
-        data?.pages[0].unshift(store?.newPost as IPost)
-      }, 4000)
-    }
-  }, [store?.newPost])
 
   const loadMore = () => {
     if (hasNextPage) {

@@ -14,7 +14,7 @@ const HeaderMintNFT = () => {
   return (
     <StyledTouchableOpacity
       activeOpacity={0.9}
-      onPress={() => navigation.goBack()}
+      onPress={() => (store?.isMinting ? null : navigation.goBack())}
     >
       <IconChevronLeft
         size={20}
