@@ -101,6 +101,7 @@ const UserCollectiblesScreen = ({ userKey }: UserCollectiblesScreenProps) => {
         horizontal={false}
         ListEmptyComponent={() => data?.pages[0].length === 0 && renderEmpty()}
         ListFooterComponent={isFetchingNextPage ? renderSpinner : null}
+        showsVerticalScrollIndicator={false}
         style={{ marginTop: 16 }}
       />
     </>

@@ -48,7 +48,11 @@ const ReplyItem = ({ data }: ReplyItemProps) => {
               }
             >
               <StyledText className="text-base font-semibold text-white">
-                {prettyTruncate(data?.alias || data.user, 10, 'address')}
+                {prettyTruncate(
+                  data?.alias ? data.alias : data?.user,
+                  14,
+                  'address',
+                )}
               </StyledText>
             </StyledTouchableOpacity>
             {data?.is_verified && (

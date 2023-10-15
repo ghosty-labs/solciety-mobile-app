@@ -45,7 +45,11 @@ const ProfileRepliesItem = ({ repliesData }: ProfileRepliesItemProps) => {
         <StyledView className="flex flex-row justify-between items-center">
           <StyledView className="flex flex-row items-center gap-x-1">
             <StyledText className="text-base font-semibold text-white">
-              {prettyTruncate(repliesData.user, 10, 'address')}
+              {prettyTruncate(
+                repliesData?.alias ? repliesData.alias : repliesData?.user,
+                14,
+                'address',
+              )}
             </StyledText>
             <StyledImage
               className="w-4 h-4 rounded-full object-cover"
