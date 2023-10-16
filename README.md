@@ -4,7 +4,49 @@ This is a [**React Native**](https://reactnative.dev) project, bootstrapped usin
 
 ![](https://nftstorage.link/ipfs/bafybeigkfimjlbit4ppapexqrdz5siufvatbrki5grkr6i4xrfewhgs7ly)
 
+We've added <hackathon@solana.org> to our internal testing because the production release is still in the Play Store's review stage.
+
+If you want to try our app right away, you can install it from the following link: [play.google.com/apps/com.solcietymobileapp](https://play.google.com/apps/test/com.solcietymobileapp/10) and follow the steps below to enable the Play Store on your Android device so you can install the trial version.
+
+Or if you want to try it through this repository, go to [Run the Solciety Mobile App on an emulator or Android device](#run-the-solciety-mobile-app-on-an-emulator-or-android-device) for installation instructions.
+
+# Run the Solciety Mobile App through internal testing
+
 > **Note**: Make sure you've already got your Solana wallet installed, fam!
+> And also make sure your wallet is in development mode or Devnet and has a balance.
+> If you don't have SOL, you can obtain it through [Sol Faucet](https://solfaucet.com/).
+
+## Step 1: Turn on Internal app sharing 
+
+1. Open link [play.google.com/apps/com.solcietymobileapp](https://play.google.com/apps/test/com.solcietymobileapp/10) and follow the instructions.
+
+2. Open the Google Play Store app.
+
+3. Tap Menu Menu > Settings.
+
+4. In the “About” section, tap the Play Store version 7 times.
+
+5. After the Internal app sharing setting appears, tap the switch to turn on internal app sharing. Tap Turn on.
+   
+   Or you can go to Settings (within the Play Store) > General > Developer options.
+
+## Step 2: Install App
+
+1. Open the Play Store and ensure that you are logged in with the email <hackathon@solana.org>.
+
+2. And then reopen the internal app testing link from us at [play.google.com/apps/com.solcietymobileapp](https://play.google.com/apps/test/com.solcietymobileapp/10).
+
+3. Make sure android device has Developer Mode is enabled.
+
+   <img width="338" alt="image" src="https://nftstorage.link/ipfs/bafkreifkuwxmcxfwlry3nzx7l4vj6hzdpwzq7324zi3obxrsnzaokzwga4">
+
+   [Congratulations! 🎉](#congratulations)
+
+   -> [Explore Solciety🎩](#explore-solciety)
+   
+   -> [Questions and Support](#questions-and-support)
+
+# Run the Solciety Mobile App on an emulator or Android device
 
 ## Step 1: Installation
 
