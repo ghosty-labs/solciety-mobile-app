@@ -56,7 +56,7 @@ Or if you want to try it through this repository, go to [Run the Solciety Mobile
 
 1. Make sure you've already got `Node.js`, the `Android SDK`, the `Android SDK Platform`, and an `Android Virtual Device` all set up.
 
-   For more detailed information on setting up the development environment, please visit: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup).
+   For more detailed information on setting up the development environment, please visit: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
    
 3. Clone this repository to your computer by running the following command:
    ```shell
@@ -157,6 +157,8 @@ yarn android
 ```
 
 ## Congratulations! :tada:
+
+<img width="338" alt="image" src="https://nftstorage.link/ipfs/bafybeiczir7cbwt3ynasndfv73boicgithvr7fblgpkxxxpp5glbnmzyie">
 
 You've successfully run Solciety Mobile App. :partying_face:
 
