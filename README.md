@@ -12,7 +12,7 @@ If you want to try our app right away, you can install it from the following lin
 
 Or if you want to try it through this repository, go to [Run the Solciety Mobile App on an emulator or Android device](#run-the-solciety-mobile-app-on-an-emulator-or-android-device) for installation instructions.
 
-# Run the Solciety Mobile App through internal testing
+# Run the Solciety Mobile App through Internal Testing
 
 > **Note**: Make sure you've already got your Solana wallet installed, fam!
 > And also make sure your wallet is in development mode or Devnet and has a balance.
@@ -55,8 +55,10 @@ Or if you want to try it through this repository, go to [Run the Solciety Mobile
 ## Step 1: Installation
 
 1. Make sure you've already got `Node.js`, the `Android SDK`, the `Android SDK Platform`, and an `Android Virtual Device` all set up.
+
+   For more detailed information on setting up the development environment, please visit: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup).
    
-2. Clone this repository to your computer by running the following command:
+3. Clone this repository to your computer by running the following command:
    ```shell
    # using HTTPS
    https://github.com/ghosty-labs/solciety-mobile-app.git
