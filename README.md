@@ -1,8 +1,10 @@
 This is a [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Solciety Guide: Web3 Social Media on Solana 🚀
+# Solciety Guide: Web3 Social Media on Solana 🎩🚀
 
 ![](https://nftstorage.link/ipfs/bafybeigkfimjlbit4ppapexqrdz5siufvatbrki5grkr6i4xrfewhgs7ly)
+
+Check the details about Solciety on our official website: [solciety.xyz](https://solciety.xyz/)
 
 We've added <hackathon@solana.org> to our internal testing because the production release is still in the Play Store's review stage.
 
