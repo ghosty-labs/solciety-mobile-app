@@ -38,6 +38,8 @@ Or if you want to try it through this repository, go to [Run the Solciety Mobile
 
 3. Make sure android device has Developer Mode is enabled.
 
+   <img width="638" alt="image" src="https://nftstorage.link/ipfs/bafkreidp46c6w5w3bzr6vx7zeehl3wnwacq5rnv2jouv2d6heyjstoly6y">
+
    <img width="338" alt="image" src="https://nftstorage.link/ipfs/bafkreifkuwxmcxfwlry3nzx7l4vj6hzdpwzq7324zi3obxrsnzaokzwga4">
 
    [Congratulations! 🎉](#congratulations)
